@@ -253,440 +253,7 @@
             
               
                 
-                <a class="post-title-link" href="/2016/07/28/test/" itemprop="url">
-                  test
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-07-28T00:02:16+08:00" content="2016-07-28">
-              2016-07-28
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>“what the fuck”</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/07/27/new-article/" itemprop="url">
-                  new article
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-07-27T00:07:43+08:00" content="2016-07-27">
-              2016-07-27
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/07/26/untitled-1469546582494-2/" itemprop="url">
-                  Alfred workflow初步开发指南（一）
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-07-26T23:26:14+08:00" content="2016-07-26">
-              2016-07-26
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>OS X用户都知道一款神器：<a href="https://www.alfredapp.com/" target="_blank" rel="external">Alfred</a><br>但是大部分人都只是在用它的快捷搜索的功能，但是它最强大的功能是它的workflow，今天我来抛砖引玉，写一下如何开发属于自己的workflow。</p>
-<hr>
-<p>打开Alfred，点击上方栏目的workflows：</p>
-<p><img src="http://img.blog.csdn.net/20160726223537726" alt="栏目"></p>
-<p>建议大家可以先点击左边侧边栏下面的加号，试用几个examples，来熟悉workflow的大概操作流程：</p>
-<p><img src="http://img.blog.csdn.net/20160726223857915" alt="侧边栏"></p>
-<hr>
-<p>这里我演示开发一个简单又好用的workflow : quick search</p>
-<p><img src="http://img.blog.csdn.net/20160726224320386" alt="quick search"></p>
-<p>##触发器Triggers<br>定义触发你的workflow的动作Triggers，点击右上角的加号，这里我选择了hotkey，也就是以快捷键的形式来触发你的workflow：</p>
-<p><img src="http://img.blog.csdn.net/20160726224752138" alt="trigger"></p>
-<p>第一栏Hotkey：就是键入你想要定义的快捷键，这里我选择了command+2<br>第二栏Action：就是当你按下你定义的快捷键，将要触发的动作，第一个选项就是传递到workflow的下一步，第二个就是show alfred，显然我们应该选择第一个，不然也就没什么意义了：）<br>第三栏Argument：这个就是传递的参数了，这里我们选择Selection in OS X，也就是当前光标选中的文本。</p>
-<p>ok,到这里已经把触发器定义好了，Save保存。</p>
-<p>##Actions动作<br>有了触发器之后，我们当然就要定义触发的动作了，猛击加号，Actions，里面的动作都描述地很清楚了，这里我们选择Open URL</p>
-<p><img src="http://img.blog.csdn.net/20160726230431765" alt="actions"></p>
-<p>这里的{query}就是贯穿整个workflow传递的一个参数，trigger和action就是靠这个变量来通信。当我选中文本，并按下快捷键时，选中的文本就会传递以{query}传递到action处，那么这里我定义的是百度搜索，同样你可以定义其他搜索。</p>
-<blockquote>
-<p>注：获得其他搜索引擎url的方法：<br>打开其他网站的搜索，将地址栏的url里你输入搜索框的内容替换成{query}即可获得。</p>
-</blockquote>
-<p>最后点击Save。</p>
-<p>##大功告成<br>最后将两个模块连接起来，你的第一个workflow就这么开发完了！</p>
-<p><img src="http://img.blog.csdn.net/20160726231159917" alt="这里写图片描述"></p>
-<p>试试选中文本再猛击command+2，是不是很好用！这和最快的普通操作：</p>
-<ol>
-<li>打开浏览器</li>
-<li>直接在浏览器的地址栏输入搜索的内容</li>
-<li>Enter<br>相比不知道有多高效！</li>
-</ol>
-<p>##未完待续<br>但是在使用的过程中，你会发现，当选中的文本是一个网址时，是不能够直接打开网址的，那这个时候你就可以再定义多一个workflow专门打开网址啦，这个就留给读者们自己开发吧~</p>
-<p>下一期将讲述Alfred中的精华workflow中的精华：Run Script！</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/07/26/untitled-1469546582494-1/" itemprop="url">
-                  Alfred workflow初步开发指南（一）
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-07-26T23:23:02+08:00" content="2016-07-26">
-              2016-07-26
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>OS X用户都知道一款神器：<a href="https://www.alfredapp.com/" target="_blank" rel="external">Alfred</a><br>但是大部分人都只是在用它的快捷搜索的功能，但是它最强大的功能是它的workflow，今天我来抛砖引玉，写一下如何开发属于自己的workflow。</p>
-<hr>
-<p>打开Alfred，点击上方栏目的workflows：</p>
-<p><img src="http://img.blog.csdn.net/20160726223537726" alt="栏目"></p>
-<p>建议大家可以先点击左边侧边栏下面的加号，试用几个examples，来熟悉workflow的大概操作流程：</p>
-<p><img src="http://img.blog.csdn.net/20160726223857915" alt="侧边栏"></p>
-<hr>
-<p>这里我演示开发一个简单又好用的workflow : quick search</p>
-<p><img src="http://img.blog.csdn.net/20160726224320386" alt="quick search"></p>
-<p>##触发器Triggers<br>定义触发你的workflow的动作Triggers，点击右上角的加号，这里我选择了hotkey，也就是以快捷键的形式来触发你的workflow：</p>
-<p><img src="http://img.blog.csdn.net/20160726224752138" alt="trigger"></p>
-<p>第一栏Hotkey：就是键入你想要定义的快捷键，这里我选择了command+2<br>第二栏Action：就是当你按下你定义的快捷键，将要触发的动作，第一个选项就是传递到workflow的下一步，第二个就是show alfred，显然我们应该选择第一个，不然也就没什么意义了：）<br>第三栏Argument：这个就是传递的参数了，这里我们选择Selection in OS X，也就是当前光标选中的文本。</p>
-<p>ok,到这里已经把触发器定义好了，Save保存。</p>
-<p>##Actions动作<br>有了触发器之后，我们当然就要定义触发的动作了，猛击加号，Actions，里面的动作都描述地很清楚了，这里我们选择Open URL</p>
-<p><img src="http://img.blog.csdn.net/20160726230431765" alt="actions"></p>
-<p>这里的{query}就是贯穿整个workflow传递的一个参数，trigger和action就是靠这个变量来通信。当我选中文本，并按下快捷键时，选中的文本就会传递以{query}传递到action处，那么这里我定义的是百度搜索，同样你可以定义其他搜索。</p>
-<blockquote>
-<p>注：获得其他搜索引擎url的方法：<br>打开其他网站的搜索，将地址栏的url里你输入搜索框的内容替换成{query}即可获得。</p>
-</blockquote>
-<p>最后点击Save。</p>
-<p>##大功告成<br>最后将两个模块连接起来，你的第一个workflow就这么开发完了！</p>
-<p><img src="http://img.blog.csdn.net/20160726231159917" alt="这里写图片描述"></p>
-<p>试试选中文本再猛击command+2，是不是很好用！这和最快的普通操作：</p>
-<ol>
-<li>打开浏览器</li>
-<li>直接在浏览器的地址栏输入搜索的内容</li>
-<li>Enter<br>相比不知道有多高效！</li>
-</ol>
-<p>##未完待续<br>但是在使用的过程中，你会发现，当选中的文本是一个网址时，是不能够直接打开网址的，那这个时候你就可以再定义多一个workflow专门打开网址啦，这个就留给读者们自己开发吧~</p>
-<p>下一期将讲述Alfred中的精华workflow中的精华：Run Script！</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/07/26/untitled-1469546582494/" itemprop="url">
+                <a class="post-title-link" href="/2016/07/26/Alfred workflow-1/" itemprop="url">
                   Alfred workflow初步开发指南（一）
                 </a>
               
@@ -714,8 +281,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/随笔/" itemprop="url" rel="index">
-                    <span itemprop="name">随笔</span>
+                  <a href="/categories/工具/" itemprop="url" rel="index">
+                    <span itemprop="name">工具</span>
                   </a>
                 </span>
 
@@ -758,18 +325,18 @@
 <hr>
 <p>这里我演示开发一个简单又好用的workflow : quick search</p>
 <p><img src="http://img.blog.csdn.net/20160726224320386" alt="quick search"></p>
-<p>##触发器Triggers<br>定义触发你的workflow的动作Triggers，点击右上角的加号，这里我选择了hotkey，也就是以快捷键的形式来触发你的workflow：</p>
+<h2 id="触发器Triggers"><a href="#触发器Triggers" class="headerlink" title="触发器Triggers"></a>触发器Triggers</h2><p>定义触发你的workflow的动作Triggers，点击右上角的加号，这里我选择了hotkey，也就是以快捷键的形式来触发你的workflow：</p>
 <p><img src="http://img.blog.csdn.net/20160726224752138" alt="trigger"></p>
 <p>第一栏Hotkey：就是键入你想要定义的快捷键，这里我选择了command+2<br>第二栏Action：就是当你按下你定义的快捷键，将要触发的动作，第一个选项就是传递到workflow的下一步，第二个就是show alfred，显然我们应该选择第一个，不然也就没什么意义了：）<br>第三栏Argument：这个就是传递的参数了，这里我们选择Selection in OS X，也就是当前光标选中的文本。</p>
 <p>ok,到这里已经把触发器定义好了，Save保存。</p>
-<p>##Actions动作<br>有了触发器之后，我们当然就要定义触发的动作了，猛击加号，Actions，里面的动作都描述地很清楚了，这里我们选择Open URL</p>
+<h2 id="Actions动作"><a href="#Actions动作" class="headerlink" title="Actions动作"></a>Actions动作</h2><p>有了触发器之后，我们当然就要定义触发的动作了，猛击加号，Actions，里面的动作都描述地很清楚了，这里我们选择Open URL</p>
 <p><img src="http://img.blog.csdn.net/20160726230431765" alt="actions"></p>
 <p>这里的{query}就是贯穿整个workflow传递的一个参数，trigger和action就是靠这个变量来通信。当我选中文本，并按下快捷键时，选中的文本就会传递以{query}传递到action处，那么这里我定义的是百度搜索，同样你可以定义其他搜索。</p>
 <blockquote>
 <p>注：获得其他搜索引擎url的方法：<br>打开其他网站的搜索，将地址栏的url里你输入搜索框的内容替换成{query}即可获得。</p>
 </blockquote>
 <p>最后点击Save。</p>
-<p>##大功告成<br>最后将两个模块连接起来，你的第一个workflow就这么开发完了！</p>
+<h2 id="大功告成"><a href="#大功告成" class="headerlink" title="大功告成"></a>大功告成</h2><p>最后将两个模块连接起来，你的第一个workflow就这么开发完了！</p>
 <p><img src="http://img.blog.csdn.net/20160726231159917" alt="这里写图片描述"></p>
 <p>试试选中文本再猛击command+2，是不是很好用！这和最快的普通操作：</p>
 <ol>
@@ -777,7 +344,7 @@
 <li>直接在浏览器的地址栏输入搜索的内容</li>
 <li>Enter<br>相比不知道有多高效！</li>
 </ol>
-<p>##未完待续<br>但是在使用的过程中，你会发现，当选中的文本是一个网址时，是不能够直接打开网址的，那这个时候你就可以再定义多一个workflow专门打开网址啦，这个就留给读者们自己开发吧~</p>
+<h2 id="未完待续"><a href="#未完待续" class="headerlink" title="未完待续"></a>未完待续</h2><p>但是在使用的过程中，你会发现，当选中的文本是一个网址时，是不能够直接打开网址的，那这个时候你就可以再定义多一个workflow专门打开网址啦，这个就留给读者们自己开发吧~</p>
 <p>下一期将讲述Alfred中的精华workflow中的精华：Run Script！</p>
 
           
@@ -1045,7 +612,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">7</span>
+              <span class="site-state-item-count">3</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1053,7 +620,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-count">2</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -1062,7 +629,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-count">2</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
