@@ -1,0 +1,587 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="最近在看python中关于协程的部分，看到廖雪峰的官方网站中关于消费者和生产者那一部分有些困惑，于是自己研究了一下，有了以下了解：代码：
+123456789101112131415161718192021def consumer():    r = &amp;apos;a&amp;apos;    while True:        print(&amp;apos;there&amp;apos;)        n = yie">
+<meta property="og:type" content="article">
+<meta property="og:title" content="浅析python中的yield机制">
+<meta property="og:url" content="http://yoursite.com/2016/04/16/浅析python中的yield机制/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="最近在看python中关于协程的部分，看到廖雪峰的官方网站中关于消费者和生产者那一部分有些困惑，于是自己研究了一下，有了以下了解：代码：
+123456789101112131415161718192021def consumer():    r = &amp;apos;a&amp;apos;    while True:        print(&amp;apos;there&amp;apos;)        n = yie">
+<meta property="og:updated_time" content="2016-07-28T13:56:52.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="浅析python中的yield机制">
+<meta name="twitter:description" content="最近在看python中关于协程的部分，看到廖雪峰的官方网站中关于消费者和生产者那一部分有些困惑，于是自己研究了一下，有了以下了解：代码：
+123456789101112131415161718192021def consumer():    r = &amp;apos;a&amp;apos;    while True:        print(&amp;apos;there&amp;apos;)        n = yie">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 浅析python中的yield机制 | Hexo </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Hexo</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                浅析python中的yield机制
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-04-16T12:59:21+08:00" content="2016-04-16">
+              2016-04-16
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>最近在看python中关于协程的部分，看到<a href="http://www.liaoxuefeng.com/wiki/0014316089557264a6b348958f449949df42a6d3a2e542c000/001432090171191d05dae6e129940518d1d6cf6eeaaa969000" target="_blank" rel="external">廖雪峰的官方网站</a>中关于消费者和生产者那一部分有些困惑，于是自己研究了一下，有了以下了解：<br>代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">def consumer():</span><br><span class="line">    r = &apos;a&apos;</span><br><span class="line">    while True:</span><br><span class="line">        print(&apos;there&apos;)</span><br><span class="line">        n = yield r</span><br><span class="line">        print(&apos;here&apos;)</span><br><span class="line">        if not n:</span><br><span class="line">            return</span><br><span class="line">        print(&apos;[CONSUMER] Consuming %s...&apos; % n)</span><br><span class="line">        r = &apos;200 OK&apos;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def produce(c):</span><br><span class="line">    c.send(None)</span><br><span class="line">    n = 0</span><br><span class="line">    while n &lt; 5:</span><br><span class="line">        n = n + 1</span><br><span class="line">        print(&apos;[PRODUCER] Producing %s...&apos; % n)</span><br><span class="line">        r = c.send(n)</span><br><span class="line">        print(&apos;[PRODUCER] Consumer return: %s&apos; % r)</span><br><span class="line">    c.close()</span><br></pre></td></tr></table></figure>
+<p>首先我们先初始化一个consumer：<br><code>c = consumer()</code></p>
+<p>注意：由于consumer()中包含了yield，那么consumer()就会自动变成一个迭代器generator，所以首先我们要启动这个迭代器：<br><code>c.send(None)</code></p>
+<p>注意：这里的send(None)相当于next()，但是你不能通过send(1)，传入参数来启动迭代器，会报错：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">c.send(1)</span><br><span class="line">TypeError: can&apos;t send non-None value to a just-started generator</span><br></pre></td></tr></table></figure></p>
+<p>接下来看第一种情况：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">c = consumer()</span><br><span class="line">c.send(None)</span><br><span class="line"></span><br><span class="line">#输出</span><br><span class="line">there</span><br><span class="line"></span><br><span class="line">#说明：初始化迭代器后，执行完yield语句后终止</span><br><span class="line">n = yield r</span><br></pre></td></tr></table></figure></p>
+<p>那么换个方式将c.send(None)打印出来会是什么值呢？<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">print(c.send(None))</span><br><span class="line"></span><br><span class="line">#输出</span><br><span class="line">there</span><br><span class="line">a</span><br><span class="line"></span><br><span class="line">#说明：初始化迭代器，c.send(None)自动返回yield r的值，即当前迭代器迭代r的值，由于一开始赋值r为&apos;a&apos;，所以当前迭代器迭代到r的值是&apos;a&apos;。</span><br></pre></td></tr></table></figure></p>
+<p>接下来继续：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">c = consumer()</span><br><span class="line">c.send(None)</span><br><span class="line">print(c.send(1))</span><br><span class="line"></span><br><span class="line">#输出</span><br><span class="line">there</span><br><span class="line">here</span><br><span class="line">[CONSUMER] Consuming 1...</span><br><span class="line">there</span><br><span class="line">200 OK</span><br><span class="line"></span><br><span class="line">#说明:</span><br><span class="line">1.初始化迭代器后，再通过c.send(1)来调用迭代器时，代码会从上一次迭代停止的地方继续执行，即n = yield r。换句话说，初始化迭代器意味着，迭代器将起点设置在yield r所在的语句，以后每一次调用迭代器都会从这里开始。</span><br><span class="line"></span><br><span class="line">2.n = yield r这一句意味着，当调用迭代器时，将当前迭代的值r赋给n, 而c.send(1)返回的的值是r的值，因为r是迭代器所迭代的变量，我们在循环最后执行了r= &apos;200 ok&apos;，那么c.send(1)返回的就是200 OK了。</span><br><span class="line"></span><br><span class="line">3.那为什么会输出there呢？那是因为while循环的原因，这是个无限循环，除非你再调用一次c.send(None)来终止迭代器迭代引发StopIteration，或者调用c.close()，否则会一直循环，又回到了yield r所在的语句，等待下一次的调用迭代。</span><br></pre></td></tr></table></figure></p>
+<p>继续：(假如你能猜到将会输出什么结果，那恭喜呢你就掌握了yield的运作机制了！)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">c = consumer()</span><br><span class="line">c.send(None)</span><br><span class="line">print(c.send(c.send(1)))</span><br><span class="line"></span><br><span class="line">#输出</span><br><span class="line">there</span><br><span class="line">here</span><br><span class="line">[CONSUMER] Consuming 1...</span><br><span class="line">there</span><br><span class="line">here</span><br><span class="line">[CONSUMER] Consuming 200 OK...</span><br><span class="line">there</span><br><span class="line">200 OK</span><br></pre></td></tr></table></figure></p>
+<p>掌握了yield的用法，那么现在就讲consumer和produce结合起来看：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">c = consumer()</span><br><span class="line">produce(c)</span><br><span class="line"></span><br><span class="line">#输出</span><br><span class="line">there</span><br><span class="line">[PRODUCER] Producing 1...</span><br><span class="line">here</span><br><span class="line">[CONSUMER] Consuming 1...</span><br><span class="line">there</span><br><span class="line">[PRODUCER] Consumer return: 200 OK</span><br><span class="line">[PRODUCER] Producing 2...</span><br><span class="line">here</span><br><span class="line">[CONSUMER] Consuming 2...</span><br><span class="line">there</span><br><span class="line">[PRODUCER] Consumer return: 200 OK</span><br><span class="line">[PRODUCER] Producing 3...</span><br><span class="line">here</span><br><span class="line">[CONSUMER] Consuming 3...</span><br><span class="line">there</span><br><span class="line">[PRODUCER] Consumer return: 200 OK</span><br><span class="line">[PRODUCER] Producing 4...</span><br><span class="line">here</span><br><span class="line">[CONSUMER] Consuming 4...</span><br><span class="line">there</span><br><span class="line">[PRODUCER] Consumer return: 200 OK</span><br><span class="line">[PRODUCER] Producing 5...</span><br><span class="line">here</span><br><span class="line">[CONSUMER] Consuming 5...</span><br><span class="line">there</span><br><span class="line">[PRODUCER] Consumer return: 200 OK</span><br></pre></td></tr></table></figure></p>
+<p>总结：<br>之所以通过yield来实现协程，就是因为当produce调用c.send(n)时可以触发consumer执行它自身的流程，待consumer执行完后又返回，produce继续执行，最后根据判断结束流程。<br>与传统的生产者消费者方案相比，整个过程中，没有锁，单线程，共享资源，不用担心死锁的问题，而且效率更高。</p>
+<p>假若有什么意见，请欢迎留言~</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/04/09/MongoDB-shell脚本-自动添加权限与账号密码/" rel="next" title="MongoDB shell脚本 自动添加权限与账号密码">
+                <i class="fa fa-chevron-left"></i> MongoDB shell脚本 自动添加权限与账号密码
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/05/03/浅析python函数参数类型/" rel="prev" title="浅析python函数参数类型">
+                浅析python函数参数类型 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="John Ho" />
+          <p class="site-author-name" itemprop="name">John Ho</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目录</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Ho</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

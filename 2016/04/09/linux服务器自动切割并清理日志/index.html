@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="alfred," />
+  <meta name="keywords" content="Hexo, NexT" />
 
 
 
@@ -84,44 +84,37 @@
 
 
 
-<meta name="description" content="OS X用户都知道一款神器：Alfred但是大部分人都只是在用它的快捷搜索的功能，但是它最强大的功能是它的workflow，今天我来抛砖引玉，写一下如何开发属于自己的workflow。
+<meta name="description" content="需求由于nginx的日志会不停地增大，所以需要我们自己去切割日志，方便管理，需要达到以下的效果：
 
-打开Alfred，点击上方栏目的workflows：
+按日期自动切割日志，最小单位是天。
+当日志总量超过一定量时，自动直接清理日志，限定总量不能超过1000MB。
+写入crontab定时任务里。
 
-建议大家可以先点击左边侧边栏下面的加号，试用几个examples，来熟悉workflow的大概操作流程：
-
-
-这里我演示开发一个简单又好用的workflow">
+分析
+nginx日志目录下分别有access.log和error.log，按照日期自动切割日志则需要将每天的日志以”yyyymmdd_access/erro">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Alfred workflow初步开发指南（一）">
-<meta property="og:url" content="http://yoursite.com/2016/07/26/Alfred workflow-1/index.html">
+<meta property="og:title" content="linux服务器自动切割并清理日志">
+<meta property="og:url" content="http://yoursite.com/2016/04/09/linux服务器自动切割并清理日志/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="OS X用户都知道一款神器：Alfred但是大部分人都只是在用它的快捷搜索的功能，但是它最强大的功能是它的workflow，今天我来抛砖引玉，写一下如何开发属于自己的workflow。
+<meta property="og:description" content="需求由于nginx的日志会不停地增大，所以需要我们自己去切割日志，方便管理，需要达到以下的效果：
 
-打开Alfred，点击上方栏目的workflows：
+按日期自动切割日志，最小单位是天。
+当日志总量超过一定量时，自动直接清理日志，限定总量不能超过1000MB。
+写入crontab定时任务里。
 
-建议大家可以先点击左边侧边栏下面的加号，试用几个examples，来熟悉workflow的大概操作流程：
-
-
-这里我演示开发一个简单又好用的workflow">
-<meta property="og:image" content="http://img.blog.csdn.net/20160726223537726">
-<meta property="og:image" content="http://img.blog.csdn.net/20160726223857915">
-<meta property="og:image" content="http://img.blog.csdn.net/20160726224320386">
-<meta property="og:image" content="http://img.blog.csdn.net/20160726224752138">
-<meta property="og:image" content="http://img.blog.csdn.net/20160726230431765">
-<meta property="og:image" content="http://img.blog.csdn.net/20160726231159917">
-<meta property="og:updated_time" content="2016-07-27T16:33:26.000Z">
+分析
+nginx日志目录下分别有access.log和error.log，按照日期自动切割日志则需要将每天的日志以”yyyymmdd_access/erro">
+<meta property="og:updated_time" content="2016-07-28T13:59:28.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Alfred workflow初步开发指南（一）">
-<meta name="twitter:description" content="OS X用户都知道一款神器：Alfred但是大部分人都只是在用它的快捷搜索的功能，但是它最强大的功能是它的workflow，今天我来抛砖引玉，写一下如何开发属于自己的workflow。
+<meta name="twitter:title" content="linux服务器自动切割并清理日志">
+<meta name="twitter:description" content="需求由于nginx的日志会不停地增大，所以需要我们自己去切割日志，方便管理，需要达到以下的效果：
 
-打开Alfred，点击上方栏目的workflows：
+按日期自动切割日志，最小单位是天。
+当日志总量超过一定量时，自动直接清理日志，限定总量不能超过1000MB。
+写入crontab定时任务里。
 
-建议大家可以先点击左边侧边栏下面的加号，试用几个examples，来熟悉workflow的大概操作流程：
-
-
-这里我演示开发一个简单又好用的workflow">
-<meta name="twitter:image" content="http://img.blog.csdn.net/20160726223537726">
+分析
+nginx日志目录下分别有access.log和error.log，按照日期自动切割日志则需要将每天的日志以”yyyymmdd_access/erro">
 
 
 
@@ -139,7 +132,7 @@
   };
 </script>
 
-  <title> Alfred workflow初步开发指南（一） | Hexo </title>
+  <title> linux服务器自动切割并清理日志 | Hexo </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -279,7 +272,7 @@
             
             
               
-                Alfred workflow初步开发指南（一）
+                linux服务器自动切割并清理日志
               
             
           </h1>
@@ -291,30 +284,11 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-07-26T23:23:02+08:00" content="2016-07-26">
-              2016-07-26
+            <time itemprop="dateCreated" datetime="2016-04-09T10:24:48+08:00" content="2016-04-09">
+              2016-04-09
             </time>
           </span>
 
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/工具/" itemprop="url" rel="index">
-                    <span itemprop="name">工具</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
           
 
           
@@ -338,36 +312,30 @@
       
 
       
-        <p>OS X用户都知道一款神器：<a href="https://www.alfredapp.com/" target="_blank" rel="external">Alfred</a><br>但是大部分人都只是在用它的快捷搜索的功能，但是它最强大的功能是它的workflow，今天我来抛砖引玉，写一下如何开发属于自己的workflow。</p>
-<hr>
-<p>打开Alfred，点击上方栏目的workflows：</p>
-<p><img src="http://img.blog.csdn.net/20160726223537726" alt="栏目"></p>
-<p>建议大家可以先点击左边侧边栏下面的加号，试用几个examples，来熟悉workflow的大概操作流程：</p>
-<p><img src="http://img.blog.csdn.net/20160726223857915" alt="侧边栏"></p>
-<hr>
-<p>这里我演示开发一个简单又好用的workflow : quick search</p>
-<p><img src="http://img.blog.csdn.net/20160726224320386" alt="quick search"></p>
-<h2 id="触发器Triggers"><a href="#触发器Triggers" class="headerlink" title="触发器Triggers"></a>触发器Triggers</h2><p>定义触发你的workflow的动作Triggers，点击右上角的加号，这里我选择了hotkey，也就是以快捷键的形式来触发你的workflow：</p>
-<p><img src="http://img.blog.csdn.net/20160726224752138" alt="trigger"></p>
-<p>第一栏Hotkey：就是键入你想要定义的快捷键，这里我选择了command+2<br>第二栏Action：就是当你按下你定义的快捷键，将要触发的动作，第一个选项就是传递到workflow的下一步，第二个就是show alfred，显然我们应该选择第一个，不然也就没什么意义了：）<br>第三栏Argument：这个就是传递的参数了，这里我们选择Selection in OS X，也就是当前光标选中的文本。</p>
-<p>ok,到这里已经把触发器定义好了，Save保存。</p>
-<h2 id="Actions动作"><a href="#Actions动作" class="headerlink" title="Actions动作"></a>Actions动作</h2><p>有了触发器之后，我们当然就要定义触发的动作了，猛击加号，Actions，里面的动作都描述地很清楚了，这里我们选择Open URL</p>
-<p><img src="http://img.blog.csdn.net/20160726230431765" alt="actions"></p>
-<p>这里的{query}就是贯穿整个workflow传递的一个参数，trigger和action就是靠这个变量来通信。当我选中文本，并按下快捷键时，选中的文本就会传递以{query}传递到action处，那么这里我定义的是百度搜索，同样你可以定义其他搜索。</p>
-<blockquote>
-<p>注：获得其他搜索引擎url的方法：<br>打开其他网站的搜索，将地址栏的url里你输入搜索框的内容替换成{query}即可获得。</p>
-</blockquote>
-<p>最后点击Save。</p>
-<h2 id="大功告成"><a href="#大功告成" class="headerlink" title="大功告成"></a>大功告成</h2><p>最后将两个模块连接起来，你的第一个workflow就这么开发完了！</p>
-<p><img src="http://img.blog.csdn.net/20160726231159917" alt="这里写图片描述"></p>
-<p>试试选中文本再猛击command+2，是不是很好用！这和最快的普通操作：</p>
+        <h2 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h2><p>由于nginx的日志会不停地增大，所以需要我们自己去切割日志，方便管理，需要达到以下的效果：</p>
 <ol>
-<li>打开浏览器</li>
-<li>直接在浏览器的地址栏输入搜索的内容</li>
-<li>Enter<br>相比不知道有多高效！</li>
+<li>按日期自动切割日志，最小单位是天。</li>
+<li>当日志总量超过一定量时，自动直接清理日志，限定总量不能超过1000MB。</li>
+<li>写入crontab定时任务里。</li>
 </ol>
-<h2 id="未完待续"><a href="#未完待续" class="headerlink" title="未完待续"></a>未完待续</h2><p>但是在使用的过程中，你会发现，当选中的文本是一个网址时，是不能够直接打开网址的，那这个时候你就可以再定义多一个workflow专门打开网址啦，这个就留给读者们自己开发吧~</p>
-<p>下一期将讲述Alfred中的精华workflow中的精华：Run Script！</p>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><ol>
+<li>nginx日志目录下分别有access.log和error.log，按照日期自动切割日志则需要将每天的日志以”yyyymmdd_access/error.log”的格式保存下来，用mv重命名每一天的日志文件即可。</li>
+<li>清理日志就简单了，只需要判断这个文件夹下的大小，然后将一定日期之前的日志文件清理掉就ok了。</li>
+<li>crontab任务也比较简单，详情可以<a href="http://www.centoscn.com/CentOS/help/2014/1030/4025.html" target="_blank" rel="external">看这里</a>。</li>
+<li>问题的关键在于，用mv重命名完昨天的日志文件后，nginx还是会向这个重命名后的文件（如access_20160409.log）写入日志，我们的目的是需要使nginx重新生成一个新的日志文件（access.log）并写入。</li>
+<li><p>As we all know，linux系统下一切都是文件，所以每一个进程都有其文件描述符，而nginx进程将其自己的文件描述符写入了nginx.pid中，我们需要告诉nginx，让其重新打开一个新的日志文件（日志文件的配置详情可<a href="https://www.ttlsa.com/linux/the-nginx-log-configuration/" target="_blank" rel="external">看这里</a>，简单说就是让日志记录什么内容。）于是我们需要这条指令：</p>
+<figure class="highlight plain"><figcaption><span>-USR1 `cat $&#123;pid_path&#125;` ```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">	</span><br><span class="line">	这条指令的意思是：首先cat到nginx的pid，是一个整数，然后将信号USR1发送给这个进程，nginx进程收到这个信号后，会根据配置重新打开一个新的日志文件，并将日志写入。</span><br><span class="line">## 实现 ##</span><br><span class="line">脚本cut_nginx_log.sh:</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>#!/bin/bash<br>log_path=/path/to/nginx/<br>pid_path=/path/to/nginx.pid</p>
+<p>#清理掉指定日期前的日志<br>DAYS=30</p>
+<p>#生成昨天的日志文件<br>mv ${log_path}access.log ${log<em>path}access</em>$(date -d “yesterday” +”%Y%m%d”).log<br>mv ${log_path}error.log ${log<em>path}error</em>$(date -d “yesterday” +”%Y%m%d”).log</p>
+<p>kill -USR1 <code>cat ${pid_path}</code></p>
+<p>#文件夹大小<br>size=<code>du -b /path/to/nginx/ | awk &#39;{print int($1/1024/1024)}&#39;</code></p>
+<p>if [size -gt 1000];then<br>    find ${logs<em>path} -name “access</em><em>“ -type f -mtime +$DAYS -exec rm {} \;<br>    find ${logs<em>path} -name “error</em></em>“ -type f -mtime +$DAYS -exec rm {} \;<br>fi</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">添加至crontab：</span><br><span class="line">(每天零点自动执行)</span><br></pre></td></tr></table></figure>
+<p>crontab -e<br>0 0 <em> </em> * /path/to/script<br>```</p>
+<p>至此就解决了自动切割并清理日志的功能，有问题的欢迎提出。</p>
 
       
     </div>
@@ -387,24 +355,18 @@
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/alfred/" rel="tag">#alfred</a>
-          
-        </div>
-      
 
       
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/06/21/竞争的残酷/" rel="next" title="竞争的残酷">
-                <i class="fa fa-chevron-left"></i> 竞争的残酷
-              </a>
-            
           </div>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/04/09/MongoDB-shell脚本-自动添加权限与账号密码/" rel="prev" title="MongoDB shell脚本 自动添加权限与账号密码">
+                MongoDB shell脚本 自动添加权限与账号密码 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -518,7 +480,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#触发器Triggers"><span class="nav-number">1.</span> <span class="nav-text">触发器Triggers</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Actions动作"><span class="nav-number">2.</span> <span class="nav-text">Actions动作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#大功告成"><span class="nav-number">3.</span> <span class="nav-text">大功告成</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#未完待续"><span class="nav-number">4.</span> <span class="nav-text">未完待续</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#需求"><span class="nav-number">1.</span> <span class="nav-text">需求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分析"><span class="nav-number">2.</span> <span class="nav-text">分析</span></a></li></ol></div>
             
           </div>
         </section>

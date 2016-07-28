@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="alfred," />
+  <meta name="keywords" content="Hexo, NexT" />
 
 
 
@@ -84,44 +84,34 @@
 
 
 
-<meta name="description" content="OS X用户都知道一款神器：Alfred但是大部分人都只是在用它的快捷搜索的功能，但是它最强大的功能是它的workflow，今天我来抛砖引玉，写一下如何开发属于自己的workflow。
+<meta name="description" content="需求将无需账号密码访问的MongoDB数据库，添加上账号密码，并且适配兼容旧的无权限访问的环境，即自动判断有无权限，无则自动加上。
+分析MongoDB开启权限访问需要两步：
 
-打开Alfred，点击上方栏目的workflows：
+为数据库添加账号密码，即添加用户，默认是无用户的。
+将mongod服务开启时，加上auth参数，即开启权限认证。（或者修改MongoDB的mongod.conf配置文件，将#auth = true的注释去掉即可）
 
-建议大家可以先点击左边侧边栏下面的加号，试用几个examples，来熟悉workflow的大概操作流程：
-
-
-这里我演示开发一个简单又好用的workflow">
+实现话不">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Alfred workflow初步开发指南（一）">
-<meta property="og:url" content="http://yoursite.com/2016/07/26/Alfred workflow-1/index.html">
+<meta property="og:title" content="MongoDB shell脚本 自动添加权限与账号密码">
+<meta property="og:url" content="http://yoursite.com/2016/04/09/MongoDB-shell脚本-自动添加权限与账号密码/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="OS X用户都知道一款神器：Alfred但是大部分人都只是在用它的快捷搜索的功能，但是它最强大的功能是它的workflow，今天我来抛砖引玉，写一下如何开发属于自己的workflow。
+<meta property="og:description" content="需求将无需账号密码访问的MongoDB数据库，添加上账号密码，并且适配兼容旧的无权限访问的环境，即自动判断有无权限，无则自动加上。
+分析MongoDB开启权限访问需要两步：
 
-打开Alfred，点击上方栏目的workflows：
+为数据库添加账号密码，即添加用户，默认是无用户的。
+将mongod服务开启时，加上auth参数，即开启权限认证。（或者修改MongoDB的mongod.conf配置文件，将#auth = true的注释去掉即可）
 
-建议大家可以先点击左边侧边栏下面的加号，试用几个examples，来熟悉workflow的大概操作流程：
-
-
-这里我演示开发一个简单又好用的workflow">
-<meta property="og:image" content="http://img.blog.csdn.net/20160726223537726">
-<meta property="og:image" content="http://img.blog.csdn.net/20160726223857915">
-<meta property="og:image" content="http://img.blog.csdn.net/20160726224320386">
-<meta property="og:image" content="http://img.blog.csdn.net/20160726224752138">
-<meta property="og:image" content="http://img.blog.csdn.net/20160726230431765">
-<meta property="og:image" content="http://img.blog.csdn.net/20160726231159917">
-<meta property="og:updated_time" content="2016-07-27T16:33:26.000Z">
+实现话不">
+<meta property="og:updated_time" content="2016-07-28T13:58:18.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Alfred workflow初步开发指南（一）">
-<meta name="twitter:description" content="OS X用户都知道一款神器：Alfred但是大部分人都只是在用它的快捷搜索的功能，但是它最强大的功能是它的workflow，今天我来抛砖引玉，写一下如何开发属于自己的workflow。
+<meta name="twitter:title" content="MongoDB shell脚本 自动添加权限与账号密码">
+<meta name="twitter:description" content="需求将无需账号密码访问的MongoDB数据库，添加上账号密码，并且适配兼容旧的无权限访问的环境，即自动判断有无权限，无则自动加上。
+分析MongoDB开启权限访问需要两步：
 
-打开Alfred，点击上方栏目的workflows：
+为数据库添加账号密码，即添加用户，默认是无用户的。
+将mongod服务开启时，加上auth参数，即开启权限认证。（或者修改MongoDB的mongod.conf配置文件，将#auth = true的注释去掉即可）
 
-建议大家可以先点击左边侧边栏下面的加号，试用几个examples，来熟悉workflow的大概操作流程：
-
-
-这里我演示开发一个简单又好用的workflow">
-<meta name="twitter:image" content="http://img.blog.csdn.net/20160726223537726">
+实现话不">
 
 
 
@@ -139,7 +129,7 @@
   };
 </script>
 
-  <title> Alfred workflow初步开发指南（一） | Hexo </title>
+  <title> MongoDB shell脚本 自动添加权限与账号密码 | Hexo </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -279,7 +269,7 @@
             
             
               
-                Alfred workflow初步开发指南（一）
+                MongoDB shell脚本 自动添加权限与账号密码
               
             
           </h1>
@@ -291,30 +281,11 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-07-26T23:23:02+08:00" content="2016-07-26">
-              2016-07-26
+            <time itemprop="dateCreated" datetime="2016-04-09T13:55:16+08:00" content="2016-04-09">
+              2016-04-09
             </time>
           </span>
 
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/工具/" itemprop="url" rel="index">
-                    <span itemprop="name">工具</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
           
 
           
@@ -338,36 +309,26 @@
       
 
       
-        <p>OS X用户都知道一款神器：<a href="https://www.alfredapp.com/" target="_blank" rel="external">Alfred</a><br>但是大部分人都只是在用它的快捷搜索的功能，但是它最强大的功能是它的workflow，今天我来抛砖引玉，写一下如何开发属于自己的workflow。</p>
-<hr>
-<p>打开Alfred，点击上方栏目的workflows：</p>
-<p><img src="http://img.blog.csdn.net/20160726223537726" alt="栏目"></p>
-<p>建议大家可以先点击左边侧边栏下面的加号，试用几个examples，来熟悉workflow的大概操作流程：</p>
-<p><img src="http://img.blog.csdn.net/20160726223857915" alt="侧边栏"></p>
-<hr>
-<p>这里我演示开发一个简单又好用的workflow : quick search</p>
-<p><img src="http://img.blog.csdn.net/20160726224320386" alt="quick search"></p>
-<h2 id="触发器Triggers"><a href="#触发器Triggers" class="headerlink" title="触发器Triggers"></a>触发器Triggers</h2><p>定义触发你的workflow的动作Triggers，点击右上角的加号，这里我选择了hotkey，也就是以快捷键的形式来触发你的workflow：</p>
-<p><img src="http://img.blog.csdn.net/20160726224752138" alt="trigger"></p>
-<p>第一栏Hotkey：就是键入你想要定义的快捷键，这里我选择了command+2<br>第二栏Action：就是当你按下你定义的快捷键，将要触发的动作，第一个选项就是传递到workflow的下一步，第二个就是show alfred，显然我们应该选择第一个，不然也就没什么意义了：）<br>第三栏Argument：这个就是传递的参数了，这里我们选择Selection in OS X，也就是当前光标选中的文本。</p>
-<p>ok,到这里已经把触发器定义好了，Save保存。</p>
-<h2 id="Actions动作"><a href="#Actions动作" class="headerlink" title="Actions动作"></a>Actions动作</h2><p>有了触发器之后，我们当然就要定义触发的动作了，猛击加号，Actions，里面的动作都描述地很清楚了，这里我们选择Open URL</p>
-<p><img src="http://img.blog.csdn.net/20160726230431765" alt="actions"></p>
-<p>这里的{query}就是贯穿整个workflow传递的一个参数，trigger和action就是靠这个变量来通信。当我选中文本，并按下快捷键时，选中的文本就会传递以{query}传递到action处，那么这里我定义的是百度搜索，同样你可以定义其他搜索。</p>
-<blockquote>
-<p>注：获得其他搜索引擎url的方法：<br>打开其他网站的搜索，将地址栏的url里你输入搜索框的内容替换成{query}即可获得。</p>
-</blockquote>
-<p>最后点击Save。</p>
-<h2 id="大功告成"><a href="#大功告成" class="headerlink" title="大功告成"></a>大功告成</h2><p>最后将两个模块连接起来，你的第一个workflow就这么开发完了！</p>
-<p><img src="http://img.blog.csdn.net/20160726231159917" alt="这里写图片描述"></p>
-<p>试试选中文本再猛击command+2，是不是很好用！这和最快的普通操作：</p>
+        <h2 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h2><p>将无需账号密码访问的MongoDB数据库，添加上账号密码，并且适配兼容旧的无权限访问的环境，即自动判断有无权限，无则自动加上。</p>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>MongoDB开启权限访问需要两步：</p>
 <ol>
-<li>打开浏览器</li>
-<li>直接在浏览器的地址栏输入搜索的内容</li>
-<li>Enter<br>相比不知道有多高效！</li>
+<li>为数据库添加账号密码，即添加用户，默认是无用户的。</li>
+<li>将mongod服务开启时，加上auth参数，即开启权限认证。（或者修改MongoDB的mongod.conf配置文件，将#auth = true的注释去掉即可）</li>
 </ol>
-<h2 id="未完待续"><a href="#未完待续" class="headerlink" title="未完待续"></a>未完待续</h2><p>但是在使用的过程中，你会发现，当选中的文本是一个网址时，是不能够直接打开网址的，那这个时候你就可以再定义多一个workflow专门打开网址啦，这个就留给读者们自己开发吧~</p>
-<p>下一期将讲述Alfred中的精华workflow中的精华：Run Script！</p>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><p>话不多说，直接看脚本:<br>fit_mongo.sh</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">#!bin/bash</span><br><span class="line"></span><br><span class="line">#以无权限控制的方式启动服务（--fork -f并不是必须的，是我自己的需求在用，有需要自行查询其他参数，）</span><br><span class="line">mongod --fork -f /path/to/mongod.conf</span><br><span class="line"></span><br><span class="line">#使用mongo [options] [db address] [file names (ending in .js)]命令执行js脚本操作数据库，并写入日志</span><br><span class="line">mongo --host 127.0.0.1:27017 testdb fit_mongo.js &gt;&gt; fit_mongo.log</span><br><span class="line"></span><br><span class="line">#安全地杀掉mongod进程</span><br><span class="line">pkill mongod</span><br><span class="line"></span><br><span class="line">#开启权限控制</span><br><span class="line">mongo --auth --fork -f /path/to/mongod.conf</span><br></pre></td></tr></table></figure>
+<p>然后就是fit_mongo.js<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">try&#123;</span><br><span class="line">	var db = connect(&apos;testdb&apos;);</span><br><span class="line">	if(db.system.users.find(&#123;&apos;user&apos;:&apos;username&apos;&#125;).count() == 0)&#123;</span><br><span class="line">		print(&apos;Ready to addUser...&apos;);</span><br><span class="line">		db.addUser(&apos;username&apos;,&apos;pwd&apos;);</span><br><span class="line">	&#125;else&#123;</span><br><span class="line">		print(&apos;Already exist user.&apos;)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;catch(err)&#123;</span><br><span class="line">	print(&apos;Error occured:&apos; + err);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>最后就是选择在合适的地方和时间执行这个脚本了，可以在整个系统服务跑起来的时候执行。<br>在实现这个功能的过程中遇到了几个问题：</p>
+<ol>
+<li>一开始为了修改MongoDB以需要权限访问的时候，老想着去用命令改mongod.conf文件，要用正则啊各种语句找到auth还要取消掉注释，殊不知MongoDB已经提供了auth这个参数，浪费了许多功夫和时间，所以还是要好好了解清楚官方提供了什么再动手。</li>
+<li><p>在fit_mongo.js中，由于mongo shell的原因，在shell中执行js代码，比如：</p>
+<p><code>db.system.users.find({user: &#39;UserName&#39;})</code></p>
+<p>返回的是json对象，但是在shell上确取不到这个json里面的值，后来发现多此一举，直接用count()判断是否为0就可以了。</p>
+</li>
+<li><p>其中还有一些零零碎碎的小问题也记不太清除了，但是过程中却学到了不少，获益良多！</p>
+</li>
+</ol>
+<p>如果对以上有什么问题，欢迎提出~</p>
 
       
     </div>
@@ -387,24 +348,22 @@
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/alfred/" rel="tag">#alfred</a>
-          
-        </div>
-      
 
       
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/06/21/竞争的残酷/" rel="next" title="竞争的残酷">
-                <i class="fa fa-chevron-left"></i> 竞争的残酷
+              <a href="/2016/04/09/linux服务器自动切割并清理日志/" rel="next" title="linux服务器自动切割并清理日志">
+                <i class="fa fa-chevron-left"></i> linux服务器自动切割并清理日志
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/04/16/浅析python中的yield机制/" rel="prev" title="浅析python中的yield机制">
+                浅析python中的yield机制 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -518,7 +477,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#触发器Triggers"><span class="nav-number">1.</span> <span class="nav-text">触发器Triggers</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Actions动作"><span class="nav-number">2.</span> <span class="nav-text">Actions动作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#大功告成"><span class="nav-number">3.</span> <span class="nav-text">大功告成</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#未完待续"><span class="nav-number">4.</span> <span class="nav-text">未完待续</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#需求"><span class="nav-number">1.</span> <span class="nav-text">需求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分析"><span class="nav-number">2.</span> <span class="nav-text">分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现"><span class="nav-number">3.</span> <span class="nav-text">实现</span></a></li></ol></div>
             
           </div>
         </section>

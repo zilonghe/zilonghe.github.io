@@ -488,6 +488,488 @@
 
 
     
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/05/03/浅析python函数参数类型/" itemprop="url">
+                  浅析python函数参数类型
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-05-03T22:53:07+08:00" content="2016-05-03">
+              2016-05-03
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="浅析python函数参数类型"><a href="#浅析python函数参数类型" class="headerlink" title="浅析python函数参数类型"></a>浅析python函数参数类型</h2><p>在python函数定义时，截止目前到3.x的版本，一共有五种类型的参数：(注：该文章基于python 3.4.4)</p>
+<ol>
+<li>POSITIONAL_OR_KEYWORD（位置或关键字参数）</li>
+<li>POSITIONAL_ONLY（仅位置参数）</li>
+<li>KEYWORD_ONLY（仅关键字参数）</li>
+<li>VAR_POSITIONAL（任意数量的位置参数）</li>
+<li>VAR_KEYWORD（任意数量的关键字参数）</li>
+</ol>
+<p>第一种：位置或关键字参数：<br>先上文档的定义：</p>
+<blockquote>
+<ul>
+<li>Parameter.POSITIONAL_OR_KEYWORD - value may be supplied as either a keyword or positional argument (this is the standard binding behaviour for functions implemented in Python.)</li>
+</ul>
+</blockquote>
+<p>意思就是该参数，运行两种方式的传递：位置和关键字。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">def foo(arg1, arg2):</span><br><span class="line">	print(arg1, arg2)</span><br><span class="line"># 以位置参数传递</span><br><span class="line">foo(&apos;one&apos;, &apos;two&apos;)</span><br><span class="line"># output:</span><br><span class="line">one two</span><br><span class="line"></span><br><span class="line"># 以关键字参数传递：</span><br><span class="line">foo(arg1=&apos;one&apos;, arg2=&apos;two&apos;)</span><br><span class="line">foo(arg2=&apos;two&apos;, arg1=&apos;one&apos;)</span><br><span class="line"># output:</span><br><span class="line">one two</span><br><span class="line">one two</span><br><span class="line"></span><br><span class="line"># 混合方式：</span><br><span class="line">foo(&apos;one&apos;, arg2=&apos;two&apos;)</span><br><span class="line"># output:</span><br><span class="line">one two</span><br><span class="line"></span><br><span class="line"># 注意：关键字参数不能先于位置参数被传递</span><br><span class="line">foo(arg1=&apos;one&apos;, &apos;two&apos;)</span><br><span class="line"># output:</span><br><span class="line"></span><br><span class="line">    foo(arg1=&apos;one&apos;, &apos;two&apos;)</span><br><span class="line">                        ^</span><br><span class="line">SyntaxError: non-keyword arg after keyword arg</span><br></pre></td></tr></table></figure></p>
+<p>第二种：仅位置参数：</p>
+<blockquote>
+<ul>
+<li>Parameter.POSITIONAL_ONLY - value must be supplied as a positional argument.<br>Python has no explicit syntax for defining positional-only parameters, but many built-in and extension module functions (especially those that accept only one or two parameters) accept them.</li>
+</ul>
+</blockquote>
+<p>意思就是：这类仅位置参数只允许接收位置参数传递，目前还没有能够让开发者自行定义接收该参数的函数，简而言之，这一般会在python内建函数中出现，如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">abs(-1)# 1</span><br><span class="line">abs(a=&apos;-1&apos;)# TypeError: abs() takes no keyword arguments</span><br></pre></td></tr></table></figure></p>
+<p>第三种：仅关键字参数：</p>
+<blockquote>
+<ul>
+<li>Parameter.KEYWORD_ONLY - value must be supplied as a keyword argument. Keyword only parameters are those which appear after a “<em>“ or “</em>args” entry in a Python function definition.</li>
+</ul>
+</blockquote>
+<p>意思就是：该参数只能通过关键字方式传递，且定义在 “ <em> “ 或 “ </em>args “后面。例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">def foo(arg1, *, arg2):</span><br><span class="line">	print(arg1, arg2)</span><br><span class="line"></span><br><span class="line">foo(&apos;one&apos;, arg2=&apos;two&apos;)# one two</span><br><span class="line"></span><br><span class="line">foo(&apos;one&apos;, &apos;two&apos;)# TypeError: foo() takes 1 positional argument but 2 were given</span><br><span class="line"></span><br><span class="line">foo(&apos;one&apos;)# TypeError: foo() missing 1 required keyword-only argument: &apos;arg2&apos;</span><br><span class="line"></span><br><span class="line"># 综上：当你定义了一个仅关键字参数时，必须传入该参数并且只能用关键字方式传递，即键值对方式。</span><br></pre></td></tr></table></figure></p>
+<p>第四种：任意数量的位置参数</p>
+<blockquote>
+<ul>
+<li>Parameter.VAR_POSITIONAL - a tuple of positional arguments that aren’t bound to any other parameter. This corresponds to a “*args” parameter in a Python function definition.</li>
+</ul>
+</blockquote>
+<p>这种参数就是一个星号” * “的参数了，就是可以接受任意数目的参数，这些参数将会被放在元组内提供给函数。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">def foo(arg1, arg2, *arg3):</span><br><span class="line">	print(arg1, arg2, arg3)</span><br><span class="line"></span><br><span class="line">foo(&apos;doc&apos;, &apos;txt&apos;, &apos;png&apos;, &apos;exe&apos;, &apos;jpeg&apos;)# doc txt (&apos;png&apos;, &apos;exe&apos;, &apos;jpeg&apos;)</span><br><span class="line"></span><br><span class="line"># 若传入一个元祖提供给 *arg3 呢？</span><br><span class="line">foo(&apos;doc&apos;, &apos;txt&apos;, (&apos;png&apos;, &apos;exe&apos;, &apos;jpeg&apos;))# doc txt ((&apos;png&apos;, &apos;exe&apos;, &apos;jpeg&apos;),)</span><br><span class="line"></span><br><span class="line"># 所以要用*tuple的方式传入元祖给 *arg3</span><br><span class="line">foo(&apos;doc&apos;, &apos;txt&apos;, *(&apos;png&apos;, &apos;exe&apos;, &apos;jpeg&apos;))# doc txt (&apos;png&apos;, &apos;exe&apos;, &apos;jpeg&apos;)</span><br></pre></td></tr></table></figure></p>
+<p>第五种：任意数量的关键字参数：</p>
+<blockquote>
+<ul>
+<li>Parameter.VAR_KEYWORD - a dict of keyword arguments that aren’t bound to any other parameter. This corresponds to a “**kwargs” parameter in a Python function definition.</li>
+</ul>
+</blockquote>
+<p>这种参数就是两个星号”**”的参数了，意思就是把上面那种单个星星参数可以接受位置参数的方式，变化成只能接受键值对的方式即关键字方式传入，并放在字典内提供给函数：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">def foo(arg1, arg2, **arg3):</span><br><span class="line">	print(arg1, arg2, arg3)</span><br><span class="line"></span><br><span class="line">foo(&apos;doc&apos;, &apos;txt&apos;, a=&apos;png&apos;, b=&apos;jpeg&apos;)# doc txt &#123;&apos;a&apos;: &apos;png&apos;, &apos;b&apos;: &apos;jpeg&apos;&#125;</span><br><span class="line"></span><br><span class="line"># 同单个星号一样，若需要传入字典呢？</span><br><span class="line">foo(&apos;doc&apos;, &apos;txt&apos;, &#123;&apos;a&apos;:&apos;png&apos;, &apos;b&apos;=&apos;jpeg&apos;&#125;)# TypeError: foo() takes 2 positional arguments but 3 were given</span><br><span class="line"></span><br><span class="line"># 用*试试？</span><br><span class="line">foo(&apos;doc&apos;, &apos;txt&apos;, *&#123;&apos;a&apos;:&apos;png&apos;, &apos;b&apos;=&apos;jpeg&apos;&#125;)# TypeError: foo2() takes 2 positional arguments but 4 were given</span><br><span class="line"></span><br><span class="line"># 用**试试</span><br><span class="line">foo(&apos;doc&apos;, &apos;txt&apos;, **&#123;&apos;a&apos;:&apos;png&apos;, &apos;b&apos;=&apos;jpeg&apos;&#125;)# doc txt &#123;&apos;a&apos;: &apos;png&apos;, &apos;b&apos;: &apos;jpeg&apos;&#125;</span><br><span class="line"></span><br><span class="line"># 综上，当需要将字典传入任意数量的关键字参数时，需要用**dict的方式传入。</span><br></pre></td></tr></table></figure></p>
+<p>总结：部分引用自该博主的<a href="http://blog.useasp.net/archive/2014/06/23/the-python-function-or-method-parameter-types.aspx" target="_blank" rel="external">博客</a></p>
+<blockquote>
+<p>总结：五种参数形式中仅有第二种Python没有提供定义的方法，其他四种在定义的时候也需要注意，定义的时候应该根据Python的解析规律进行定义，其中：</p>
+<p>位置或关键字参数（POSITIONAL_OR_KEYWORD）应该在最前面，其中，没有默认值的应该在有默认值的参数前面</p>
+<p>仅关键字参数（KEYWORD_ONLY）应放在任意数量位置参数（VAR_POSITIONAL）后面    </p>
+<p>任意数量位置参数（VAR_POSITIONAL）应该放在所有位置或关键字参数的后面</p>
+<p>任意数量关键字参数（VAR_KEYWORD）应该放在任意数量位置参数的后面</p>
+<p>*顺序如下（POSITIONAL_OR_KEYWORD, VAR_POSITIONAL,   KEYWORD_ONLY,  VAR_KEYWORD）</p>
+<p>**注意：任意数量位置参数和任意数量关键字参数只能在定义中定义一次。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">def func(arg1, arg2=&apos;default&apos;, *args, **kwargs):</span><br><span class="line">    out= &quot;arg1=%s, arg2=%s, args=%s, kwargs=%s&quot; % (arg1, arg2, args, kwargs)</span><br><span class="line">    print(out)</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">func(1) # #  correct</span><br><span class="line">func(1,2) # #  correct</span><br><span class="line">func(1,2,3,4) # #  correct</span><br><span class="line">func(1,2,3,4,x=1,y=2) # #  correct</span><br><span class="line">func(1,2,x=1) # #  correct</span><br><span class="line"> </span><br><span class="line">func(x=1) # #  wrong</span><br><span class="line">func(arg1=1) # #  correct</span><br><span class="line">func(1,x=1) # #  correct</span><br><span class="line"></span><br><span class="line"># output</span><br><span class="line">arg1=1, arg2=default, args=(), kwargs=&#123;&#125;</span><br><span class="line">arg1=1, arg2=2, args=(), kwargs=&#123;&#125;</span><br><span class="line">arg1=1, arg2=2, args=(3, 4), kwargs=&#123;&#125;</span><br><span class="line">arg1=1, arg2=2, args=(3, 4), kwargs=&#123;&apos;y&apos;: 2, &apos;x&apos;: 1&#125;</span><br><span class="line">arg1=1, arg2=2, args=(), kwargs=&#123;&apos;x&apos;: 1&#125;</span><br><span class="line">arg1=1, arg2=default, args=(), kwargs=&#123;&#125;</span><br><span class="line">wrong</span><br><span class="line">arg1=1, arg2=default, args=(), kwargs=&#123;&apos;x&apos;: 1&#125;</span><br><span class="line"></span><br><span class="line"># 而加上仅位置参数就简单了，那就是每次都必须传入仅位置参数，否则会报错：</span><br><span class="line">def func(arg1, arg2=&apos;default&apos;, *args, arg3, **kwargs):</span><br><span class="line">    out= &quot;arg1=%s, arg2=%s, args=%s, arg3=%s, kwargs=%s&quot; % (arg1, arg2, args, arg3, kwargs)</span><br><span class="line">    print(out)</span><br><span class="line"></span><br><span class="line">func(1)# wrong</span><br><span class="line">func(1, arg3=2)# right</span><br><span class="line">func(1, 2, 3, 4, arg3=5, x=1,y=2)# right</span><br><span class="line"># output</span><br><span class="line">wrong</span><br><span class="line">arg1=1, arg2=default, args=(), arg3=2, kwargs=&#123;&#125;</span><br><span class="line">arg1=1, arg2=2, args=(3, 4), arg3=5, kwargs=&#123;&apos;y&apos;: 2, &apos;x&apos;: 1&#125;</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/04/16/浅析python中的yield机制/" itemprop="url">
+                  浅析python中的yield机制
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-04-16T12:59:21+08:00" content="2016-04-16">
+              2016-04-16
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>最近在看python中关于协程的部分，看到<a href="http://www.liaoxuefeng.com/wiki/0014316089557264a6b348958f449949df42a6d3a2e542c000/001432090171191d05dae6e129940518d1d6cf6eeaaa969000" target="_blank" rel="external">廖雪峰的官方网站</a>中关于消费者和生产者那一部分有些困惑，于是自己研究了一下，有了以下了解：<br>代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">def consumer():</span><br><span class="line">    r = &apos;a&apos;</span><br><span class="line">    while True:</span><br><span class="line">        print(&apos;there&apos;)</span><br><span class="line">        n = yield r</span><br><span class="line">        print(&apos;here&apos;)</span><br><span class="line">        if not n:</span><br><span class="line">            return</span><br><span class="line">        print(&apos;[CONSUMER] Consuming %s...&apos; % n)</span><br><span class="line">        r = &apos;200 OK&apos;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def produce(c):</span><br><span class="line">    c.send(None)</span><br><span class="line">    n = 0</span><br><span class="line">    while n &lt; 5:</span><br><span class="line">        n = n + 1</span><br><span class="line">        print(&apos;[PRODUCER] Producing %s...&apos; % n)</span><br><span class="line">        r = c.send(n)</span><br><span class="line">        print(&apos;[PRODUCER] Consumer return: %s&apos; % r)</span><br><span class="line">    c.close()</span><br></pre></td></tr></table></figure>
+<p>首先我们先初始化一个consumer：<br><code>c = consumer()</code></p>
+<p>注意：由于consumer()中包含了yield，那么consumer()就会自动变成一个迭代器generator，所以首先我们要启动这个迭代器：<br><code>c.send(None)</code></p>
+<p>注意：这里的send(None)相当于next()，但是你不能通过send(1)，传入参数来启动迭代器，会报错：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">c.send(1)</span><br><span class="line">TypeError: can&apos;t send non-None value to a just-started generator</span><br></pre></td></tr></table></figure></p>
+<p>接下来看第一种情况：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">c = consumer()</span><br><span class="line">c.send(None)</span><br><span class="line"></span><br><span class="line">#输出</span><br><span class="line">there</span><br><span class="line"></span><br><span class="line">#说明：初始化迭代器后，执行完yield语句后终止</span><br><span class="line">n = yield r</span><br></pre></td></tr></table></figure></p>
+<p>那么换个方式将c.send(None)打印出来会是什么值呢？<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">print(c.send(None))</span><br><span class="line"></span><br><span class="line">#输出</span><br><span class="line">there</span><br><span class="line">a</span><br><span class="line"></span><br><span class="line">#说明：初始化迭代器，c.send(None)自动返回yield r的值，即当前迭代器迭代r的值，由于一开始赋值r为&apos;a&apos;，所以当前迭代器迭代到r的值是&apos;a&apos;。</span><br></pre></td></tr></table></figure></p>
+<p>接下来继续：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">c = consumer()</span><br><span class="line">c.send(None)</span><br><span class="line">print(c.send(1))</span><br><span class="line"></span><br><span class="line">#输出</span><br><span class="line">there</span><br><span class="line">here</span><br><span class="line">[CONSUMER] Consuming 1...</span><br><span class="line">there</span><br><span class="line">200 OK</span><br><span class="line"></span><br><span class="line">#说明:</span><br><span class="line">1.初始化迭代器后，再通过c.send(1)来调用迭代器时，代码会从上一次迭代停止的地方继续执行，即n = yield r。换句话说，初始化迭代器意味着，迭代器将起点设置在yield r所在的语句，以后每一次调用迭代器都会从这里开始。</span><br><span class="line"></span><br><span class="line">2.n = yield r这一句意味着，当调用迭代器时，将当前迭代的值r赋给n, 而c.send(1)返回的的值是r的值，因为r是迭代器所迭代的变量，我们在循环最后执行了r= &apos;200 ok&apos;，那么c.send(1)返回的就是200 OK了。</span><br><span class="line"></span><br><span class="line">3.那为什么会输出there呢？那是因为while循环的原因，这是个无限循环，除非你再调用一次c.send(None)来终止迭代器迭代引发StopIteration，或者调用c.close()，否则会一直循环，又回到了yield r所在的语句，等待下一次的调用迭代。</span><br></pre></td></tr></table></figure></p>
+<p>继续：(假如你能猜到将会输出什么结果，那恭喜呢你就掌握了yield的运作机制了！)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">c = consumer()</span><br><span class="line">c.send(None)</span><br><span class="line">print(c.send(c.send(1)))</span><br><span class="line"></span><br><span class="line">#输出</span><br><span class="line">there</span><br><span class="line">here</span><br><span class="line">[CONSUMER] Consuming 1...</span><br><span class="line">there</span><br><span class="line">here</span><br><span class="line">[CONSUMER] Consuming 200 OK...</span><br><span class="line">there</span><br><span class="line">200 OK</span><br></pre></td></tr></table></figure></p>
+<p>掌握了yield的用法，那么现在就讲consumer和produce结合起来看：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">c = consumer()</span><br><span class="line">produce(c)</span><br><span class="line"></span><br><span class="line">#输出</span><br><span class="line">there</span><br><span class="line">[PRODUCER] Producing 1...</span><br><span class="line">here</span><br><span class="line">[CONSUMER] Consuming 1...</span><br><span class="line">there</span><br><span class="line">[PRODUCER] Consumer return: 200 OK</span><br><span class="line">[PRODUCER] Producing 2...</span><br><span class="line">here</span><br><span class="line">[CONSUMER] Consuming 2...</span><br><span class="line">there</span><br><span class="line">[PRODUCER] Consumer return: 200 OK</span><br><span class="line">[PRODUCER] Producing 3...</span><br><span class="line">here</span><br><span class="line">[CONSUMER] Consuming 3...</span><br><span class="line">there</span><br><span class="line">[PRODUCER] Consumer return: 200 OK</span><br><span class="line">[PRODUCER] Producing 4...</span><br><span class="line">here</span><br><span class="line">[CONSUMER] Consuming 4...</span><br><span class="line">there</span><br><span class="line">[PRODUCER] Consumer return: 200 OK</span><br><span class="line">[PRODUCER] Producing 5...</span><br><span class="line">here</span><br><span class="line">[CONSUMER] Consuming 5...</span><br><span class="line">there</span><br><span class="line">[PRODUCER] Consumer return: 200 OK</span><br></pre></td></tr></table></figure></p>
+<p>总结：<br>之所以通过yield来实现协程，就是因为当produce调用c.send(n)时可以触发consumer执行它自身的流程，待consumer执行完后又返回，produce继续执行，最后根据判断结束流程。<br>与传统的生产者消费者方案相比，整个过程中，没有锁，单线程，共享资源，不用担心死锁的问题，而且效率更高。</p>
+<p>假若有什么意见，请欢迎留言~</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/04/09/MongoDB-shell脚本-自动添加权限与账号密码/" itemprop="url">
+                  MongoDB shell脚本 自动添加权限与账号密码
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-04-09T13:55:16+08:00" content="2016-04-09">
+              2016-04-09
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h2><p>将无需账号密码访问的MongoDB数据库，添加上账号密码，并且适配兼容旧的无权限访问的环境，即自动判断有无权限，无则自动加上。</p>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>MongoDB开启权限访问需要两步：</p>
+<ol>
+<li>为数据库添加账号密码，即添加用户，默认是无用户的。</li>
+<li>将mongod服务开启时，加上auth参数，即开启权限认证。（或者修改MongoDB的mongod.conf配置文件，将#auth = true的注释去掉即可）</li>
+</ol>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><p>话不多说，直接看脚本:<br>fit_mongo.sh</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">#!bin/bash</span><br><span class="line"></span><br><span class="line">#以无权限控制的方式启动服务（--fork -f并不是必须的，是我自己的需求在用，有需要自行查询其他参数，）</span><br><span class="line">mongod --fork -f /path/to/mongod.conf</span><br><span class="line"></span><br><span class="line">#使用mongo [options] [db address] [file names (ending in .js)]命令执行js脚本操作数据库，并写入日志</span><br><span class="line">mongo --host 127.0.0.1:27017 testdb fit_mongo.js &gt;&gt; fit_mongo.log</span><br><span class="line"></span><br><span class="line">#安全地杀掉mongod进程</span><br><span class="line">pkill mongod</span><br><span class="line"></span><br><span class="line">#开启权限控制</span><br><span class="line">mongo --auth --fork -f /path/to/mongod.conf</span><br></pre></td></tr></table></figure>
+<p>然后就是fit_mongo.js<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">try&#123;</span><br><span class="line">	var db = connect(&apos;testdb&apos;);</span><br><span class="line">	if(db.system.users.find(&#123;&apos;user&apos;:&apos;username&apos;&#125;).count() == 0)&#123;</span><br><span class="line">		print(&apos;Ready to addUser...&apos;);</span><br><span class="line">		db.addUser(&apos;username&apos;,&apos;pwd&apos;);</span><br><span class="line">	&#125;else&#123;</span><br><span class="line">		print(&apos;Already exist user.&apos;)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;catch(err)&#123;</span><br><span class="line">	print(&apos;Error occured:&apos; + err);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>最后就是选择在合适的地方和时间执行这个脚本了，可以在整个系统服务跑起来的时候执行。<br>在实现这个功能的过程中遇到了几个问题：</p>
+<ol>
+<li>一开始为了修改MongoDB以需要权限访问的时候，老想着去用命令改mongod.conf文件，要用正则啊各种语句找到auth还要取消掉注释，殊不知MongoDB已经提供了auth这个参数，浪费了许多功夫和时间，所以还是要好好了解清楚官方提供了什么再动手。</li>
+<li><p>在fit_mongo.js中，由于mongo shell的原因，在shell中执行js代码，比如：</p>
+<p><code>db.system.users.find({user: &#39;UserName&#39;})</code></p>
+<p>返回的是json对象，但是在shell上确取不到这个json里面的值，后来发现多此一举，直接用count()判断是否为0就可以了。</p>
+</li>
+<li><p>其中还有一些零零碎碎的小问题也记不太清除了，但是过程中却学到了不少，获益良多！</p>
+</li>
+</ol>
+<p>如果对以上有什么问题，欢迎提出~</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/04/09/linux服务器自动切割并清理日志/" itemprop="url">
+                  linux服务器自动切割并清理日志
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-04-09T10:24:48+08:00" content="2016-04-09">
+              2016-04-09
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h2><p>由于nginx的日志会不停地增大，所以需要我们自己去切割日志，方便管理，需要达到以下的效果：</p>
+<ol>
+<li>按日期自动切割日志，最小单位是天。</li>
+<li>当日志总量超过一定量时，自动直接清理日志，限定总量不能超过1000MB。</li>
+<li>写入crontab定时任务里。</li>
+</ol>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><ol>
+<li>nginx日志目录下分别有access.log和error.log，按照日期自动切割日志则需要将每天的日志以”yyyymmdd_access/error.log”的格式保存下来，用mv重命名每一天的日志文件即可。</li>
+<li>清理日志就简单了，只需要判断这个文件夹下的大小，然后将一定日期之前的日志文件清理掉就ok了。</li>
+<li>crontab任务也比较简单，详情可以<a href="http://www.centoscn.com/CentOS/help/2014/1030/4025.html" target="_blank" rel="external">看这里</a>。</li>
+<li>问题的关键在于，用mv重命名完昨天的日志文件后，nginx还是会向这个重命名后的文件（如access_20160409.log）写入日志，我们的目的是需要使nginx重新生成一个新的日志文件（access.log）并写入。</li>
+<li><p>As we all know，linux系统下一切都是文件，所以每一个进程都有其文件描述符，而nginx进程将其自己的文件描述符写入了nginx.pid中，我们需要告诉nginx，让其重新打开一个新的日志文件（日志文件的配置详情可<a href="https://www.ttlsa.com/linux/the-nginx-log-configuration/" target="_blank" rel="external">看这里</a>，简单说就是让日志记录什么内容。）于是我们需要这条指令：</p>
+<figure class="highlight plain"><figcaption><span>-USR1 `cat $&#123;pid_path&#125;` ```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">	</span><br><span class="line">	这条指令的意思是：首先cat到nginx的pid，是一个整数，然后将信号USR1发送给这个进程，nginx进程收到这个信号后，会根据配置重新打开一个新的日志文件，并将日志写入。</span><br><span class="line">## 实现 ##</span><br><span class="line">脚本cut_nginx_log.sh:</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>#!/bin/bash<br>log_path=/path/to/nginx/<br>pid_path=/path/to/nginx.pid</p>
+<p>#清理掉指定日期前的日志<br>DAYS=30</p>
+<p>#生成昨天的日志文件<br>mv ${log_path}access.log ${log<em>path}access</em>$(date -d “yesterday” +”%Y%m%d”).log<br>mv ${log_path}error.log ${log<em>path}error</em>$(date -d “yesterday” +”%Y%m%d”).log</p>
+<p>kill -USR1 <code>cat ${pid_path}</code></p>
+<p>#文件夹大小<br>size=<code>du -b /path/to/nginx/ | awk &#39;{print int($1/1024/1024)}&#39;</code></p>
+<p>if [size -gt 1000];then<br>    find ${logs<em>path} -name “access</em><em>“ -type f -mtime +$DAYS -exec rm {} \;<br>    find ${logs<em>path} -name “error</em></em>“ -type f -mtime +$DAYS -exec rm {} \;<br>fi</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">添加至crontab：</span><br><span class="line">(每天零点自动执行)</span><br></pre></td></tr></table></figure>
+<p>crontab -e<br>0 0 <em> </em> * /path/to/script<br>```</p>
+<p>至此就解决了自动切割并清理日志的功能，有问题的欢迎提出。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
   </section>
 
   
@@ -529,7 +1011,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">2</span>
+              <span class="site-state-item-count">6</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
