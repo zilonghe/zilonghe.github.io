@@ -104,7 +104,7 @@ nginx日志目录下分别有access.log和error.log，按照日期自动切割�
 
 分析
 nginx日志目录下分别有access.log和error.log，按照日期自动切割日志则需要将每天的日志以”yyyymmdd_access/erro">
-<meta property="og:updated_time" content="2016-07-28T14:03:00.000Z">
+<meta property="og:updated_time" content="2016-07-28T14:10:48.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="linux服务器自动切割并清理日志">
 <meta name="twitter:description" content="需求由于nginx的日志会不停地增大，所以需要我们自己去切割日志，方便管理，需要达到以下的效果：
@@ -352,7 +352,7 @@ nginx日志目录下分别有access.log和error.log，按照日期自动切割�
 <p>kill -USR1 <code>cat ${pid_path}</code></p>
 <p>#文件夹大小<br>size=<code>du -b /path/to/nginx/ | awk &#39;{print int($1/1024/1024)}&#39;</code></p>
 <p>if [size -gt 1000];then<br>    find ${logs<em>path} -name “access</em><em>“ -type f -mtime +$DAYS -exec rm {} \;<br>    find ${logs<em>path} -name “error</em></em>“ -type f -mtime +$DAYS -exec rm {} \;<br>fi</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">添加至crontab：</span><br><span class="line">(每天零点自动执行)</span><br></pre></td></tr></table></figure>
+<p>添加至crontab：<br>(每天零点自动执行)</p>
 <p>crontab -e<br>0 0 <em> </em> * /path/to/script<br>```</p>
 <p>至此就解决了自动切割并清理日志的功能，有问题的欢迎提出。</p>
 
