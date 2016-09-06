@@ -6,34 +6,16 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <title>MongoDB shell脚本 自动添加权限与账号密码 | Johnny Ho&#39;s Home</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="需求将无需账号密码访问的MongoDB数据库，添加上账号密码，并且适配兼容旧的无权限访问的环境，即自动判断有无权限，无则自动加上。
-分析MongoDB开启权限访问需要两步：
-
-为数据库添加账号密码，即添加用户，默认是无用户的。
-将mongod服务开启时，加上auth参数，即开启权限认证。（或者修改MongoDB的mongod.conf配置文件，将#auth = true的注释去掉即可）
-
-实现话不">
+  <meta name="description" content="需求将无需账号密码访问的MongoDB数据库，添加上账号密码，并且适配兼容旧的无权限访问的环境，即自动判断有无权限，无则自动加上。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MongoDB shell脚本 自动添加权限与账号密码">
 <meta property="og:url" content="http://yoursite.com/2016/04/09/MongoDB-shell脚本-自动添加权限与账号密码/index.html">
 <meta property="og:site_name" content="Johnny Ho's Home">
-<meta property="og:description" content="需求将无需账号密码访问的MongoDB数据库，添加上账号密码，并且适配兼容旧的无权限访问的环境，即自动判断有无权限，无则自动加上。
-分析MongoDB开启权限访问需要两步：
-
-为数据库添加账号密码，即添加用户，默认是无用户的。
-将mongod服务开启时，加上auth参数，即开启权限认证。（或者修改MongoDB的mongod.conf配置文件，将#auth = true的注释去掉即可）
-
-实现话不">
-<meta property="og:updated_time" content="2016-07-28T14:46:02.000Z">
+<meta property="og:description" content="需求将无需账号密码访问的MongoDB数据库，添加上账号密码，并且适配兼容旧的无权限访问的环境，即自动判断有无权限，无则自动加上。">
+<meta property="og:updated_time" content="2016-09-06T14:50:51.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MongoDB shell脚本 自动添加权限与账号密码">
-<meta name="twitter:description" content="需求将无需账号密码访问的MongoDB数据库，添加上账号密码，并且适配兼容旧的无权限访问的环境，即自动判断有无权限，无则自动加上。
-分析MongoDB开启权限访问需要两步：
-
-为数据库添加账号密码，即添加用户，默认是无用户的。
-将mongod服务开启时，加上auth参数，即开启权限认证。（或者修改MongoDB的mongod.conf配置文件，将#auth = true的注释去掉即可）
-
-实现话不">
+<meta name="twitter:description" content="需求将无需账号密码访问的MongoDB数据库，添加上账号密码，并且适配兼容旧的无权限访问的环境，即自动判断有无权限，无则自动加上。">
   
     <link rel="alternative" href="/atom.xml" title="Johnny Ho&#39;s Home" type="application/atom+xml">
   
@@ -261,6 +243,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <h2 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h2><p>将无需账号密码访问的MongoDB数据库，添加上账号密码，并且适配兼容旧的无权限访问的环境，即自动判断有无权限，无则自动加上。</p>
+<a id="more"></a>
 <h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>MongoDB开启权限访问需要两步：</p>
 <ol>
 <li>为数据库添加账号密码，即添加用户，默认是无用户的。</li>

@@ -6,43 +6,22 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <title>Alfred workflow初步开发指南（一） | Johnny Ho&#39;s Home</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="OS X用户都知道一款神器：Alfred但是大部分人都只是在用它的快捷搜索的功能，但是它最强大的功能是它的workflow，今天我来抛砖引玉，写一下如何开发属于自己的workflow。
-
-打开Alfred，点击上方栏目的workflows：
-
-建议大家可以先点击左边侧边栏下面的加号，试用几个examples，来熟悉workflow的大概操作流程：
-
-
-这里我演示开发一个简单又好用的workflow">
+  <meta name="description" content="OS X用户都知道一款神器：Alfred但是大部分人都只是在用它的快捷搜索的功能，但是它最强大的功能是它的workflow，今天我来抛砖引玉，写一下如何开发属于自己的workflow。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Alfred workflow初步开发指南（一）">
-<meta property="og:url" content="http://yoursite.com/2016/07/26/Alfred workflow-1/index.html">
+<meta property="og:url" content="http://yoursite.com/2016/07/26/Alfred-workflow-1/index.html">
 <meta property="og:site_name" content="Johnny Ho's Home">
-<meta property="og:description" content="OS X用户都知道一款神器：Alfred但是大部分人都只是在用它的快捷搜索的功能，但是它最强大的功能是它的workflow，今天我来抛砖引玉，写一下如何开发属于自己的workflow。
-
-打开Alfred，点击上方栏目的workflows：
-
-建议大家可以先点击左边侧边栏下面的加号，试用几个examples，来熟悉workflow的大概操作流程：
-
-
-这里我演示开发一个简单又好用的workflow">
+<meta property="og:description" content="OS X用户都知道一款神器：Alfred但是大部分人都只是在用它的快捷搜索的功能，但是它最强大的功能是它的workflow，今天我来抛砖引玉，写一下如何开发属于自己的workflow。">
 <meta property="og:image" content="http://img.blog.csdn.net/20160726223537726">
 <meta property="og:image" content="http://img.blog.csdn.net/20160726223857915">
 <meta property="og:image" content="http://img.blog.csdn.net/20160726224320386">
 <meta property="og:image" content="http://img.blog.csdn.net/20160726224752138">
 <meta property="og:image" content="http://img.blog.csdn.net/20160726230431765">
 <meta property="og:image" content="http://img.blog.csdn.net/20160726231159917">
-<meta property="og:updated_time" content="2016-07-27T16:33:26.000Z">
+<meta property="og:updated_time" content="2016-09-06T14:49:28.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Alfred workflow初步开发指南（一）">
-<meta name="twitter:description" content="OS X用户都知道一款神器：Alfred但是大部分人都只是在用它的快捷搜索的功能，但是它最强大的功能是它的workflow，今天我来抛砖引玉，写一下如何开发属于自己的workflow。
-
-打开Alfred，点击上方栏目的workflows：
-
-建议大家可以先点击左边侧边栏下面的加号，试用几个examples，来熟悉workflow的大概操作流程：
-
-
-这里我演示开发一个简单又好用的workflow">
+<meta name="twitter:description" content="OS X用户都知道一款神器：Alfred但是大部分人都只是在用它的快捷搜索的功能，但是它最强大的功能是它的workflow，今天我来抛砖引玉，写一下如何开发属于自己的workflow。">
 <meta name="twitter:image" content="http://img.blog.csdn.net/20160726223537726">
   
     <link rel="alternative" href="/atom.xml" title="Johnny Ho&#39;s Home" type="application/atom+xml">
@@ -229,10 +208,10 @@
 	</div>
 </nav>
 
-      <div class="body-wrap"><article id="post-Alfred workflow-1" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-Alfred-workflow-1" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/07/26/Alfred workflow-1/" class="article-date">
+      <a href="/2016/07/26/Alfred-workflow-1/" class="article-date">
   	<time datetime="2016-07-26T15:23:02.000Z" itemprop="datePublished">2016-07-26</time>
 </a>
     </div>
@@ -271,8 +250,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>OS X用户都知道一款神器：<a href="https://www.alfredapp.com/" target="_blank" rel="external">Alfred</a><br>但是大部分人都只是在用它的快捷搜索的功能，但是它最强大的功能是它的workflow，今天我来抛砖引玉，写一下如何开发属于自己的workflow。</p>
-<hr>
-<p>打开Alfred，点击上方栏目的workflows：</p>
+<h2 id=""><a href="#" class="headerlink" title=""></a><a id="more"></a></h2><p>打开Alfred，点击上方栏目的workflows：</p>
 <p><img src="http://img.blog.csdn.net/20160726223537726" alt="栏目"></p>
 <p>建议大家可以先点击左边侧边栏下面的加号，试用几个examples，来熟悉workflow的大概操作流程：</p>
 <p><img src="http://img.blog.csdn.net/20160726223857915" alt="侧边栏"></p>
@@ -346,7 +324,7 @@
 
 <div class="duoshuo">
 	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="Alfred workflow-1" data-title="Alfred workflow初步开发指南（一）" data-url="http://yoursite.com/2016/07/26/Alfred workflow-1/"></div>
+	<div class="ds-thread" data-thread-key="Alfred-workflow-1" data-title="Alfred workflow初步开发指南（一）" data-url="http://yoursite.com/2016/07/26/Alfred-workflow-1/"></div>
 	<!-- 多说评论框 end -->
 	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 	<script type="text/javascript">

@@ -6,19 +6,16 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <title>浅析python中的yield机制 | Johnny Ho&#39;s Home</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="最近在看python中关于协程的部分，看到廖雪峰的官方网站中关于消费者和生产者那一部分有些困惑，于是自己研究了一下，有了以下了解：代码：
-123456789101112131415161718192021def consumer():    r = &apos;a&apos;    while True:        print(&apos;there&apos;)        n = yield r        print(&apos;h">
+  <meta name="description" content="最近在看python中关于协程的部分，看到廖雪峰的官方网站中关于消费者和生产者那一部分有些困惑，于是自己研究了一下，有了以下了解：">
 <meta property="og:type" content="article">
 <meta property="og:title" content="浅析python中的yield机制">
 <meta property="og:url" content="http://yoursite.com/2016/04/16/浅析python中的yield机制/index.html">
 <meta property="og:site_name" content="Johnny Ho's Home">
-<meta property="og:description" content="最近在看python中关于协程的部分，看到廖雪峰的官方网站中关于消费者和生产者那一部分有些困惑，于是自己研究了一下，有了以下了解：代码：
-123456789101112131415161718192021def consumer():    r = &apos;a&apos;    while True:        print(&apos;there&apos;)        n = yield r        print(&apos;h">
-<meta property="og:updated_time" content="2016-07-28T14:43:29.000Z">
+<meta property="og:description" content="最近在看python中关于协程的部分，看到廖雪峰的官方网站中关于消费者和生产者那一部分有些困惑，于是自己研究了一下，有了以下了解：">
+<meta property="og:updated_time" content="2016-09-06T14:50:35.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="浅析python中的yield机制">
-<meta name="twitter:description" content="最近在看python中关于协程的部分，看到廖雪峰的官方网站中关于消费者和生产者那一部分有些困惑，于是自己研究了一下，有了以下了解：代码：
-123456789101112131415161718192021def consumer():    r = &apos;a&apos;    while True:        print(&apos;there&apos;)        n = yield r        print(&apos;h">
+<meta name="twitter:description" content="最近在看python中关于协程的部分，看到廖雪峰的官方网站中关于消费者和生产者那一部分有些困惑，于是自己研究了一下，有了以下了解：">
   
     <link rel="alternative" href="/atom.xml" title="Johnny Ho&#39;s Home" type="application/atom+xml">
   
@@ -245,7 +242,9 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>最近在看python中关于协程的部分，看到<a href="http://www.liaoxuefeng.com/wiki/0014316089557264a6b348958f449949df42a6d3a2e542c000/001432090171191d05dae6e129940518d1d6cf6eeaaa969000" target="_blank" rel="external">廖雪峰的官方网站</a>中关于消费者和生产者那一部分有些困惑，于是自己研究了一下，有了以下了解：<br>代码：</p>
+        <p>最近在看python中关于协程的部分，看到<a href="http://www.liaoxuefeng.com/wiki/0014316089557264a6b348958f449949df42a6d3a2e542c000/001432090171191d05dae6e129940518d1d6cf6eeaaa969000" target="_blank" rel="external">廖雪峰的官方网站</a>中关于消费者和生产者那一部分有些困惑，于是自己研究了一下，有了以下了解：</p>
+<a id="more"></a>
+<p>代码：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">consumer</span><span class="params">()</span>:</span></span><br><span class="line">    r = <span class="string">'a'</span></span><br><span class="line">    <span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">        print(<span class="string">'there'</span>)</span><br><span class="line">        n = <span class="keyword">yield</span> r</span><br><span class="line">        print(<span class="string">'here'</span>)</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> n:</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        print(<span class="string">'[CONSUMER] Consuming %s...'</span> % n)</span><br><span class="line">        r = <span class="string">'200 OK'</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">produce</span><span class="params">(c)</span>:</span></span><br><span class="line">    c.send(<span class="keyword">None</span>)</span><br><span class="line">    n = <span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span> n &lt; <span class="number">5</span>:</span><br><span class="line">        n = n + <span class="number">1</span></span><br><span class="line">        print(<span class="string">'[PRODUCER] Producing %s...'</span> % n)</span><br><span class="line">        r = c.send(n)</span><br><span class="line">        print(<span class="string">'[PRODUCER] Consumer return: %s'</span> % r)</span><br><span class="line">    c.close()</span><br></pre></td></tr></table></figure>
 <p>首先我们先初始化一个consumer：<br><code>c = consumer()</code></p>
 <p>注意：由于consumer()中包含了yield，那么consumer()就会自动变成一个迭代器generator，所以首先我们要启动这个迭代器：<br><code>c.send(None)</code></p>
