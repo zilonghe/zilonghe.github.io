@@ -35,9 +35,9 @@
     <meta name="keywords" content="null,alfred">
 
     <!-- Favicons -->
-    <link rel="icon shortcut" type="image/ico" href="/img/favicon.png">
-    <link rel="icon" sizes="192x192" href="/img/favicon.png">
-    <link rel="apple-touch-icon" href="/img/favicon.png">
+    <link rel="icon shortcut" type="image/ico" href="favicon.ico">
+    <link rel="icon" sizes="192x192" href="favicon.ico">
+    <link rel="apple-touch-icon" href="favicon.ico">
 
     <!--iOS -->
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
@@ -298,7 +298,7 @@
 
     <!-- Author Avatar -->
     <div id="author-avatar">
-        <img src="/img/avatar.png" width="44px" height="44px" alt="Author Avatar"/>
+        <img src="/img/johnho.png" width="44px" height="44px" alt="Author Avatar"/>
     </div>
     <!-- Author Name & Date -->
     <div>
@@ -352,29 +352,11 @@
 
     <!-- Share Twitter -->
     
-        <a class="post_share-link" href="https://twitter.com/intent/tweet?text=Alfred workflow初步开发指南（一）&url=http://yoursite.com//2016/07/26/Alfred-workflow-1/index.html&via=Johnny Ho" target="_blank">
-            <li class="mdl-menu__item">
-                分享到 Twitter
-            </li>
-        </a>
-    
 
     <!-- Share Facebook -->
     
-        <a class="post_share-link" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com//2016/07/26/Alfred-workflow-1/index.html" target="_blank">
-            <li class="mdl-menu__item">
-                分享到 Facebook
-            </li>
-        </a>
-    
 
     <!-- Share Google+ -->
-    
-        <a class="post_share-link" href="https://plus.google.com/share?url=http://yoursite.com//2016/07/26/Alfred-workflow-1/index.html" target="_blank">
-            <li class="mdl-menu__item">
-                分享到 Google+
-            </li>
-        </a>
     
 
     <!-- Share LinkedIn -->
@@ -437,6 +419,30 @@
                 <!-- Post Comments -->
                 
                     
+    <!-- 使用多说评论 -->
+    <link rel="stylesheet" href="/css/duoshuo.min.css">
+<style>
+    #ds-thread #ds-reset .ds-post-button{
+        background-color: #0097A7 !important;
+    }
+    #ds-wrapper #ds-reset .ds-icons-32{
+        background-color: #0097A7 !important;
+    }
+    #ds-reset .ds-highlight {
+        color: #0097A7 !important;
+    }
+</style>
+<div id="comments">
+    <!-- 多说评论框 start -->
+    <div class="ds-thread"
+        data-thread-key="2016/07/26/Alfred-workflow-1/"
+        data-url="http://yoursite.com/2016/07/26/Alfred-workflow-1/"
+        data-title="Alfred workflow初步开发指南（一）">
+    </div>
+    <!-- 多说评论框 end -->
+</div>
+
+
 
 
 
@@ -503,12 +509,12 @@
 
     <!-- Sidebar Avatar -->
     <div class="sidebar-image">
-        <img src="/img/avatar.png" alt="Johnny Ho's avatar">
+        <img src="/img/johnho.png" alt="Johnny Ho's avatar">
     </div>
 
     <!-- Sidebar Email -->
     <a data-toggle="dropdown" class="sidebar-brand" href="#settings-dropdown">
-        youremail@email.com
+        johnhosimple@gmail.com
         <b class="caret"></b>
     </a>
 </div>
@@ -641,29 +647,11 @@ It will not impact the appearance and can give developers a lot of support :)
         <div class="mdl-mini-footer--left-section sns-list">
     <!-- Twitter -->
     
-        <a href="https://twitter.com/twitter" target="_blank">
-            <button class="mdl-mini-footer--social-btn social-btn" style="background-image: url(/img/footer/footer_ico-twitter.svg);">
-                <span class="visuallyhidden">Twitter</span>
-            </button><!--
-     --></a>
-    
 
     <!-- Facebook -->
     
-        <a href="https://www.facebook.com/facebook" target="_blank">
-            <button class="mdl-mini-footer--social-btn social-btn" style="background-image: url(/img/footer/footer_ico-facebook.svg);">
-                <span class="visuallyhidden">Facebook</span>
-            </button><!--
-     --></a>
-    
 
     <!-- Google + -->
-    
-        <a href="https://www.google.com/" target="_blank">
-            <button class="mdl-mini-footer--social-btn social-btn" style="background-image: url(/img/footer/footer_ico-gplus.svg);">
-                <span class="visuallyhidden">Google Plus</span>
-            </button><!--
-     --></a>
     
 
     <!-- Weibo -->
@@ -760,6 +748,25 @@ It will not impact the appearance and can give developers a lot of support :)
 
 
 
+
+    <!-- 多说公共 js 代码 start -->
+    <script type="text/javascript">
+        queue.offer(function(){
+            var duoshuoQuery = {
+                short_name: 'null'
+            };
+            (function() {
+                var ds = document.createElement('script');
+                ds.type = 'text/javascript';
+                ds.async = true;
+                ds.src = 'https://static.duoshuo.com/embed.js';
+                ds.charset = 'UTF-8';
+                (document.getElementsByTagName('head')[0]
+                 || document.getElementsByTagName('body')[0]).appendChild(ds);
+            })();
+        });
+    </script>
+    <!-- 多说公共 js 代码 end -->
 
 
 
