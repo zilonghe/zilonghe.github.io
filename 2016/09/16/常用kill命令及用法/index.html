@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>常用kill命令及用法 | Johnny Ho&#39;s Home</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="当你想要杀掉某个进程 / 服务的时候，你自然而然会想到用kill命令结合ps/grep找出进程id并将其杀之，但很多人也许并不知道kill命令还有很多其他选项，而我们又该怎么去选择。今天这一篇主要是介绍常用的kill命令及其用法。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="常用kill命令及用法">
+<meta property="og:url" content="http://johnho.cn/2016/09/16/常用kill命令及用法/index.html">
+<meta property="og:site_name" content="Johnny Ho's Home">
+<meta property="og:description" content="当你想要杀掉某个进程 / 服务的时候，你自然而然会想到用kill命令结合ps/grep找出进程id并将其杀之，但很多人也许并不知道kill命令还有很多其他选项，而我们又该怎么去选择。今天这一篇主要是介绍常用的kill命令及其用法。">
+<meta property="og:image" content="http://od3b21nvv.bkt.clouddn.com/hexoimg15f106c985499f555c97316bee98afba.png-960.jpg">
+<meta property="og:updated_time" content="2016-09-16T07:08:22.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="常用kill命令及用法">
+<meta name="twitter:description" content="当你想要杀掉某个进程 / 服务的时候，你自然而然会想到用kill命令结合ps/grep找出进程id并将其杀之，但很多人也许并不知道kill命令还有很多其他选项，而我们又该怎么去选择。今天这一篇主要是介绍常用的kill命令及其用法。">
+<meta name="twitter:image" content="http://od3b21nvv.bkt.clouddn.com/hexoimg15f106c985499f555c97316bee98afba.png-960.jpg">
+  
+    <link rel="alternative" href="/atom.xml" title="Johnny Ho&#39;s Home" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="/img/johnho.png" class="js-avatar show">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Johnny Ho</a></h1>
+		</hgroup>
+
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+					    <li>菜单</li>
+					    <li>标签</li>
+					    
+					    
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/zilonghe" title="github">github</a>
+					        
+								<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/simple-68" title="zhihu">zhihu</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/MongoDB/" style="font-size: 10px;">MongoDB</a> <a href="/tags/NBA/" style="font-size: 10px;">NBA</a> <a href="/tags/alfred/" style="font-size: 20px;">alfred</a> <a href="/tags/linux/" style="font-size: 20px;">linux</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/计算机知识/" style="font-size: 10px;">计算机知识</a>
+					</div>
+				</section>
+				
+				
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Johnny Ho</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img lazy-src="/img/johnho.png" class="js-avatar show">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Johnny Ho</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/zilonghe" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/simple-68" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap"><article id="post-常用kill命令及用法" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/09/16/常用kill命令及用法/" class="article-date">
+  	<time datetime="2016-09-16T07:06:11.000Z" itemprop="datePublished">2016-09-16</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      常用kill命令及用法
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li></ul>
+	</div>
+
+        
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/编程/">编程</a>
+	</div>
+
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>当你想要杀掉某个进程 / 服务的时候，你自然而然会想到用<code>kill</code>命令结合<code>ps/grep</code>找出进程<code>id</code>并将其杀之，但很多人也许并不知道<code>kill</code>命令还有很多其他选项，而我们又该怎么去选择。今天这一篇主要是介绍常用的<code>kill</code>命令及其用法。</p>
+<p><img src="http://od3b21nvv.bkt.clouddn.com/hexoimg15f106c985499f555c97316bee98afba.png-960.jpg" alt="kill bill"></p>
+<a id="more"></a>
+<h2 id="常用的-KILL-命令"><a href="#常用的-KILL-命令" class="headerlink" title="常用的 KILL 命令"></a>常用的 KILL 命令</h2><ul>
+<li><code>-15</code>/<code>-TERM</code>( 即不带任何选项的<code>kill</code>命令 ) ：告诉进程停止你所做的所有事，并且结束掉你自己。这种方式结束进程应该是很安全的，但最好还是先试试用<code>-1</code>/<code>-HUP</code>命令 ( 以安全的角度来讲 )。</li>
+<li><code>-1</code>/<code>-HUP</code> ：向进程发送『挂起』的信号。在大多数程序编写的时候，都会对该命令做出相应的操作（正确地杀掉自己）。而当你对一个守护进程（ daemon ）发送这个信号的时候，大多数守护进程都会重新去读取它们的配置信息。总的来说，这种杀掉进程的方式应该是最安全的。</li>
+<li><code>-2</code>/<code>-SIGINT</code> ：这个信号就相当于你启动一个程序 / 服务，然后按下<code>ctrl+c</code>强行<em>**</em>结束进程的效果一样，大多数进程都会被杀掉，但你有可能会丢失数据。</li>
+<li><code>-9</code>/<code>-KILL</code> ：这个信号或许是大家最常用的吧：），当你对某个进程<code>kill -9</code>之后，这个进程不会得到任何善后的机会（关闭 socket 连接、清理临时文件、将自己将要被销毁的消息通知给子进程、重置自己的终止状态等等），并且有可能留下一些不完整的文件或者状态，当系统重启的时候，程序将无法理解这些状态。所以这种杀进程的方式是最残暴、最粗鲁同时也是最不安全、不干净的方式，只有在面对无法结束的进程的时候，你才应该考虑使用它。</li>
+</ul>
+<p>当你想要杀掉某个进程的时候，如果想要知道一个进程应该接收哪个<code>kill</code>信号，你可以对进程用<code>man</code>命令进行查看，例如<code>init(8)</code>的 man page 里就有如下说明：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">SIGHUP</span><br><span class="line">Has the same effect as telinit q.</span><br><span class="line">...</span><br><span class="line">Q or q tell init to re-examine the /etc/inittab file.</span><br></pre></td></tr></table></figure>
+<p>还有更多其他信号见文末附录。</p>
+<p><strong>问：所以到底该怎么有效地杀掉一个进程呢？</strong></p>
+<p>答：如果这个程序编写者有建议使用哪个信号，那么你应该使用他给出的建议信号。如果没有，首先试试用<code>kill -15</code>（等价于<code>kill</code>），不行的话用<code>kill -2</code>，再不行的话用<code>kill -1</code>，最后再用<code>kill -9</code>。</p>
+<h2 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h2><h3 id="ps命令用于查看进程"><a href="#ps命令用于查看进程" class="headerlink" title="ps命令用于查看进程"></a><code>ps</code>命令用于查看进程</h3><p><code>ps -ef</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">UID   PID  PPID   C STIME   TTY           TIME CMD</span><br><span class="line">  0     1     0   0 五10下午 ??         8:55.67 /sbin/launchd</span><br><span class="line">  0    46     1   0 五10下午 ??         3:46.70 /usr/sbin/syslogd</span><br><span class="line">  0    47     1   0 五10下午 ??         0:34.02 /usr/libexec/UserEventAgent (System)</span><br><span class="line">  0    49     1   0 五10下午 ??         0:11.47 /usr/libexec/kextd</span><br><span class="line">  0    50     1   0 五10下午 ??         0:45.61 /System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/FSEvents.framework/Versions/A/Support/fseventsd</span><br><span class="line"> 55    55     1   0 五10下午 ??         0:01.31 /System/Library/CoreServices/appleeventsd --server</span><br><span class="line">  0    56     1   0 五10下午 ??         1:33.35 /usr/libexec/configd</span><br></pre></td></tr></table></figure>
+<p><code>ps aux</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">USER              PID  %CPU %MEM      VSZ    RSS   TT  STAT STARTED      TIME COMMAND</span><br><span class="line">...</span><br><span class="line">_coreaudiod       185   0.8  0.1  2499356   6456   ??  Ss   五10下午  33:06.52 /usr/sbin/coreaudiod</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>只查询某些进程，结合grep命令：</p>
+<p><code>ps -ef | grep swcd</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">5  01 72400     1   0  3:21下午 ??         0:00.15 /usr/libexec/swcd</span><br></pre></td></tr></table></figure>
+<p>我们查询进程的目的是为了杀掉他，所以我们只需要<code>PID</code>这一列，于是我们可以只打印出第二列：</p>
+<p><code>ps -ef | grep swcd | awk &#39;{print $2}&#39;</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">72400</span><br><span class="line">78907</span><br></pre></td></tr></table></figure>
+<p>但是这里有个问题，当你用<code>ps -ef | grep</code>命令查询某个进程的时候，它所列出来的结果是包含了<code>grep</code>这个进程本身的，所以有这个查询并只显示进程id的命令<code>pgrep</code>:</p>
+<p><code>pgrep swcd</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">72400</span><br></pre></td></tr></table></figure>
+<p>得到了进程 id 之后，就可以将它传给<code>kill</code>命令了：</p>
+<p><code>kill 72400</code>/<code>kill -15 72400</code></p>
+<p>把两条命令写成一条语句：</p>
+<p><code>pgrep swcd | xargs kill -15</code></p>
+<p>或者还有一个命令<code>pkill</code>:相当于<code>pgrep+kill</code>,只要将你想要杀掉的进程名传给它即可：</p>
+<p><code>pkill swcd</code>/<code>pkill -15 swcd</code></p>
+<p>或者是<code>killall</code>，用法和<code>pkill</code>一样，但需要将完整的进程名传入，否则会报错：</p>
+<p><code>No matching processes belonging to you were found</code></p>
+<p>（完）</p>
+<h2 id="附录"><a href="#附录" class="headerlink" title="附录"></a>附录</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">Signal     Value     Action   Comment</span><br><span class="line">-------------------------------------------------------------------------</span><br><span class="line">SIGHUP        1       Term    Hangup detected on controlling terminal</span><br><span class="line">                              or death of controlling process</span><br><span class="line">SIGINT        2       Term    Interrupt from keyboard</span><br><span class="line">SIGQUIT       3       Core    Quit from keyboard</span><br><span class="line">SIGILL        4       Core    Illegal Instruction</span><br><span class="line">SIGABRT       6       Core    Abort signal from abort(3)</span><br><span class="line">SIGFPE        8       Core    Floating point exception</span><br><span class="line">SIGKILL       9       Term    Kill signal</span><br><span class="line">SIGSEGV      11       Core    Invalid memory reference</span><br><span class="line">SIGPIPE      13       Term    Broken pipe: write to pipe with no readers</span><br><span class="line">SIGALRM      14       Term    Timer signal from alarm(2)</span><br><span class="line">SIGTERM      15       Term    Termination signal</span><br><span class="line">SIGUSR1   30,10,16    Term    User-defined signal 1</span><br><span class="line">SIGUSR2   31,12,17    Term    User-defined signal 2</span><br><span class="line">SIGCHLD   20,17,18    Ign     Child stopped or terminated</span><br><span class="line">SIGCONT   19,18,25    Cont    Continue if stopped</span><br><span class="line">SIGSTOP   17,19,23    Stop    Stop process</span><br><span class="line">SIGTSTP   18,20,24    Stop    Stop typed at tty</span><br><span class="line">SIGTTIN   21,21,26    Stop    tty input for background process</span><br><span class="line">SIGTTOU   22,22,27    Stop    tty output for background process</span><br></pre></td></tr></table></figure>
+<h2 id="引用文章"><a href="#引用文章" class="headerlink" title="引用文章"></a>引用文章</h2><ul>
+<li><a href="http://blog.csdn.net/andy572633/article/details/7211546" target="_blank" rel="external">http://blog.csdn.net/andy572633/article/details/7211546</a></li>
+<li><a href="http://meinit.nl/the-3-most-important-kill-signals-on-the-linux-unix-command-line" target="_blank" rel="external">http://meinit.nl/the-3-most-important-kill-signals-on-the-linux-unix-command-line</a></li>
+<li><a href="http://unix.stackexchange.com/a/8927" target="_blank" rel="external">http://unix.stackexchange.com/a/8927</a></li>
+</ul>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/09/27/万恶的字符集/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          万恶的字符集
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/09/12/Alfredworkflow2/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Alfred workflow初步开发指南（二）</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+    <a class="jiathis_button_twitter"></a>
+    <a class="jiathis_button_plus"></a> 
+    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="常用kill命令及用法" data-title="常用kill命令及用法" data-url="http://johnho.cn/2016/09/16/常用kill命令及用法/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"true"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2018 Johnny Ho
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+	}
+</script>
+<script src="//7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+</body>
+</html>
