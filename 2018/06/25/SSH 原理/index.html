@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>SSH 原理 | Johnny Ho&#39;s Home</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="引用自此用法$ ssh username@remotehost">
+<meta name="keywords" content="linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SSH 原理">
+<meta property="og:url" content="http://johnho.cn/2018/06/25/SSH 原理/index.html">
+<meta property="og:site_name" content="Johnny Ho&#39;s Home">
+<meta property="og:description" content="引用自此用法$ ssh username@remotehost">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-06-25T18:11:34.178Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SSH 原理">
+<meta name="twitter:description" content="引用自此用法$ ssh username@remotehost">
+  
+    <link rel="alternative" href="/atom.xml" title="Johnny Ho&#39;s Home" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="/img/johnho.png" class="js-avatar show">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Johnny Ho</a></h1>
+		</hgroup>
+
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+					    <li>菜单</li>
+					    <li>标签</li>
+					    
+					    
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/zilonghe" title="github">github</a>
+					        
+								<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/simple-68" title="zhihu">zhihu</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/MongoDB/" style="font-size: 10px;">MongoDB</a> <a href="/tags/NBA/" style="font-size: 10px;">NBA</a> <a href="/tags/alfred/" style="font-size: 15px;">alfred</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/linux/" style="font-size: 20px;">linux</a> <a href="/tags/python/" style="font-size: 15px;">python</a> <a href="/tags/计算机知识/" style="font-size: 10px;">计算机知识</a>
+					</div>
+				</section>
+				
+				
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Johnny Ho</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img lazy-src="/img/johnho.png" class="js-avatar show">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Johnny Ho</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/zilonghe" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/simple-68" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap"><article id="post-SSH 原理" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/06/25/SSH 原理/" class="article-date">
+  	<time datetime="2018-06-25T17:49:37.000Z" itemprop="datePublished">2018-06-26</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      SSH 原理
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li></ul>
+	</div>
+
+        
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/编程/">编程</a>
+	</div>
+
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="引用自此"><a href="#引用自此" class="headerlink" title="引用自此"></a>引用自<a href="http://www.ruanyifeng.com/blog/2011/12/ssh_remote_login.html" target="_blank" rel="noopener">此</a></h3><h2 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h2><p><code>$ ssh username@remotehost</code></p>
+<a id="more"></a>
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><ol>
+<li><p>公钥加密技术</p>
+<ol>
+<li>用户请求登陆远程主机（通过ssh）</li>
+<li>远程主机收到用户的登陆请求，把自己的公钥发给用户。</li>
+<li>用户使用这个公钥，将登陆密码加密后，发送给远程主机。</li>
+<li>远程主机用自己的私钥，解密，如果密码正确，则同意登陆。</li>
+</ol>
+</li>
+<li><p>中间人攻击</p>
+<ol>
+<li>假设有人截获了用户发送的登陆请求，然后冒充远程主机，发送了伪造的公钥给用户，由于ssh协议不是像https那样有证书中心（CA）公证，所以用户很难知道真伪。</li>
+<li>如果用户没有发现是假的，将自己的密码通过伪造的公钥加密后发送给伪造远程主机，那么远程主机通过自己的私钥解密后，则知道了用户的登陆密码。</li>
+<li>所以，ssh使用了口令登陆和公钥登陆。</li>
+</ol>
+</li>
+<li><p>口令登陆</p>
+<ol>
+<li>第一次登陆远程主机时，系统会提示：</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ ssh username@remotehost</span><br><span class="line">　　The authenticity of host &apos;host (12.18.429.21)&apos; can&apos;t be established.</span><br><span class="line">　　RSA key fingerprint is 98:2e:d7:e0:de:9f:ac:67:28:c2:42:2d:37:16:58:4d.</span><br><span class="line">　　Are you sure you want to continue connecting (yes/no)?</span><br></pre></td></tr></table></figure>
+<p>系统会将对方发过来的公钥通过md5计算，生成一个128位的公钥指纹。一般是需要远程主机提供自己的公钥指纹，如在网站上公布，用户自行对比。若接受这个公钥，则下一步则提示输入密码。</p>
+<ol start="2">
+<li>远程主机的公钥被用户接受后，会在保存在本地的<code>$HOME/.ssh/known_hosts</code>中，下次再连接该主机的时候，系统会认出它的公钥已经保存在本地，跳过警告部分，直接提示输入密码。</li>
+</ol>
+</li>
+<li><p>公钥登陆</p>
+<ol>
+<li><p>用户将自己的公钥存储在远程主机上，登陆的时候，远程主机向用户发送一段随机字符串，用户用自己的私钥加密该字符串，发送给远程主机。远程主机用用户事先存储在本地的公钥进行解密，若成功即验证成功。不再需要密码。那么如何生成公钥并发送给远程主机呢？步骤如下：</p>
+<ol>
+<li>用户自己生成公钥：<code>$ ssh-keygen</code></li>
+<li>运行完该命令后，会在<code>$HOME/.ssh/</code>目录下，生成两个文件：<code>id_rsa.pub</code>和<code>id_rsa</code>，前者是公钥，后者是私钥。</li>
+<li>将公钥传送给远程主机：<code>$ ssh-copy-id username@remotehost</code></li>
+</ol>
+<p>自此，就可以通过公钥登陆方式来登陆，而不需要输入密码。</p>
+</li>
+<li><p>远程主机会将用户的公钥追加到<code>$HOME/.ssh/authorized_keys</code>文件中的末尾。</p>
+</li>
+</ol>
+</li>
+</ol>
+<h2 id="SSH本地端口转发"><a href="#SSH本地端口转发" class="headerlink" title="SSH本地端口转发"></a>SSH本地端口转发</h2><p>主机A与主机B之间无法互相连接，主机C可以与A、B互相通信。</p>
+<p>在主机A上：</p>
+<p><code>$ ssh -L 需要监听的本地端口:目的主机ip:目的主机端口 远程主机ip</code></p>
+<p>例子：</p>
+<p><code>$ ssh -L 2121:B:21 C</code></p>
+<p>原理：</p>
+<ol>
+<li>A向本地端口2121发送数据。</li>
+<li>A上的本地ssh客户端读2121端口，加密数据，将其通过ssh连接传到C上的ssh服务器。</li>
+<li>C上的ssh服务器将数据解密，将其传到主机B的21端口，即（B, 21）。</li>
+<li>主机B将数据返回给C的ssh服务器，然后C将其加密，传给A的ssh客户端，A端的ssh客户端将数据转到本地端口2121。</li>
+</ol>
+<p>从而达到 (A, 2121)<----> (B, 21)的互相通信的效果。</----></p>
+<h2 id="SSH远程端口转发"><a href="#SSH远程端口转发" class="headerlink" title="SSH远程端口转发"></a>SSH远程端口转发</h2><p><code>$ ssh -R 需要监听的远程端口:目的主机ip:目的主机端口 远程主机ip</code></p>
+<p>例子(在C上运行该命令)：</p>
+<p><code>$ ssh -R 2121:localhost:21 A</code></p>
+<p>原理：与上述相同。</p>
+<h2 id="本地端口转发和远程转发的区别（ssh权威指南P376）"><a href="#本地端口转发和远程转发的区别（ssh权威指南P376）" class="headerlink" title="本地端口转发和远程转发的区别（ssh权威指南P376）"></a>本地端口转发和远程转发的区别（ssh权威指南P376）</h2><ul>
+<li>当应用程序客户端位于ssh连接本地时使用本地端口转发。</li>
+<li>当应用程序客户端位于ssh远程服务器的时候使用远程转发。</li>
+</ul>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/06/25/极简git使用教程/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">极简 Git 使用教程</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+    <a class="jiathis_button_twitter"></a>
+    <a class="jiathis_button_plus"></a> 
+    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="SSH 原理" data-title="SSH 原理" data-url="http://johnho.cn/2018/06/25/SSH 原理/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"true"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2018 Johnny Ho
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+	}
+</script>
+<script src="//7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+</body>
+</html>

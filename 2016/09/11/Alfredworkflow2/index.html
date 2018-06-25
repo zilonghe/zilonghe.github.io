@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>Alfred workflow初步开发指南（二） | Johnny Ho&#39;s Home</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="有些朋友说，第一期写得有点太不接地气儿了，那么我先在开头讲清楚，这个Alfred Workflow教程到底是干什么的，以及Workflow是什么。而且我会在接下来的教程中，面向两部分人会有不同的内容： 第一种：普通用户，不需要用到Run Script中的部分功能的（需要自己写代码的），但也不要说对普通用户就没用了，因为你可以直接到文章最后下载我写好的 Workflow! （楼主好人一生平安） 第二">
+<meta name="keywords" content="alfred">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Alfred workflow初步开发指南（二）">
+<meta property="og:url" content="http://johnho.cn/2016/09/11/Alfredworkflow2/index.html">
+<meta property="og:site_name" content="Johnny Ho&#39;s Home">
+<meta property="og:description" content="有些朋友说，第一期写得有点太不接地气儿了，那么我先在开头讲清楚，这个Alfred Workflow教程到底是干什么的，以及Workflow是什么。而且我会在接下来的教程中，面向两部分人会有不同的内容： 第一种：普通用户，不需要用到Run Script中的部分功能的（需要自己写代码的），但也不要说对普通用户就没用了，因为你可以直接到文章最后下载我写好的 Workflow! （楼主好人一生平安） 第二">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://img.blog.csdn.net/20160825225024762">
+<meta property="og:image" content="http://img.blog.csdn.net/20160825233820501">
+<meta property="og:image" content="http://img.blog.csdn.net/20160825234145021">
+<meta property="og:image" content="http://od3b21nvv.bkt.clouddn.com/hexoimgf833c781f4d6796d82f9eabe29506139.png-960.jpg">
+<meta property="og:image" content="http://od3b21nvv.bkt.clouddn.com/hexoimg012bbab0d87310561490e3b9cdbc7b8e.png-960.jpg">
+<meta property="og:image" content="http://od3b21nvv.bkt.clouddn.com/hexoimgcf216974d897eab9b509d93af64284ff.png-960.jpg">
+<meta property="og:image" content="http://od3b21nvv.bkt.clouddn.com/hexoimg71d0e9a007e272b8ee82265024d673ff.png-960.jpg">
+<meta property="og:image" content="http://od3b21nvv.bkt.clouddn.com/hexoimgfad9e206f6aa1bde9df5a40ce9d052c2.png-960.jpg">
+<meta property="og:image" content="http://od3b21nvv.bkt.clouddn.com/hexoimgff2ed183ffcaf870ec4cb011cda160d2.png-960.jpg">
+<meta property="og:image" content="http://od3b21nvv.bkt.clouddn.com/hexoimg4258b069481e74dd4ba8a4142f1f18a4.png-480.jpg">
+<meta property="og:image" content="http://od3b21nvv.bkt.clouddn.com/hexoimg99b2c99edd5f16fe96e4542961262d75.png-960.jpg">
+<meta property="og:updated_time" content="2018-06-25T18:11:34.178Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Alfred workflow初步开发指南（二）">
+<meta name="twitter:description" content="有些朋友说，第一期写得有点太不接地气儿了，那么我先在开头讲清楚，这个Alfred Workflow教程到底是干什么的，以及Workflow是什么。而且我会在接下来的教程中，面向两部分人会有不同的内容： 第一种：普通用户，不需要用到Run Script中的部分功能的（需要自己写代码的），但也不要说对普通用户就没用了，因为你可以直接到文章最后下载我写好的 Workflow! （楼主好人一生平安） 第二">
+<meta name="twitter:image" content="http://img.blog.csdn.net/20160825225024762">
+  
+    <link rel="alternative" href="/atom.xml" title="Johnny Ho&#39;s Home" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="/img/johnho.png" class="js-avatar show">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Johnny Ho</a></h1>
+		</hgroup>
+
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+					    <li>菜单</li>
+					    <li>标签</li>
+					    
+					    
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/zilonghe" title="github">github</a>
+					        
+								<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/simple-68" title="zhihu">zhihu</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/MongoDB/" style="font-size: 10px;">MongoDB</a> <a href="/tags/NBA/" style="font-size: 10px;">NBA</a> <a href="/tags/alfred/" style="font-size: 15px;">alfred</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/linux/" style="font-size: 20px;">linux</a> <a href="/tags/python/" style="font-size: 15px;">python</a> <a href="/tags/计算机知识/" style="font-size: 10px;">计算机知识</a>
+					</div>
+				</section>
+				
+				
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Johnny Ho</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img lazy-src="/img/johnho.png" class="js-avatar show">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Johnny Ho</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/zilonghe" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/simple-68" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap"><article id="post-Alfredworkflow2" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/09/11/Alfredworkflow2/" class="article-date">
+  	<time datetime="2016-09-11T17:29:04.000Z" itemprop="datePublished">2016-09-12</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Alfred workflow初步开发指南（二）
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/alfred/">alfred</a></li></ul>
+	</div>
+
+        
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/工具/">工具</a>
+	</div>
+
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>有些朋友说，第一期写得有点太不接地气儿了，那么我先在开头讲清楚，这个Alfred Workflow教程到底是干什么的，以及Workflow是什么。<br>而且我会在接下来的教程中，面向两部分人会有不同的内容：</p>
+<p>第一种：普通用户，不需要用到Run Script中的部分功能的（需要自己写代码的），但也不要说对普通用户就没用了，因为你可以直接到文章最后下载我写好的 Workflow! （楼主好人一生平安）</p>
+<p>第二种：程序员专用的，比如我现在写的blog就是在本地写好文章，再通过我自己定义的 Workflow 一键上传到服务器的，又或者是你需要启动某些系统服务，跑某些脚本，等等。换句话说就是写 shell 脚本啦~</p>
+<a id="more"></a>
+<ul>
+<li>Workflow 是什么？<blockquote>
+<p>Workflow 工作流就是一系列相互衔接、自动进行的业务活动或任务。<br>简单粗暴地讲，我们这个自定义的 Workflow ，就是一个让你从大量重复性劳动中解放出来的工具。用程序员哥哥的话来讲，Workflow 就是一个自动化脚本。</p>
+</blockquote>
+</li>
+</ul>
+<p>举个例子：你早上起床想冲一杯豆浆喝，你要做的事情是：</p>
+<ol>
+<li>打开冰箱把豆浆粉拿出来。</li>
+<li>把拿出来的豆浆粉倒进杯子里。</li>
+<li>烧开水。</li>
+<li>将开水倒入杯中。</li>
+</ol>
+<p>假设现在你有一个机器人或者你伟大的妈妈，在听到你说『我想喝一杯豆浆』后，立即帮你把上述步骤全做了。那么你是不是就会立即得到一杯豆浆。而通过自定义 Workflow 你就可以得到相同效果。</p>
+<ul>
+<li>Afred Workflow 是什么？</li>
+</ul>
+<p>答案很显然，就是 Alfred 提供的 Workflow 功能模块。在这个模块下你可以定义属于你自己的 Workflow，只要运行了 Alfred 并被触发，你的 Workflow 就会生效。</p>
+<h2 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h2><p>回顾<a href="http://johnho.cn/2016/07/26/Alfred-workflow-1/">上期</a>，我们通过演示开发一个简单又好用的 quick search 来熟悉了开发 Workflow 的一些基本流程。那么本期我们要讲解 workflow 的精华: Run Script!</p>
+<h3 id="热身"><a href="#热身" class="headerlink" title="热身"></a>热身</h3><p>首先上几个我最常用的 Workflow 供大家参考：</p>
+<h4 id="1-Start-Coding"><a href="#1-Start-Coding" class="headerlink" title="1. Start Coding"></a>1. Start Coding</h4><p>标题已经很明显了，就是开始想要开始打代码，触发这个 workflow ，电脑就会自动帮我打开</p>
+<ul>
+<li><p>编辑器 Sublime Text</p>
+</li>
+<li><p>屏蔽其他娱乐网站的工具 Focus</p>
+</li>
+<li><p>翻墙的 shadowsocksX</p>
+</li>
+<li><p>Github</p>
+</li>
+</ul>
+<p>最后还会弹出一个提示框：Strat Working NOW!</p>
+<p>十分快捷方便，又有工作的仪式感。大家也可以根据平时自己常用软件来进行定制，这里只是提供一个思路。</p>
+<p><img src="http://img.blog.csdn.net/20160825225024762" alt="Start Coding"></p>
+<h4 id="2-一键发表文章"><a href="#2-一键发表文章" class="headerlink" title="2. 一键发表文章"></a>2. 一键发表文章</h4><p><img src="http://img.blog.csdn.net/20160825233820501" alt="hexo publish"></p>
+<p>中间的Terminal Command 如下：同理可以运用到 git 提交代码。</p>
+<p><img src="http://img.blog.csdn.net/20160825234145021" alt="image"></p>
+<h4 id="3-将截图上传到图床并返回一个-markdown-格式的链接"><a href="#3-将截图上传到图床并返回一个-markdown-格式的链接" class="headerlink" title="3. 将截图上传到图床并返回一个 markdown 格式的链接"></a>3. 将截图上传到图床并返回一个 markdown 格式的链接</h4><p><img src="http://od3b21nvv.bkt.clouddn.com/hexoimgf833c781f4d6796d82f9eabe29506139.png-960.jpg" alt="7niu"></p>
+<h2 id="Run-Script-amp-Script-Filter"><a href="#Run-Script-amp-Script-Filter" class="headerlink" title="Run Script &amp; Script Filter"></a>Run Script &amp; Script Filter</h2><p>这一部分是 Workflow 的精华，alfred 允许用户通过自定义脚本，再结合 alfred workflow 提供的机制，对你想获取的信息或操作进行配合，就可以让你工作效率无限提高。比如：上述中的把截图上传到图床再返回一个md格式的图片链接，就节省了我成吨的时间，相信写过博客的人都知道。</p>
+<p>废话不多说，接下来我会给大家展示一个，通过豆瓣提供的API，搜索电影的信息，并在 alfred 窗口中展示出来，效果图：</p>
+<p>搜索广州现在上映了哪些电影：</p>
+<p><img src="http://od3b21nvv.bkt.clouddn.com/hexoimg012bbab0d87310561490e3b9cdbc7b8e.png-960.jpg" alt="上映搜索"></p>
+<p>搜索某个演员：</p>
+<p><img src="http://od3b21nvv.bkt.clouddn.com/hexoimgcf216974d897eab9b509d93af64284ff.png-960.jpg" alt="明星搜索"></p>
+<p>又或者某部电影：</p>
+<p><img src="http://od3b21nvv.bkt.clouddn.com/hexoimg71d0e9a007e272b8ee82265024d673ff.png-960.jpg" alt="电影"></p>
+<p>这里的最近上映和电影搜索是分为两个 workflow ，如图所示我分别定义了两个命令，<code>dbm</code>是搜索电影/演员的信息，<code>dbn</code>是搜索所在地的上映电影。</p>
+<p>我将展示搜索电影的这个 workflow 是如何实现的，剩下的那个原理也是一样，除了对电影搜索之外，还可以对图书信息进行搜索，只要豆瓣API有提供，理论上都可以展示出来。</p>
+<p>要实现这个豆瓣电影搜索 workflow 其实很简单，只需要一个 <code>Script Filter</code> 和 <code>Open URL</code>的组件即可完成：</p>
+<p><img src="http://od3b21nvv.bkt.clouddn.com/hexoimgfad9e206f6aa1bde9df5a40ce9d052c2.png-960.jpg" alt="实现部件"></p>
+<p>点开 <code>Script Filter</code>:</p>
+<p><img src="http://od3b21nvv.bkt.clouddn.com/hexoimgff2ed183ffcaf870ec4cb011cda160d2.png-960.jpg" alt="Script Filter"></p>
+<p>没错，只需要一行即可，因为内部逻辑都在这个<code>douban_movie.py</code>的脚本实现了：）</p>
+<p>首先要知道的是，这里已经有轮子被实现了，你需要去下载一个 workflow-alfred python版本的库文件，<a href="https://github.com/deanishe/alfred-workflow" target="_blank" rel="noopener">点击这里</a>查看。里面已经教了你如何往 workflow 里导入这个python的库文件，这里就不讲了。</p>
+<p>然后，你需要开始写<code>douban_movie.py</code>这个脚本了：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python</span></span><br><span class="line"><span class="comment"># -*- coding: UTF-8 -*-</span></span><br><span class="line">__author__ = <span class="string">'hzl'</span></span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">from</span> workflow <span class="keyword">import</span> Workflow, ICON_WEB, web</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getMovie</span><span class="params">(wf)</span>:</span></span><br><span class="line">    baseUrl = <span class="string">'https://api.douban.com/v2/movie/search'</span></span><br><span class="line">    params = dict(q=wf.args[<span class="number">0</span>], count=<span class="number">10</span>)</span><br><span class="line">    r = web.get(baseUrl, params)</span><br><span class="line">    r.raise_for_status()</span><br><span class="line">    <span class="keyword">for</span> post <span class="keyword">in</span> r.json()[<span class="string">'subjects'</span>]:</span><br><span class="line">        casts = <span class="string">''</span></span><br><span class="line">        <span class="keyword">for</span> cast <span class="keyword">in</span> post[<span class="string">'casts'</span>]:</span><br><span class="line">            casts += cast[<span class="string">'name'</span>] + <span class="string">' '</span></span><br><span class="line">        <span class="comment">#条目的内容</span></span><br><span class="line">        title = post[<span class="string">'title'</span>]</span><br><span class="line">        detail = <span class="string">u'主演：'</span> + casts + <span class="string">u'｜年份：'</span> + post[<span class="string">'year'</span>] + \</span><br><span class="line">                 <span class="string">u'｜评分：'</span> + str(post[<span class="string">'rating'</span>][<span class="string">'average'</span>])</span><br><span class="line">        wf.add_item(title, detail, arg=post[<span class="string">'id'</span>], uid=post[<span class="string">'id'</span>], valid=<span class="keyword">True</span>, icon=ICON_WEB)</span><br><span class="line">    wf.send_feedback()</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    wf = Workflow()</span><br><span class="line">    sys.exit(wf.run(getMovie))</span><br></pre></td></tr></table></figure>
+<p>代码很简单，<code>getMovie</code>中，通过访问豆瓣电影的API链接，<code>https://api.douban.com/v2/movie/search</code>，再通过 <code>import</code> 我们上面导入的 python 库文件中的模块<code>workflow</code>，里面封装好了访问 url 的操作，我们只需要调用它访问上述链接，得到<code>json</code>字符串，解析后，再通过函数传入的<code>Workflow</code>实例中的<code>add_item</code>方法，将数据传到 alfred 中，即我们展示的页面那样，然后就结束。整个脚本的大概流程就是这样。</p>
+<p>写完脚本之后，就通过上面我展示的<code>Script Filter</code>中那样，将这个脚本放到这个 Workflow 的目录下，如何打开目录呢，很简单就在你编辑的这个 Workflow 右击，点<code>Open in Finder</code>即可，编辑完成后，目录应该如下：</p>
+<p><img src="http://od3b21nvv.bkt.clouddn.com/hexoimg4258b069481e74dd4ba8a4142f1f18a4.png-480.jpg" alt="workflow目录"></p>
+<p>最后再将<code>Open Url</code>定义如下，就可以实现点击展示出来的结果后，直接跳转到网页：</p>
+<p><img src="http://od3b21nvv.bkt.clouddn.com/hexoimg99b2c99edd5f16fe96e4542961262d75.png-960.jpg" alt="openurl"></p>
+<p>大功告成！</p>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>给出下载链接：</p>
+<p><a href="http://od3b21nvv.bkt.clouddn.com/%E8%B1%86%E7%93%A3%E7%94%B5%E5%BD%B1%E6%90%9C%E7%B4%A2.alfredworkflow" target="_blank" rel="noopener">豆瓣电影搜索</a></p>
+<p><a href="http://od3b21nvv.bkt.clouddn.com/%E8%B1%86%E7%93%A3%E7%94%B5%E5%BD%B1-%E6%9C%80%E8%BF%91%E4%B8%8A%E6%98%A0.alfredworkflow" target="_blank" rel="noopener">最近上映搜索</a></p>
+<p>等我发现了什么新功能，再回来更新！</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/09/16/常用kill命令及用法/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          常用kill命令及用法
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/07/26/Alfred-workflow-1/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Alfred workflow初步开发指南（一）</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+    <a class="jiathis_button_twitter"></a>
+    <a class="jiathis_button_plus"></a> 
+    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="Alfredworkflow2" data-title="Alfred workflow初步开发指南（二）" data-url="http://johnho.cn/2016/09/11/Alfredworkflow2/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"true"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2018 Johnny Ho
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+	}
+</script>
+<script src="//7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+</body>
+</html>
