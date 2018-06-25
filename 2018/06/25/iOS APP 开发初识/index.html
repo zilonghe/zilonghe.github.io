@@ -4,20 +4,22 @@
   <meta charset="utf-8">
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <title>竞争的残酷 | Johnny Ho&#39;s Home</title>
+  <title>iOS APP 开发初始 | Johnny Ho&#39;s Home</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="2015-2016赛季的NBA年度总冠军诞生了，克利夫兰骑士。伴随着欧文面对库里的后撤步三分，比赛结束了。">
-<meta name="keywords" content="NBA">
+  <meta name="description" content="创建项目 在 storyboard 中构建 UI ，Auto Layout 和 stack view 是重点 IBoutlet 是代码到 UI ，IBAction 是 UI 到代码，比如你想控制一个 button 的按下的动作，那么你需要为 button 定义它的 IBAction ，然后在按钮按下后，可能会触发其他变化，比如你在文本框输入了文本，按下提交，将你输入的文本替换到页面的一个 Lab">
+<meta name="keywords" content="iOS">
 <meta property="og:type" content="article">
-<meta property="og:title" content="竞争的残酷">
-<meta property="og:url" content="http://johnho.cn/2016/06/20/竞争的残酷/index.html">
+<meta property="og:title" content="iOS APP 开发初始">
+<meta property="og:url" content="http://johnho.cn/2018/06/25/iOS APP 开发初识/index.html">
 <meta property="og:site_name" content="Johnny Ho&#39;s Home">
-<meta property="og:description" content="2015-2016赛季的NBA年度总冠军诞生了，克利夫兰骑士。伴随着欧文面对库里的后撤步三分，比赛结束了。">
+<meta property="og:description" content="创建项目 在 storyboard 中构建 UI ，Auto Layout 和 stack view 是重点 IBoutlet 是代码到 UI ，IBAction 是 UI 到代码，比如你想控制一个 button 的按下的动作，那么你需要为 button 定义它的 IBAction ，然后在按钮按下后，可能会触发其他变化，比如你在文本框输入了文本，按下提交，将你输入的文本替换到页面的一个 Lab">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://od3b21nvv.bkt.clouddn.com/hexoimg750169d3cdc7c657fb359e8c1492a72e.png">
 <meta property="og:updated_time" content="2018-06-25T18:27:00.551Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="竞争的残酷">
-<meta name="twitter:description" content="2015-2016赛季的NBA年度总冠军诞生了，克利夫兰骑士。伴随着欧文面对库里的后撤步三分，比赛结束了。">
+<meta name="twitter:title" content="iOS APP 开发初始">
+<meta name="twitter:description" content="创建项目 在 storyboard 中构建 UI ，Auto Layout 和 stack view 是重点 IBoutlet 是代码到 UI ，IBAction 是 UI 到代码，比如你想控制一个 button 的按下的动作，那么你需要为 button 定义它的 IBAction ，然后在按钮按下后，可能会触发其他变化，比如你在文本框输入了文本，按下提交，将你输入的文本替换到页面的一个 Lab">
+<meta name="twitter:image" content="http://od3b21nvv.bkt.clouddn.com/hexoimg750169d3cdc7c657fb359e8c1492a72e.png">
   
     <link rel="alternative" href="/atom.xml" title="Johnny Ho&#39;s Home" type="application/atom+xml">
   
@@ -153,11 +155,11 @@
 	</div>
 </nav>
 
-      <div class="body-wrap"><article id="post-竞争的残酷" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-iOS APP 开发初识" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/06/20/竞争的残酷/" class="article-date">
-  	<time datetime="2016-06-20T16:19:01.000Z" itemprop="datePublished">2016-06-21</time>
+      <a href="/2018/06/25/iOS APP 开发初识/" class="article-date">
+  	<time datetime="2018-06-25T18:25:37.000Z" itemprop="datePublished">2018-06-26</time>
 </a>
     </div>
   
@@ -170,7 +172,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      竞争的残酷
+      iOS APP 开发初始
     </h1>
   
 
@@ -179,12 +181,12 @@
       <div class="article-info article-info-post">
         
 	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/NBA/">NBA</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
 	</div>
 
         
 	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/随笔/">随笔</a>
+	<a class="article-category-link" href="/categories/编程/">编程</a>
 	</div>
 
 
@@ -194,8 +196,35 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>2015-2016赛季的NBA年度总冠军诞生了，克利夫兰骑士。<br>伴随着欧文面对库里的后撤步三分，比赛结束了。</p>
-<a id="more"></a>
+        <ol>
+<li>创建项目</li>
+<li>在 storyboard 中构建 UI ，Auto Layout 和 stack view 是重点</li>
+<li>IBoutlet 是代码到 UI ，IBAction 是 UI 到代码，比如你想控制一个 button 的按下的动作，那么你需要为 button 定义它的 IBAction ，然后在按钮按下后，可能会触发其他变化，比如你在文本框输入了文本，按下提交，将你输入的文本替换到页面的一个 Label 上，这个时候你就需要去修改 IBoutlet 的变量。</li>
+<li>viewDidLoad -&gt; viewWillAppear -&gt; viewDidAppear -&gt; viewWillDisappear -&gt; viewDidDisappear</li>
+</ol>
+<p><img src="http://od3b21nvv.bkt.clouddn.com/hexoimg750169d3cdc7c657fb359e8c1492a72e.png" alt="life_circle"></p>
+<ol start="5">
+<li><p>delegation：</p>
+<ol>
+<li>在不同的 UI 对应的不同  viewcontroller 中去声明代理，首先</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">class ViewController : UIViewController, AVAudioRecorderDelegate &#123;</span><br><span class="line">  code</span><br><span class="line">  ...</span><br><span class="line">  audioRecorder.delegate = self</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>其实调用相应 Delegate 中触发代理的函数。然后配合 segue，这里留到下一点说。</li>
+</ol>
+</li>
+<li><p>多个视图间通过segue通信</p>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">performSegue(withIdentifier: &quot;StopRecording&quot;, sender: audioRecorder.url) //代理完成了某项工作后，要想把数据传向下一个 VC 的话，就需要performSegue，withIdentifier是指storyboard中的segue的id。</span><br><span class="line"></span><br><span class="line">//在performSegue后需要为下一个VC接受数据做准备，而prepare一般是当前的VC来定义，所以一般是前一个VC中定义。这里需要先定义好下一个VC和里面的相关变量，如这里的playSoundsVC.recordedAudioURL。</span><br><span class="line">override func prepare(for segue: UIStoryboardSegue, sender: Any?) &#123;</span><br><span class="line">        if segue.identifier == &quot;StopRecording&quot; &#123;</span><br><span class="line">            let playSoundsVC = segue.destination as! PlaySoundsViewController</span><br><span class="line">            let recordedAudioURL = sender as! URL</span><br><span class="line">            playSoundsVC.recordedAudioURL = recordedAudioURL</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">//自此，就完成了数据在两个VC中的传递</span><br></pre></td></tr></table></figure>
+<ol start="7">
+<li>然后是 extension ，可以为每个类在额外的文件中添加代码，意义就是组件化吧，现在看来，格式就是</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">extension PlaySoundsViewController: AVAudioPlayerDelegate &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="8">
+<li>还有一些 swift 的语法还是有点模糊，等我上完 udacity 的另外一门课再开一篇总结。</li>
+</ol>
+
       
     </div>
     
@@ -204,18 +233,9 @@
     
 <nav id="article-nav">
   
-    <a href="/2016/07/26/Alfred-workflow-1/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          Alfred workflow初步开发指南（一）
-        
-      </div>
-    </a>
   
-  
-    <a href="/2016/05/03/浅析python函数参数类型/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">浅析python函数参数类型</div>
+    <a href="/2018/06/25/iOS APP 开发初始（二）/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">iOS APP 开发初始（二）</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -250,7 +270,7 @@
 
 <div class="duoshuo">
 	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="竞争的残酷" data-title="竞争的残酷" data-url="http://johnho.cn/2016/06/20/竞争的残酷/"></div>
+	<div class="ds-thread" data-thread-key="iOS APP 开发初识" data-title="iOS APP 开发初始" data-url="http://johnho.cn/2018/06/25/iOS APP 开发初识/"></div>
 	<!-- 多说评论框 end -->
 	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 	<script type="text/javascript">
