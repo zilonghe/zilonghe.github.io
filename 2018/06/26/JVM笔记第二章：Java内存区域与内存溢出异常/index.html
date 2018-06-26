@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>JVM读书笔记之第二章 | Johnny Ho&#39;s Home</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Java内存区域与内存溢出异常运行时数据区域 程序计数器：当前线程执行的字节码的行号指示器，线程私有，若线程正在执行的是java方法，则记录的是正在执行的虚拟机字节码指令的地址；若是Native本地方法，这个计数器值为空。该内存区域没有规定任何outOfMemoryError（OOM）的区域。 Java虚拟机栈：每个方法在执行的同时都会创建一个栈帧，用于存储局部变量表、操作数栈、动态链接、方法出口">
+<meta name="keywords" content="Java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JVM读书笔记之第二章">
+<meta property="og:url" content="http://johnho.cn/2018/06/26/JVM笔记第二章：Java内存区域与内存溢出异常/index.html">
+<meta property="og:site_name" content="Johnny Ho&#39;s Home">
+<meta property="og:description" content="Java内存区域与内存溢出异常运行时数据区域 程序计数器：当前线程执行的字节码的行号指示器，线程私有，若线程正在执行的是java方法，则记录的是正在执行的虚拟机字节码指令的地址；若是Native本地方法，这个计数器值为空。该内存区域没有规定任何outOfMemoryError（OOM）的区域。 Java虚拟机栈：每个方法在执行的同时都会创建一个栈帧，用于存储局部变量表、操作数栈、动态链接、方法出口">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-06-26T03:12:04.345Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JVM读书笔记之第二章">
+<meta name="twitter:description" content="Java内存区域与内存溢出异常运行时数据区域 程序计数器：当前线程执行的字节码的行号指示器，线程私有，若线程正在执行的是java方法，则记录的是正在执行的虚拟机字节码指令的地址；若是Native本地方法，这个计数器值为空。该内存区域没有规定任何outOfMemoryError（OOM）的区域。 Java虚拟机栈：每个方法在执行的同时都会创建一个栈帧，用于存储局部变量表、操作数栈、动态链接、方法出口">
+  
+    <link rel="alternative" href="/atom.xml" title="Johnny Ho&#39;s Home" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="/img/johnho.png" class="js-avatar show">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Johnny Ho</a></h1>
+		</hgroup>
+
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+					    <li>菜单</li>
+					    <li>标签</li>
+					    
+					    
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/zilonghe" title="github">github</a>
+					        
+								<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/simple-68" title="zhihu">zhihu</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/MongoDB/" style="font-size: 10px;">MongoDB</a> <a href="/tags/NBA/" style="font-size: 10px;">NBA</a> <a href="/tags/alfred/" style="font-size: 15px;">alfred</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/iOS/" style="font-size: 15px;">iOS</a> <a href="/tags/linux/" style="font-size: 20px;">linux</a> <a href="/tags/python/" style="font-size: 15px;">python</a> <a href="/tags/计算机知识/" style="font-size: 10px;">计算机知识</a>
+					</div>
+				</section>
+				
+				
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Johnny Ho</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img lazy-src="/img/johnho.png" class="js-avatar show">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Johnny Ho</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/zilonghe" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/simple-68" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap"><article id="post-JVM笔记第二章：Java内存区域与内存溢出异常" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/06/26/JVM笔记第二章：Java内存区域与内存溢出异常/" class="article-date">
+  	<time datetime="2018-06-26T02:59:04.000Z" itemprop="datePublished">2018-06-26</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      JVM读书笔记之第二章
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
+	</div>
+
+        
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/读书笔记/">读书笔记</a>
+	</div>
+
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Java内存区域与内存溢出异常"><a href="#Java内存区域与内存溢出异常" class="headerlink" title="Java内存区域与内存溢出异常"></a>Java内存区域与内存溢出异常</h1><h2 id="运行时数据区域"><a href="#运行时数据区域" class="headerlink" title="运行时数据区域"></a>运行时数据区域</h2><ul>
+<li>程序计数器：当前线程执行的字节码的行号指示器，线程私有，若线程正在执行的是java方法，则记录的是正在执行的虚拟机字节码指令的地址；若是Native本地方法，这个计数器值为空。该内存区域没有规定任何outOfMemoryError（OOM）的区域。</li>
+<li>Java虚拟机栈：每个方法在执行的同时都会创建一个栈帧，用于存储局部变量表、操作数栈、动态链接、方法出口等信息。每个方法从调用直至执行完成的过程，对应一个栈帧在虚拟机栈中入栈到出栈的过程。线程私有。可能抛出StackOverflowError和OOM。<ul>
+<li>局部变量表：存放了编译期可知的各种基本数据类型（boolean、byte、char、short、int、float、long、double）、对象引用、returnAddress类型。局部变量表所需的内存空间在编译期间完成分配，当进入一个方法时，这个方法需要在帧中分配多大的局部变量空间是完全确定的，在方法运行期间不会改变。</li>
+</ul>
+</li>
+<li>本地方法栈：与虚拟机栈相似，区别是本地方法栈为虚拟机使用的native方法服务。可能抛出StackOverflowError和OOM。</li>
+<li>堆：存放对象实例，几乎所有对象实例都在这里分配内存。所有线程共享。在虚拟机启动时创建。JAVA堆是垃圾收集器管理的主要区域。可能会抛出OOM。</li>
+<li>方法区：所有线程共享的区域。用于存储已被虚拟机加载的类信息、常量、静态变量、即时编译器（JIT）编译后的代码等数据。该区域的内存回收目标主要是针对常量池的回收和对类型的卸载。可能抛出OOM。<ul>
+<li>运行时常量池：方法区的一部分。Class文件中除了有类的版本信息、字段、方法、接口等描述信息之外，还有一项信息是常量池，用于存放编译期生成的各种字面量和符号引用，这部分将在类加载后进入方法区的运行时常量池中存放。动态性，运行期间也可能将新的常量放入池内，如String的intern()方法。可能抛出OOM。</li>
+</ul>
+</li>
+<li>直接内存：并不是运行时数据区的一部分，JDK1.4新加入了NIO类，引入了一种基于通道channel和缓冲区buffer的io方式，可以使用native函数库直接分配堆外内存，然后通过存储在java堆中的DirectByteBuffer对象作为这块内存的引用进行操作。（Netty）。可能抛出OOM。<a id="more"></a>
+<h2 id="对象的创建"><a href="#对象的创建" class="headerlink" title="对象的创建"></a>对象的创建</h2></li>
+</ul>
+<p>这里讨论的是普通对象的创建，不包括数组和class对象等的过程。</p>
+<ol>
+<li>虚拟机遇到一条new指令，首先检查这个指令的参数是否能在常量池中定位到一个类的符号引用，并检查这个符号引用代表的类是否已被加载、解析和初始化过（ClassLoader）。若没有，则必须先执行相应的类加载过程（第7章）。</li>
+<li>为新生对象分配内存。对象所需内存的大小在类加载完成后便可完全确定。有两种分配方式，用哪种方式由内存空间是否规整决定，而内存空间是否规则又由GC是否带有压缩功能决定：<ol>
+<li>指针碰撞（Bump the Pointer）：假设Java堆中内存是绝对规整的，所有用过的内存放在一边，空闲的内存放在另外一边，中间放一个指针作为分界点的指示器，那分配内存就仅仅是把那个指针向空闲空间那边挪到一段与对象大小相等的距离。</li>
+<li>空间列表（Free List）：如果java堆中的内存不是规整的，已使用的内存和空闲的内存互相交错，虚拟机必须维护一个列表，记录上那些内存块是可用的，在分配的时候从列表中找到一块足够大的空间划分给对象实例，并更新列表上的记录。</li>
+</ol>
+</li>
+<li>内存分配完成后，虚拟机需要将分配到的内存空间都初始化为零值（不包括对象头），保证了对象的实例字段在java代码中可以不赋值就直接使用。</li>
+<li>虚拟机对对象进行必要的设置，例如这个对象是哪个类的实例、如何才能找到类的元数据信息、对象的哈希码、对象的GC分代年龄等信息。这些信息存在对象的对象头之中。</li>
+<li>从虚拟机的视角来看，一个新的对象已经产生，但从java程序的视角来看，对象创建才刚刚开始——<init>方法还没有执行，所有的字段都还是零。所以执行new指令后，会执行<init>方法，把对象按照程序员的意愿进行初始化，一个真正可用的对象才算完全产生出来。</init></init></li>
+</ol>
+<h2 id="对象的内存布局"><a href="#对象的内存布局" class="headerlink" title="对象的内存布局"></a>对象的内存布局</h2><ul>
+<li>对象头Header：<ul>
+<li>第一部分用于存储对象自身的运行时数据，如哈希码、GC分代年龄、锁状态标志、线程持有的锁、偏向线程ID、偏向时间戳等，官方称为Mark Word。</li>
+<li>另外一部分是类型指针，即对象指向它的类元数据的指针，虚拟机通过这个指针来确定这个对象是哪个类的实例。如果对象是一个Java数组，那在对象头中还必须要有一块用于记录数据长度的数据。</li>
+</ul>
+</li>
+<li>实例数据instance data：对象真正存储的有效信息，也是在程序代码中所定义的各种类型的字段内容。无论是从父类继承下来的还是在子类中定义的，都需要记录起来。该部分的分配策略是相同宽度的字段总是被分配在一起，在这个前提下，在父类中定义的变量会出现在之前。</li>
+<li>对齐填充padding：非必然存在，占位符作用。对象大小必须是8字节的整数倍，对象头部分正好是8字节的倍数，当对象实例数据部分没有对齐，就需要对齐填充补齐。</li>
+</ul>
+<h2 id="对象的访问定位"><a href="#对象的访问定位" class="headerlink" title="对象的访问定位"></a>对象的访问定位</h2><p>java程序需要通过栈上的reference数据来操作堆上的具体对象。有两种访问方式：</p>
+<ol>
+<li>句柄访问：java堆会划分出一块内存来作为句柄池，reference中存储的就是对象的句柄地址，而句柄中包含了对象实例数据与类型数据各自的具体地址信息。</li>
+<li>直接指针访问：reference中存储的直接就是对象地址。</li>
+</ol>
+<p>两种方式对比：</p>
+<p>​    使用句柄的最大好处就是reference中存储的是稳定的句柄地址，在对象被移动（GC中）时只会改变句柄中的实例数据指针，而reference本身不需要修改。</p>
+<p>​    使用指针访问方式的最大好处就是速度更快，节省了一次指针定位的时间开销。Sun HotSpot使用的是这种方式。</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/06/25/iOS APP 开发初识/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">iOS APP 开发初识</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+    <a class="jiathis_button_twitter"></a>
+    <a class="jiathis_button_plus"></a> 
+    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="JVM笔记第二章：Java内存区域与内存溢出异常" data-title="JVM读书笔记之第二章" data-url="http://johnho.cn/2018/06/26/JVM笔记第二章：Java内存区域与内存溢出异常/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"true"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2018 Johnny Ho
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+	}
+</script>
+<script src="//7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+</body>
+</html>
