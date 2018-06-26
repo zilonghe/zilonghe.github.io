@@ -1,5 +1,5 @@
 ---
-title: iOS APP 开发初始
+title: iOS APP 开发初识
 tags:
   - iOS
 categories:
@@ -11,7 +11,7 @@ date: 2018-06-26 02:25:37
 2. 在 storyboard 中构建 UI ，Auto Layout 和 stack view 是重点
 3. IBoutlet 是代码到 UI ，IBAction 是 UI 到代码，比如你想控制一个 button 的按下的动作，那么你需要为 button 定义它的 IBAction ，然后在按钮按下后，可能会触发其他变化，比如你在文本框输入了文本，按下提交，将你输入的文本替换到页面的一个 Label 上，这个时候你就需要去修改 IBoutlet 的变量。
 4. viewDidLoad -> viewWillAppear -> viewDidAppear -> viewWillDisappear -> viewDidDisappear
-
+<!-- more -->
 ![life_circle](http://od3b21nvv.bkt.clouddn.com/hexoimg750169d3cdc7c657fb359e8c1492a72e.png)
 
 5. delegation：
