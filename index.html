@@ -97,7 +97,7 @@
 				
 				<section class="switch-part switch-part2">
 					<div class="widget tagcloud" id="js-tagcloud">
-						<a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/MongoDB/" style="font-size: 10px;">MongoDB</a> <a href="/tags/NBA/" style="font-size: 10px;">NBA</a> <a href="/tags/alfred/" style="font-size: 15px;">alfred</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/iOS/" style="font-size: 15px;">iOS</a> <a href="/tags/linux/" style="font-size: 20px;">linux</a> <a href="/tags/python/" style="font-size: 15px;">python</a> <a href="/tags/计算机知识/" style="font-size: 10px;">计算机知识</a>
+						<a href="/tags/Java/" style="font-size: 15px;">Java</a> <a href="/tags/MongoDB/" style="font-size: 10px;">MongoDB</a> <a href="/tags/NBA/" style="font-size: 10px;">NBA</a> <a href="/tags/alfred/" style="font-size: 15px;">alfred</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/iOS/" style="font-size: 15px;">iOS</a> <a href="/tags/linux/" style="font-size: 20px;">linux</a> <a href="/tags/python/" style="font-size: 15px;">python</a> <a href="/tags/计算机知识/" style="font-size: 10px;">计算机知识</a>
 					</div>
 				</section>
 				
@@ -152,6 +152,71 @@
 </nav>
 
       <div class="body-wrap">
+  
+    <article id="post-JVM笔记第三章：垃圾收集器与内存分配策略" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/06/26/JVM笔记第三章：垃圾收集器与内存分配策略/" class="article-date">
+  	<time datetime="2018-06-26T02:59:04.000Z" itemprop="datePublished">2018-06-26</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/06/26/JVM笔记第三章：垃圾收集器与内存分配策略/">JVM读书笔记之第三章</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="垃圾收集器与内存分配策略"><a href="#垃圾收集器与内存分配策略" class="headerlink" title="垃圾收集器与内存分配策略"></a>垃圾收集器与内存分配策略</h1><h2 id="引用计数算法"><a href="#引用计数算法" class="headerlink" title="引用计数算法"></a>引用计数算法</h2><p>给对象中添加一个引用计数器，每当一个地方引用它，计数器值加1；当引用失效时，计数器值减1；任何时候计数器值为0的对象就是不可能再被使用的。</p>
+<p>python使用的引用计数算法来进行内存管理，但java虚拟机没有使用，主要原因是它很难解决对象之间相互循环引用的问题。<br>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/读书笔记/">读书笔记</a>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a  href="/2018/06/26/JVM笔记第三章：垃圾收集器与内存分配策略/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
   
     <article id="post-JVM笔记第二章：Java内存区域与内存溢出异常" class="article article-type-post" itemscope itemprop="blogPost">
   
@@ -732,70 +797,6 @@
       
         <p class="article-more-link">
           <a  href="/2016/07/26/Alfred-workflow-1/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-竞争的残酷" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/06/20/竞争的残酷/" class="article-date">
-  	<time datetime="2016-06-20T16:19:01.000Z" itemprop="datePublished">2016-06-21</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/06/20/竞争的残酷/">竞争的残酷</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>2015-2016赛季的NBA年度总冠军诞生了，克利夫兰骑士。<br>伴随着欧文面对库里的后撤步三分，比赛结束了。</p>
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/NBA/">NBA</a></li></ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/随笔/">随笔</a>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a  href="/2016/06/20/竞争的残酷/#more">more >></a>
         </p>
       
       <div class="clearfix"></div>

@@ -14,7 +14,7 @@
 <meta property="og:site_name" content="Johnny Ho&#39;s Home">
 <meta property="og:description" content="Java内存区域与内存溢出异常运行时数据区域 程序计数器：当前线程执行的字节码的行号指示器，线程私有，若线程正在执行的是java方法，则记录的是正在执行的虚拟机字节码指令的地址；若是Native本地方法，这个计数器值为空。该内存区域没有规定任何outOfMemoryError（OOM）的区域。 Java虚拟机栈：每个方法在执行的同时都会创建一个栈帧，用于存储局部变量表、操作数栈、动态链接、方法出口">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-06-26T04:39:05.420Z">
+<meta property="og:updated_time" content="2018-06-28T04:56:46.673Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JVM读书笔记之第二章">
 <meta name="twitter:description" content="Java内存区域与内存溢出异常运行时数据区域 程序计数器：当前线程执行的字节码的行号指示器，线程私有，若线程正在执行的是java方法，则记录的是正在执行的虚拟机字节码指令的地址；若是Native本地方法，这个计数器值为空。该内存区域没有规定任何outOfMemoryError（OOM）的区域。 Java虚拟机栈：每个方法在执行的同时都会创建一个栈帧，用于存储局部变量表、操作数栈、动态链接、方法出口">
@@ -99,7 +99,7 @@
 				
 				<section class="switch-part switch-part2">
 					<div class="widget tagcloud" id="js-tagcloud">
-						<a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/MongoDB/" style="font-size: 10px;">MongoDB</a> <a href="/tags/NBA/" style="font-size: 10px;">NBA</a> <a href="/tags/alfred/" style="font-size: 15px;">alfred</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/iOS/" style="font-size: 15px;">iOS</a> <a href="/tags/linux/" style="font-size: 20px;">linux</a> <a href="/tags/python/" style="font-size: 15px;">python</a> <a href="/tags/计算机知识/" style="font-size: 10px;">计算机知识</a>
+						<a href="/tags/Java/" style="font-size: 15px;">Java</a> <a href="/tags/MongoDB/" style="font-size: 10px;">MongoDB</a> <a href="/tags/NBA/" style="font-size: 10px;">NBA</a> <a href="/tags/alfred/" style="font-size: 15px;">alfred</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/iOS/" style="font-size: 15px;">iOS</a> <a href="/tags/linux/" style="font-size: 20px;">linux</a> <a href="/tags/python/" style="font-size: 15px;">python</a> <a href="/tags/计算机知识/" style="font-size: 10px;">计算机知识</a>
 					</div>
 				</section>
 				
@@ -212,10 +212,18 @@
 <p>这里讨论的是普通对象的创建，不包括数组和class对象等的过程。</p>
 <ol>
 <li>虚拟机遇到一条new指令，首先检查这个指令的参数是否能在常量池中定位到一个类的符号引用，并检查这个符号引用代表的类是否已被加载、解析和初始化过（ClassLoader）。若没有，则必须先执行相应的类加载过程（第7章）。</li>
-<li>为新生对象分配内存。对象所需内存的大小在类加载完成后便可完全确定。有两种分配方式，用哪种方式由内存空间是否规整决定，而内存空间是否规则又由GC是否带有压缩功能决定：<ol>
+<li><p>为新生对象分配内存。对象所需内存的大小在类加载完成后便可完全确定。有两种分配方式，用哪种方式由内存空间是否规整决定，而内存空间是否规则又由GC是否带有压缩功能决定：</p>
+<ol>
 <li>指针碰撞（Bump the Pointer）：假设Java堆中内存是绝对规整的，所有用过的内存放在一边，空闲的内存放在另外一边，中间放一个指针作为分界点的指示器，那分配内存就仅仅是把那个指针向空闲空间那边挪到一段与对象大小相等的距离。</li>
 <li>空间列表（Free List）：如果java堆中的内存不是规整的，已使用的内存和空闲的内存互相交错，虚拟机必须维护一个列表，记录上那些内存块是可用的，在分配的时候从列表中找到一块足够大的空间划分给对象实例，并更新列表上的记录。</li>
 </ol>
+<ul>
+<li>在并发情况下，分配内存不是线程安全的，解决这个问题有两种方案：<ul>
+<li>对分配内存空间的动作进行同步处理——实际上虚拟机采用CAS配上失败重试的方法保证更新操作（挪动空闲指针）的原子性</li>
+<li>另一种是把内存分配的动作按照线程划分在不同的空间之中进行，即每个线程在Java堆中预先分配一小块内存，称为本地线程分配缓冲（Thread Local Allocation Buffer，TLAB）。哪个线程需要分配内存，就在哪个线程的TLAB上分配，只有TLAB用完并分配新的TLAB时，才需要同步锁定。虚拟机是否使用TLAB，可通过虚拟机参数设定。</li>
+</ul>
+</li>
+</ul>
 </li>
 <li>内存分配完成后，虚拟机需要将分配到的内存空间都初始化为零值（不包括对象头），保证了对象的实例字段在java代码中可以不赋值就直接使用。</li>
 <li>虚拟机对对象进行必要的设置，例如这个对象是哪个类的实例、如何才能找到类的元数据信息、对象的哈希码、对象的GC分代年龄等信息。这些信息存在对象的对象头之中。</li>
@@ -246,6 +254,15 @@
   
     
 <nav id="article-nav">
+  
+    <a href="/2018/06/26/JVM笔记第三章：垃圾收集器与内存分配策略/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          JVM读书笔记之第三章
+        
+      </div>
+    </a>
   
   
     <a href="/2018/06/25/iOS APP 开发初识/" id="article-nav-older" class="article-nav-link-wrap">
