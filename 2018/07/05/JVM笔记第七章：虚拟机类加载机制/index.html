@@ -4,19 +4,20 @@
   <meta charset="utf-8">
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <title>关于 | Johnny Ho&#39;s Home</title>
+  <title>JVM读书笔记之第七章 | Johnny Ho&#39;s Home</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Nothing at all.">
-<meta property="og:type" content="website">
-<meta property="og:title" content="关于">
-<meta property="og:url" content="http://johnho.cn/about/index.html">
+  <meta name="description" content="虚拟机类加载机制概述虚拟机的类加载机制：虚拟机把描述类的数据从Class文件加载到内存，并对数据进行校验、转换解析和初始化，最终形成可以被虚拟机直接使用的java类型。 在Java语言中，类型的加载、连接和初始化过程都是在程序运行期间完成的，这种策略虽然会令类加载时稍微增加一些开销，但会为java应用程序提供高度的灵活性。 类加载的时机类加载的生命周期包括加载、验证、准备、解析、初始化、使用和卸载">
+<meta name="keywords" content="Java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JVM读书笔记之第七章">
+<meta property="og:url" content="http://johnho.cn/2018/07/05/JVM笔记第七章：虚拟机类加载机制/index.html">
 <meta property="og:site_name" content="Johnny Ho&#39;s Home">
-<meta property="og:description" content="Nothing at all.">
+<meta property="og:description" content="虚拟机类加载机制概述虚拟机的类加载机制：虚拟机把描述类的数据从Class文件加载到内存，并对数据进行校验、转换解析和初始化，最终形成可以被虚拟机直接使用的java类型。 在Java语言中，类型的加载、连接和初始化过程都是在程序运行期间完成的，这种策略虽然会令类加载时稍微增加一些开销，但会为java应用程序提供高度的灵活性。 类加载的时机类加载的生命周期包括加载、验证、准备、解析、初始化、使用和卸载">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-07-05T12:17:17.596Z">
+<meta property="og:updated_time" content="2018-07-05T12:17:17.592Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="关于">
-<meta name="twitter:description" content="Nothing at all.">
+<meta name="twitter:title" content="JVM读书笔记之第七章">
+<meta name="twitter:description" content="虚拟机类加载机制概述虚拟机的类加载机制：虚拟机把描述类的数据从Class文件加载到内存，并对数据进行校验、转换解析和初始化，最终形成可以被虚拟机直接使用的java类型。 在Java语言中，类型的加载、连接和初始化过程都是在程序运行期间完成的，这种策略虽然会令类加载时稍微增加一些开销，但会为java应用程序提供高度的灵活性。 类加载的时机类加载的生命周期包括加载、验证、准备、解析、初始化、使用和卸载">
   
     <link rel="alternative" href="/atom.xml" title="Johnny Ho&#39;s Home" type="application/atom+xml">
   
@@ -152,11 +153,11 @@
 	</div>
 </nav>
 
-      <div class="body-wrap"><article id="page-undefined" class="article article-type-page" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-JVM笔记第七章：虚拟机类加载机制" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/about/index.html" class="article-date">
-  	<time datetime="2016-07-28T14:50:24.000Z" itemprop="datePublished">2016-07-28</time>
+      <a href="/2018/07/05/JVM笔记第七章：虚拟机类加载机制/" class="article-date">
+  	<time datetime="2018-07-05T11:31:33.000Z" itemprop="datePublished">2018-07-05</time>
 </a>
     </div>
   
@@ -169,7 +170,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      关于
+      JVM读书笔记之第七章
     </h1>
   
 
@@ -177,7 +178,15 @@
       
       <div class="article-info article-info-post">
         
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
+	</div>
+
         
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/读书笔记/">读书笔记</a>
+	</div>
+
 
         <div class="clearfix"></div>
       </div>
@@ -185,13 +194,39 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <h1 id="虚拟机类加载机制"><a href="#虚拟机类加载机制" class="headerlink" title="虚拟机类加载机制"></a>虚拟机类加载机制</h1><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>虚拟机的类加载机制：虚拟机把描述类的数据从Class文件加载到内存，并对数据进行校验、转换解析和初始化，最终形成可以被虚拟机直接使用的java类型。</p>
+<p>在Java语言中，类型的加载、连接和初始化过程都是在程序运行期间完成的，这种策略虽然会令类加载时稍微增加一些开销，但会为java应用程序提供高度的灵活性。</p>
+<h2 id="类加载的时机"><a href="#类加载的时机" class="headerlink" title="类加载的时机"></a>类加载的时机</h2><p>类加载的生命周期包括加载、验证、准备、解析、初始化、使用和卸载7个阶段。其中验证、准备、解析部分统称为连接。加载、验证、准备、初始化和卸载这5个阶段的顺序是确定的，而解析阶段则不一定：它在某些情况下可以在初始化阶段之后再开始，这是为了支持java语言的运行时绑定（也称动态绑定或晚期绑定）。</p>
+<p>虚拟机规范严格规定了<strong>有且只有</strong>下列5种情况必须立即对类进行“初始化”（加载、验证、准备要在此之前开始）：</p>
+<ol>
+<li>遇到new、getstatic、putstatic或invokestatic这4条字节码指令时，如果类没有进行过初始化，则需要先触发其初始化。生成这4条指令的最常见java代码场景是：<ul>
+<li>使用new关键字实例化对象时候</li>
+<li>读取或设置一个类的静态字段（被final修饰、已在编译期把结果放入常量池的静态字段除外）的时候，以及调用一个类的静态方法的时候。</li>
+</ul>
+</li>
+<li>使用java.lang.reflect包的方法对类进行反射调用的时候，如果类没有进行过初始化，则需要先触发其初始化。</li>
+<li>当初始化一个类的时候，如果发现其父类还没有进行过初始化，则需要先触发其父类的初始化。</li>
+<li>当虚拟机启动时，用户需要指定一个要执行的主类（包含main()方法的那个类），虚拟机会先初始化这个主类。</li>
+<li>当使用jdk1.7的动态语言支持时，如果一个java.lang.invoke.MethodHandle实例最后的解析结果（是）REF_getStatic、REF_putStatic、REF_invokeStatic的方法句柄，并且这个方法句柄所对应的类没有进行初始化，则需要先触发其初始化。</li>
+</ol>
+<p>上述5种场景中的行为称为对一个类的主动引用，除此之外所有引用类的方式都不会触发初始化，称为被动引用。</p>
+
       
     </div>
     
   </div>
   
     
+<nav id="article-nav">
+  
+  
+    <a href="/2018/06/26/JVM笔记第三章：垃圾收集器与内存分配策略/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">JVM读书笔记之第三章</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
   
 </article>
 
@@ -221,7 +256,7 @@
 
 <div class="duoshuo">
 	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="undefined" data-title="关于" data-url="http://johnho.cn/about/index.html"></div>
+	<div class="ds-thread" data-thread-key="JVM笔记第七章：虚拟机类加载机制" data-title="JVM读书笔记之第七章" data-url="http://johnho.cn/2018/07/05/JVM笔记第七章：虚拟机类加载机制/"></div>
 	<!-- 多说评论框 end -->
 	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 	<script type="text/javascript">
@@ -265,7 +300,7 @@
 		mathjax: true,
 		animate: true,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
