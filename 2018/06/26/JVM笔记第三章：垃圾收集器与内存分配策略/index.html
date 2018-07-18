@@ -14,7 +14,7 @@
 <meta property="og:site_name" content="Johnny Ho&#39;s Home">
 <meta property="og:description" content="垃圾收集器与内存分配策略引用计数算法给对象中添加一个引用计数器，每当一个地方引用它，计数器值加1；当引用失效时，计数器值减1；任何时候计数器值为0的对象就是不可能再被使用的。 python使用的引用计数算法来进行内存管理，但java虚拟机没有使用，主要原因是它很难解决对象之间相互循环引用的问题。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-07-06T04:29:55.573Z">
+<meta property="og:updated_time" content="2018-07-18T15:02:20.749Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JVM读书笔记之第三章">
 <meta name="twitter:description" content="垃圾收集器与内存分配策略引用计数算法给对象中添加一个引用计数器，每当一个地方引用它，计数器值加1；当引用失效时，计数器值减1；任何时候计数器值为0的对象就是不可能再被使用的。 python使用的引用计数算法来进行内存管理，但java虚拟机没有使用，主要原因是它很难解决对象之间相互循环引用的问题。">
@@ -252,7 +252,7 @@
 </li>
 </ul>
 </li>
-<li>安全区域：Safepoint机制保证了程序执行时，在不太长时间内就会遇到可进入GC的safepoint。但程序不执行的时候，就是没有分配cpu时间，典型的例子是线程出于sleep状态或者blocked状态，这时线程无法响应JVM的重点请求，走到安全的地方去中断挂起，JVM显然也不太可能等待线程重新被分配cpu时间。对于这种情况，就需要安全区域（safe region）来解决。<ul>
+<li>安全区域：Safepoint机制保证了程序执行时，在不太长时间内就会遇到可进入GC的safepoint。但程序不执行的时候，就是没有分配cpu时间，典型的例子是线程处于sleep状态或者blocked状态，这时线程无法响应JVM的重点请求，走到安全的地方去中断挂起，JVM显然也不太可能等待线程重新被分配cpu时间。对于这种情况，就需要安全区域（safe region）来解决。<ul>
 <li>安全区域是指在一段代码片段中，引用关系不会再发生变化。在这个区域中的任意地方开始GC都是安全的，可以视为扩展了的safepoint。</li>
 <li>当线程执行到safe region中的代码时，首先标识自己已经进入了safe region，当在这段时间中jvm要发起gc时，就不用管标识自己为safe region状态的线程。在线程要离开safe region时，线程首先检查系统是否完成了根节点枚举（或者整个gc过程），如果完成了 ，那线程就继续执行，否则它必须等待直到收到可以安全离开safe region的信号为止。</li>
 </ul>
@@ -278,7 +278,7 @@
 <li>整个过程分为4个步骤：<ul>
 <li>初始标记（会停顿）：仅仅只是标记一下GC ROOTs能直接关联到的对象，速度很快，需要stop the world，即暂停其他工作线程。</li>
 <li>并发标记：与用户程序线程并发执行，耗时较长。</li>
-<li>重新标记（会停顿）：修正并发标记期间因用户程序继续运行而导致标记产生变动的那一部分对象的标记记录，这个阶段的停顿时间一般会比初始标记阶段稍长一点，但远比并发标记的时间段。</li>
+<li>重新标记（会停顿）：修正并发标记期间因用户程序继续运行而导致标记产生变动的那一部分对象的标记记录，这个阶段的停顿时间一般会比初始标记阶段稍长一点，但远比并发标记的时间短。</li>
 <li>并发清除：与用户程序线程并发执行，耗时较长。</li>
 </ul>
 </li>
@@ -310,18 +310,18 @@
     
 <nav id="article-nav">
   
-    <a href="/2018/07/05/JVM笔记第七章：虚拟机类加载机制/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2018/06/26/JVM笔记第二章：Java内存区域与内存溢出异常/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption"><</strong>
       <div class="article-nav-title">
         
-          JVM读书笔记之第七章
+          JVM读书笔记之第二章
         
       </div>
     </a>
   
   
-    <a href="/2018/06/26/JVM笔记第二章：Java内存区域与内存溢出异常/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">JVM读书笔记之第二章</div>
+    <a href="/2018/06/25/iOS APP 开发初识/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">iOS APP 开发初识</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
