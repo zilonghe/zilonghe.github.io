@@ -6,18 +6,18 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <title>JVM读书笔记之第十章 | Johnny Ho&#39;s Home</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="早期编译器优化概述 前端编译器：把java文件编译成class文件 JIT编译器（just in time compiler）：把字节码转变成机器码的过程 AOT编译器（ahead of time compiler）：直接把java文件编译成本地机器码  Javac编译器从Sun Javac的代码来看，编译过程大致可以分为3个过程，  解析与填充符号表过程 插入式注解处理器的注解处理过程 分析与字">
+  <meta name="description" content="早期编译器优化概述 前端编译器：把java文件编译成class文件 JIT编译器（just in time compiler）：把字节码转变成机器码的过程 AOT编译器（ahead of time compiler）：直接把java文件编译成本地机器码">
 <meta name="keywords" content="Java">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JVM读书笔记之第十章">
 <meta property="og:url" content="http://johnho.cn/2018/08/05/JVM读书笔记之第九章/index.html">
 <meta property="og:site_name" content="Johnny Ho&#39;s Home">
-<meta property="og:description" content="早期编译器优化概述 前端编译器：把java文件编译成class文件 JIT编译器（just in time compiler）：把字节码转变成机器码的过程 AOT编译器（ahead of time compiler）：直接把java文件编译成本地机器码  Javac编译器从Sun Javac的代码来看，编译过程大致可以分为3个过程，  解析与填充符号表过程 插入式注解处理器的注解处理过程 分析与字">
+<meta property="og:description" content="早期编译器优化概述 前端编译器：把java文件编译成class文件 JIT编译器（just in time compiler）：把字节码转变成机器码的过程 AOT编译器（ahead of time compiler）：直接把java文件编译成本地机器码">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-08-05T06:14:45.305Z">
+<meta property="og:updated_time" content="2018-08-05T06:17:14.286Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JVM读书笔记之第十章">
-<meta name="twitter:description" content="早期编译器优化概述 前端编译器：把java文件编译成class文件 JIT编译器（just in time compiler）：把字节码转变成机器码的过程 AOT编译器（ahead of time compiler）：直接把java文件编译成本地机器码  Javac编译器从Sun Javac的代码来看，编译过程大致可以分为3个过程，  解析与填充符号表过程 插入式注解处理器的注解处理过程 分析与字">
+<meta name="twitter:description" content="早期编译器优化概述 前端编译器：把java文件编译成class文件 JIT编译器（just in time compiler）：把字节码转变成机器码的过程 AOT编译器（ahead of time compiler）：直接把java文件编译成本地机器码">
   
     <link rel="alternative" href="/atom.xml" title="Johnny Ho&#39;s Home" type="application/atom+xml">
   
@@ -199,6 +199,7 @@
 <li>JIT编译器（just in time compiler）：把字节码转变成机器码的过程</li>
 <li>AOT编译器（ahead of time compiler）：直接把java文件编译成本地机器码</li>
 </ul>
+<a id="more"></a>
 <h2 id="Javac编译器"><a href="#Javac编译器" class="headerlink" title="Javac编译器"></a>Javac编译器</h2><p>从Sun Javac的代码来看，编译过程大致可以分为3个过程，</p>
 <ol>
 <li>解析与填充符号表过程</li>
