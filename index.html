@@ -153,6 +153,105 @@
 
       <div class="body-wrap">
   
+    <article id="post-JVM读书笔记之第九章" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/08/05/JVM读书笔记之第九章/" class="article-date">
+  	<time datetime="2018-08-05T05:36:11.000Z" itemprop="datePublished">2018-08-05</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/05/JVM读书笔记之第九章/">JVM读书笔记之第十章</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="早期编译器优化"><a href="#早期编译器优化" class="headerlink" title="早期编译器优化"></a>早期编译器优化</h1><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><ul>
+<li>前端编译器：把java文件编译成class文件</li>
+<li>JIT编译器（just in time compiler）：把字节码转变成机器码的过程</li>
+<li>AOT编译器（ahead of time compiler）：直接把java文件编译成本地机器码</li>
+</ul>
+<h2 id="Javac编译器"><a href="#Javac编译器" class="headerlink" title="Javac编译器"></a>Javac编译器</h2><p>从Sun Javac的代码来看，编译过程大致可以分为3个过程，</p>
+<ol>
+<li>解析与填充符号表过程</li>
+<li>插入式注解处理器的注解处理过程</li>
+<li>分析与字节码生成过程</li>
+</ol>
+<h3 id="解析与填充符号表过程"><a href="#解析与填充符号表过程" class="headerlink" title="解析与填充符号表过程"></a>解析与填充符号表过程</h3><ol>
+<li><p>词法、语法分析</p>
+<p>词法分析是将源代码的字符流转变为标记（Token）集合，单个字符是程序编写过程的最小元素，而标记则是编译过程的最小元素，关键字、变量名、字面量、运算符都可以成为标记。</p>
+<p>语法分析是根据token序列构造抽象语法书的过程，抽象语法树（Abstract Syntax Tree，AST）是一种用来描述程序代码语法结构的树形表示方式，语法树的每一个节点都代表着程序代码中的一个语法结构（Construct），例如包、类型、修饰符、运算符、接口、返回值甚至代码注释等都可以是一个语法结构。经历过这个步骤之后，编译器就基本不会再对源码文件进行操作了，后续的操作都建立在AST之上。</p>
+</li>
+<li><p>填充符号表</p>
+<p>符号表（Symbol Table）是由一组符号地址和符号信息构成的表格。在语法分析中，符号表所登记的内容将用于语义检查（如检查一个名字的使用和原先的说明是否一致）和产生中间代码。在目标代码生成阶段，当对符号名进行地址分配时，符号表是地址分配的依据。</p>
+</li>
+</ol>
+<h3 id="注解处理器"><a href="#注解处理器" class="headerlink" title="注解处理器"></a>注解处理器</h3><p>注解与普通的java代码一样，是在运行期间发挥作用的。略过。</p>
+<h3 id="语义分析与字节码生成"><a href="#语义分析与字节码生成" class="headerlink" title="语义分析与字节码生成"></a>语义分析与字节码生成</h3><p>上面生成的AST可以表示一个结构正确的源程序的抽象，但无法保证源程序是符合逻辑的。语义分析的主要任务是对结构上正确的源程序进行上下文有关性质的审查，如进行类型审查等。</p>
+<p>在Javac的编译过程中，语义分析过程分为标注检查以及数据及控制流分析两个步骤。</p>
+<ul>
+<li><p>标注检查</p>
+<p>包括诸如变量使用前是否已被声明、变量与赋值之间的数据类型是否能够匹配、常量折叠等。如<code>int a = 1 + 2</code>，语法树上能看到字面量1、2以及操作符“+”，但经过常量折叠之后会被折叠成字面量3。由于编译期间进行了常量折叠，所以在代码里面定义“a=1+2”比起直接定义“a=3”，并不会增加程序运行期间的运算量。</p>
+</li>
+<li><p>数据及控制流分析</p>
+<p>是对程序上下文逻辑更进一步的验证。可以检查出如局部变量在使用前是否有赋值、方法的每条路径是否都有返回值、是否所有的受检查异常都被正确处理等问题。该阶段与类加载时的数据及控制流分析的目的基本上是一致的，但校验范围有所分别，有一些校验项只有在编译期或运行期才能进行。例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 方法一带有final修饰</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">foo</span><span class="params">(<span class="keyword">final</span> <span class="keyword">int</span> arg)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">int</span> var = <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 方法二没有final修饰</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">foo</span><span class="params">(<span class="keyword">int</span> arg)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> var = <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这两段代码编译出来的class文件没有任何区别，因为局部变量与字段（实例变量、类变量）有区别，它在常量池中没有CONSTANT_Fieldref_info的符号引用，自然就没有访问标志（Access_Flags）的信息，甚至可能连名称都不会保留下来（取决于编译时的选项），自然在class文件中不可能知道一个局部变量是否声明为final。因此将局部变量声明为final，对运行期是没有影响的，变量的不变形仅仅由编译器在编译期间保障。</p>
+</li>
+<li><p>解语法糖</p>
+<p>java中常用的语法糖主要是泛型、变长参数、自动装箱/拆箱，虚拟机运行时不支持这些语法，它们在编译期间还原回简单的基础语法结构。这个过程叫做解语法糖</p>
+</li>
+<li><p>字节码生成</p>
+<p>字节码生成是Javac编译过程的最后一个阶段。字节码生成阶段不仅仅是把前面各个步骤所生成的信息（语法树、符号表）转化成字节码写到磁盘中，编译器还进行了少量的代码添加和转换工作。</p>
+</li>
+</ul>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/读书笔记/">读书笔记</a>
+	</div>
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-使用hsql+junit模拟数据库接口编写UT" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -346,6 +445,71 @@
 
 
   
+    <article id="post-JVM笔记第三章：垃圾收集器与内存分配策略" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/06/26/JVM笔记第三章：垃圾收集器与内存分配策略/" class="article-date">
+  	<time datetime="2018-06-26T02:59:04.000Z" itemprop="datePublished">2018-06-26</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/06/26/JVM笔记第三章：垃圾收集器与内存分配策略/">JVM读书笔记之第三章</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="垃圾收集器与内存分配策略"><a href="#垃圾收集器与内存分配策略" class="headerlink" title="垃圾收集器与内存分配策略"></a>垃圾收集器与内存分配策略</h1><h2 id="引用计数算法"><a href="#引用计数算法" class="headerlink" title="引用计数算法"></a>引用计数算法</h2><p>给对象中添加一个引用计数器，每当一个地方引用它，计数器值加1；当引用失效时，计数器值减1；任何时候计数器值为0的对象就是不可能再被使用的。</p>
+<p>python使用的引用计数算法来进行内存管理，但java虚拟机没有使用，主要原因是它很难解决对象之间相互循环引用的问题。<br>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/读书笔记/">读书笔记</a>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a  href="/2018/06/26/JVM笔记第三章：垃圾收集器与内存分配策略/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-JVM笔记第二章：Java内存区域与内存溢出异常" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -404,71 +568,6 @@
       
         <p class="article-more-link">
           <a  href="/2018/06/26/JVM笔记第二章：Java内存区域与内存溢出异常/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-JVM笔记第三章：垃圾收集器与内存分配策略" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/06/26/JVM笔记第三章：垃圾收集器与内存分配策略/" class="article-date">
-  	<time datetime="2018-06-26T02:59:04.000Z" itemprop="datePublished">2018-06-26</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/06/26/JVM笔记第三章：垃圾收集器与内存分配策略/">JVM读书笔记之第三章</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="垃圾收集器与内存分配策略"><a href="#垃圾收集器与内存分配策略" class="headerlink" title="垃圾收集器与内存分配策略"></a>垃圾收集器与内存分配策略</h1><h2 id="引用计数算法"><a href="#引用计数算法" class="headerlink" title="引用计数算法"></a>引用计数算法</h2><p>给对象中添加一个引用计数器，每当一个地方引用它，计数器值加1；当引用失效时，计数器值减1；任何时候计数器值为0的对象就是不可能再被使用的。</p>
-<p>python使用的引用计数算法来进行内存管理，但java虚拟机没有使用，主要原因是它很难解决对象之间相互循环引用的问题。<br>
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/读书笔记/">读书笔记</a>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a  href="/2018/06/26/JVM笔记第三章：垃圾收集器与内存分配策略/#more">more >></a>
         </p>
       
       <div class="clearfix"></div>
@@ -730,71 +829,6 @@
       
         <p class="article-more-link">
           <a  href="/2018/06/25/极简git使用教程/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-万恶的字符集" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/09/27/万恶的字符集/" class="article-date">
-  	<time datetime="2016-09-27T13:55:11.000Z" itemprop="datePublished">2016-09-27</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/09/27/万恶的字符集/">万恶的字符集</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="http://od3b21nvv.bkt.clouddn.com/utf8.png" alt="UTF8"></p>
-<p>日常生活中经常要与编码打交道，老是分不清各种编码的区别，一怒之下，就有了这篇文章。</p>
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/计算机知识/">计算机知识</a></li></ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/编程/">编程</a>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a  href="/2016/09/27/万恶的字符集/#more">more >></a>
         </p>
       
       <div class="clearfix"></div>
