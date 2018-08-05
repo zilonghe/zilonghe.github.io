@@ -15,6 +15,8 @@ date: 2018-08-05 13:36:11
 - JIT编译器（just in time compiler）：把字节码转变成机器码的过程
 - AOT编译器（ahead of time compiler）：直接把java文件编译成本地机器码
 
+<!-- more -->
+
 ## Javac编译器
 
 从Sun Javac的代码来看，编译过程大致可以分为3个过程，
