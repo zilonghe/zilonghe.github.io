@@ -14,7 +14,7 @@
 <meta property="og:site_name" content="Johnny Ho&#39;s Home">
 <meta property="og:description" content="Java基础笔记（一）：Collection、Map先抛出问题：collection接口下面有哪些集合，hashmap的实现原理，要把1.7和1.8的区别(红黑树)讲出来，map有哪些实现类以及使用场景，hashmap, hashtable, linkedhashmap,weakHashMap, treemap, concurrentmap，linkedhashmap和treemap排序的区别，c">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-11-19T10:59:35.429Z">
+<meta property="og:updated_time" content="2018-11-19T16:21:27.283Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java基础笔记（一）：Collection、Map">
 <meta name="twitter:description" content="Java基础笔记（一）：Collection、Map先抛出问题：collection接口下面有哪些集合，hashmap的实现原理，要把1.7和1.8的区别(红黑树)讲出来，map有哪些实现类以及使用场景，hashmap, hashtable, linkedhashmap,weakHashMap, treemap, concurrentmap，linkedhashmap和treemap排序的区别，c">
@@ -195,6 +195,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <h1 id="Java基础笔记（一）：Collection、Map"><a href="#Java基础笔记（一）：Collection、Map" class="headerlink" title="Java基础笔记（一）：Collection、Map"></a>Java基础笔记（一）：Collection、Map</h1><p>先抛出问题：collection接口下面有哪些集合，hashmap的实现原理，要把1.7和1.8的区别(红黑树)讲出来，map有哪些实现类以及使用场景，hashmap, hashtable, linkedhashmap,weakHashMap, treemap, concurrentmap，linkedhashmap和treemap排序的区别，concurrenthashmap如何实现线程安全，这里也要把1.7和1.8实现差异说出来(分段加锁和cas技术)，说到这里以后就会问你cas实现原理( CPU Lock前缀指令),它是如何保证其他cpu core的cache失效的，然后会问你volatile的实现原理，要结合java内存模型来讲，可见性是如何实现的(内存屏障)，synchronized锁和reentrantlock的区别以及内部怎么实现的:常用的gc算法及优缺点，如何判断对象的存活性</p>
+<a id="more"></a>
 <h2 id="Collection集合"><a href="#Collection集合" class="headerlink" title="Collection集合"></a>Collection集合</h2><p>Collection接口是最基本的集合接口，代表了一组对象。以下是继承了Collection接口的几个集合接口：</p>
 <ul>
 <li><p>Set接口：</p>
@@ -235,8 +236,10 @@
 <h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>HashMap的实现原理是，通过传入的键值对，对键进行hash，并存放在哈希表中的具体某个桶中，当多个键值的hash值相同时，即哈希冲突时，桶中的节点起初以链表形式存储，在1.8中，若链表节点的数目大于树化的阈值8并且桶的个数大于等于64时，会将链表转换成红黑树实现，否则会进行resize扩容，将当前的桶个数扩大一倍，并重启hash分配位置。当获取指定的键值的时候，会将键的hash值与哈希表的长度-1进行逻辑与操作获得具体存放的桶位置，若该桶的节点数不唯一，则通过遍历该桶的节点，通过equals匹配获取目标键值。</p>
 <h2 id="LinkedHashMap"><a href="#LinkedHashMap" class="headerlink" title="LinkedHashMap"></a>LinkedHashMap</h2><p>LinkedHashMap实现有序key值的关键就是根据插入顺序另外维护了一个按照插入顺序作为标记的双向循环列表，这样在获取所有数据进行循环获取时获取到的数据就是有序的数据</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Node&lt;K,V&gt; <span class="title">newNode</span><span class="params">(<span class="keyword">int</span> hash, K key, V value, Node&lt;K,V&gt; e)</span> </span>&#123;</span><br><span class="line">    LinkedHashMap.Entry&lt;K,V&gt; p =</span><br><span class="line">        <span class="keyword">new</span> LinkedHashMap.Entry&lt;K,V&gt;(hash, key, value, e);</span><br><span class="line">    linkNodeLast(p);</span><br><span class="line">    <span class="keyword">return</span> p;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>每次调用HashMap的putVal</p>
-
+<p>每次调用继承自基类HashMap的putVal方法插入键值对的时候，都会调用newNode，在双向链表尾部插入节点。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">afterNodeInsertion</span><span class="params">(<span class="keyword">boolean</span> evict)</span> </span>&#123; <span class="comment">// possibly remove eldest</span></span><br><span class="line">    LinkedHashMap.Entry&lt;K,V&gt; first;</span><br><span class="line">    <span class="keyword">if</span> (evict &amp;&amp; (first = head) != <span class="keyword">null</span> &amp;&amp; removeEldestEntry(first)) &#123;</span><br><span class="line">        K key = first.key;</span><br><span class="line">        removeNode(hash(key), key, <span class="keyword">null</span>, <span class="keyword">false</span>, <span class="keyword">true</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">boolean</span> <span class="title">removeEldestEntry</span><span class="params">(Map.Entry&lt;K,V&gt; eldest)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可能你会注意到，上面putVal方法中，若新插入了一个键值对（即不是覆盖原有的键值对），会调用<code>afterNodeInsertion</code>回调方法，<code>evict</code>参数表示是否执行删除最旧的元素，注意在删除最旧元素之前，还会判断<code>removeEldestEntry</code>方法的返回值，默认实现是返回false，通常我们需要覆盖该方法，自定义淘汰策略。</p>
+<h2 id="Treemap"><a href="#Treemap" class="headerlink" title="Treemap"></a>Treemap</h2>
       
     </div>
     
