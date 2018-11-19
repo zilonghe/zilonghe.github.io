@@ -4,18 +4,20 @@
   <meta charset="utf-8">
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Johnny Ho&#39;s Home</title>
+  <title>Java基础笔记（一）：Collection、Map | Johnny Ho&#39;s Home</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Nothing at all.">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Johnny Ho&#39;s Home">
-<meta property="og:url" content="http://johnho.cn/index.html">
+  <meta name="description" content="Java基础笔记（一）：Collection、Map先抛出问题：collection接口下面有哪些集合，hashmap的实现原理，要把1.7和1.8的区别(红黑树)讲出来，map有哪些实现类以及使用场景，hashmap, hashtable, linkedhashmap,weakHashMap, treemap, concurrentmap，linkedhashmap和treemap排序的区别，c">
+<meta name="keywords" content="Java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java基础笔记（一）：Collection、Map">
+<meta property="og:url" content="http://johnho.cn/2018/11/19/Java基础笔记（一）：Collection、Map/index.html">
 <meta property="og:site_name" content="Johnny Ho&#39;s Home">
-<meta property="og:description" content="Nothing at all.">
+<meta property="og:description" content="Java基础笔记（一）：Collection、Map先抛出问题：collection接口下面有哪些集合，hashmap的实现原理，要把1.7和1.8的区别(红黑树)讲出来，map有哪些实现类以及使用场景，hashmap, hashtable, linkedhashmap,weakHashMap, treemap, concurrentmap，linkedhashmap和treemap排序的区别，c">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-11-19T10:59:35.429Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Johnny Ho&#39;s Home">
-<meta name="twitter:description" content="Nothing at all.">
+<meta name="twitter:title" content="Java基础笔记（一）：Collection、Map">
+<meta name="twitter:description" content="Java基础笔记（一）：Collection、Map先抛出问题：collection接口下面有哪些集合，hashmap的实现原理，要把1.7和1.8的区别(红黑树)讲出来，map有哪些实现类以及使用场景，hashmap, hashtable, linkedhashmap,weakHashMap, treemap, concurrentmap，linkedhashmap和treemap排序的区别，c">
   
     <link rel="alternative" href="/atom.xml" title="Johnny Ho&#39;s Home" type="application/atom+xml">
   
@@ -151,60 +153,7 @@
 	</div>
 </nav>
 
-      <div class="body-wrap">
-  
-    <article id="post-docker笔记" class="article article-type-post" itemscope="" itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/11/19/docker笔记/" class="article-date">
-  	<time datetime="2018-11-19T10:59:35.429Z" itemprop="datePublished">2018-11-19</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="docker笔记"><a href="#docker笔记" class="headerlink" title="docker笔记"></a>docker笔记</h1><p><code>docker image ls</code>：展示已有image</p>
-<p><code>docker run -it &lt;imageName&gt;</code>：以交互形式在一个新的container里面运行一个image</p>
-<p><code>docker container ls</code>：显示已有container</p>
-<p><code>docker build -t &lt;tag&gt;</code>：讲一个dockerfile编译成一个image</p>
-<p><code>docker ps</code>:显示正在运行的container</p>
-<p><code>docker exec</code>：Run a command in a running container</p>
-<p><code>docker stop</code>：停止一个正在运行的container</p>
-<p><code>docker start</code>：启动一个container</p>
-<p><code>docker rm</code>：删除一个container</p>
-<p><code>docker inspect</code>:Return low-level information on Docker objects</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Java基础笔记（一）：Collection、Map" class="article article-type-post" itemscope="" itemprop="blogPost">
+      <div class="body-wrap"><article id="post-Java基础笔记（一）：Collection、Map" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
       <a href="/2018/11/19/Java基础笔记（一）：Collection、Map/" class="article-date">
@@ -220,12 +169,27 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/11/19/Java基础笔记（一）：Collection、Map/">Java基础笔记（一）：Collection、Map</a>
+    <h1 class="article-title" itemprop="name">
+      Java基础笔记（一）：Collection、Map
     </h1>
   
 
       </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
+	</div>
+
+        
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/面试/">面试</a>
+	</div>
+
+
+        <div class="clearfix"></div>
+      </div>
       
     
     <div class="article-entry" itemprop="articleBody">
@@ -276,575 +240,77 @@
       
     </div>
     
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/面试/">面试</a>
-	</div>
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
   </div>
   
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-JVM读书笔记之第十一章" class="article article-type-post" itemscope="" itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/08/05/JVM读书笔记之第十一章/" class="article-date">
-  	<time datetime="2018-08-05T08:35:04.000Z" itemprop="datePublished">2018-08-05</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
     
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
+<nav id="article-nav">
+  
+    <a href="/2018/11/19/docker笔记/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
         
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/05/JVM读书笔记之第十一章/">JVM读书笔记之第十一章</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="晚期（运行期）优化"><a href="#晚期（运行期）优化" class="headerlink" title="晚期（运行期）优化"></a>晚期（运行期）优化</h1><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>当虚拟机发现某个方法或代码块的运行特别频繁时，就会把这些代码认定为“热点代码”。为了提高热点代码的执行效率，在运行时，虚拟机将会把这些代码编译成与本地平台相关的机器码，并进行各种层次的优化，完成这个任务的编译器称为即时编译器（JIT）。</p>
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/读书笔记/">读书笔记</a>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a href="/2018/08/05/JVM读书笔记之第十一章/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-JVM读书笔记之第十章" class="article article-type-post" itemscope="" itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/08/05/JVM读书笔记之第十章/" class="article-date">
-  	<time datetime="2018-08-05T05:36:11.000Z" itemprop="datePublished">2018-08-05</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
+          (no title)
         
+      </div>
+    </a>
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/05/JVM读书笔记之第十章/">JVM读书笔记之第十章</a>
-    </h1>
   
+    <a href="/2018/08/05/JVM读书笔记之第十一章/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">JVM读书笔记之第十一章</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
 
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="早期编译器优化"><a href="#早期编译器优化" class="headerlink" title="早期编译器优化"></a>早期编译器优化</h1><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><ul>
-<li>前端编译器：把java文件编译成class文件</li>
-<li>JIT编译器（just in time compiler）：把字节码转变成机器码的过程</li>
-<li>AOT编译器（ahead of time compiler）：直接把java文件编译成本地机器码</li>
-</ul>
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/读书笔记/">读书笔记</a>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a href="/2018/08/05/JVM读书笔记之第十章/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
   
 </article>
 
 
-
-
-
-
-
-
-
-  
-    <article id="post-使用hsql+junit模拟数据库接口编写UT" class="article article-type-post" itemscope="" itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/07/24/使用hsql+junit模拟数据库接口编写UT/" class="article-date">
-  	<time datetime="2018-07-24T03:42:11.000Z" itemprop="datePublished">2018-07-24</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/07/24/使用hsql+junit模拟数据库接口编写UT/">使用hsql+junit模拟mybatis数据库接口编写UT</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="使用hsql-junit模拟mybatis数据库接口编写UT"><a href="#使用hsql-junit模拟mybatis数据库接口编写UT" class="headerlink" title="使用hsql+junit模拟mybatis数据库接口编写UT"></a>使用hsql+junit模拟mybatis数据库接口编写UT</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>目前UT的框架已经是万花齐放，有mockito、easymock、spock等等优秀的框架，在这篇文章中，主要介绍以hsql内存数据库来模拟数据库接口的方式</p>
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Mybatis/">Mybatis</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/单元测试/">单元测试</a></li></ul>
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+    <a class="jiathis_button_twitter"></a>
+    <a class="jiathis_button_plus"></a> 
+    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
 	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
 
-      
-	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/编程/">编程</a>
-	</div>
 
 
-      
-        <p class="article-more-link">
-          <a href="/2018/07/24/使用hsql+junit模拟数据库接口编写UT/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
 
 
 
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="Java基础笔记（一）：Collection、Map" data-title="Java基础笔记（一）：Collection、Map" data-url="http://johnho.cn/2018/11/19/Java基础笔记（一）：Collection、Map/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"true"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
 
 
 
 
-
-
-  
-    <article id="post-JVM读书笔记第八章：虚拟机字节码执行引擎" class="article article-type-post" itemscope="" itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/07/18/JVM读书笔记第八章：虚拟机字节码执行引擎/" class="article-date">
-  	<time datetime="2018-07-18T15:02:55.000Z" itemprop="datePublished">2018-07-18</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/07/18/JVM读书笔记第八章：虚拟机字节码执行引擎/">JVM读书笔记之第八章</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="虚拟机字节码执行引擎"><a href="#虚拟机字节码执行引擎" class="headerlink" title="虚拟机字节码执行引擎"></a>虚拟机字节码执行引擎</h1><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>执行引擎是Java虚拟机最核心的组成部分之一。“虚拟机”是一个相对于“物理机”的概念，这两种机器都有代码执行能力，其区别是物理机的执行引擎是直接建立在处理器、硬件、指令集和操作系统层面上的，而虚拟机的执行引擎则是由自己实现的，因此可以自行制定指令集与执行引擎的结构体系，并且能够执行那些不被硬件直接支持的指令集格式。<br>
-      
-    </p></div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/读书笔记/">读书笔记</a>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a href="/2018/07/18/JVM读书笔记第八章：虚拟机字节码执行引擎/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-JVM笔记第七章：虚拟机类加载机制" class="article article-type-post" itemscope="" itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/07/05/JVM笔记第七章：虚拟机类加载机制/" class="article-date">
-  	<time datetime="2018-07-05T11:31:33.000Z" itemprop="datePublished">2018-07-05</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/07/05/JVM笔记第七章：虚拟机类加载机制/">JVM读书笔记之第七章</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="虚拟机类加载机制"><a href="#虚拟机类加载机制" class="headerlink" title="虚拟机类加载机制"></a>虚拟机类加载机制</h1><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>虚拟机的类加载机制：虚拟机把描述类的数据从Class文件加载到内存，并对数据进行校验、转换解析和初始化，最终形成可以被虚拟机直接使用的java类型。</p>
-<p>在Java语言中，类型的加载、连接和初始化过程都是在程序运行期间完成的，这种策略虽然会令类加载时稍微增加一些开销，但会为java应用程序提供高度的灵活性。</p>
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/读书笔记/">读书笔记</a>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a href="/2018/07/05/JVM笔记第七章：虚拟机类加载机制/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-JVM笔记第二章：Java内存区域与内存溢出异常" class="article article-type-post" itemscope="" itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/06/26/JVM笔记第二章：Java内存区域与内存溢出异常/" class="article-date">
-  	<time datetime="2018-06-26T02:59:04.000Z" itemprop="datePublished">2018-06-26</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/06/26/JVM笔记第二章：Java内存区域与内存溢出异常/">JVM读书笔记之第二章</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="Java内存区域与内存溢出异常"><a href="#Java内存区域与内存溢出异常" class="headerlink" title="Java内存区域与内存溢出异常"></a>Java内存区域与内存溢出异常</h1><h2 id="运行时数据区域"><a href="#运行时数据区域" class="headerlink" title="运行时数据区域"></a>运行时数据区域</h2><ul>
-<li>程序计数器：当前线程执行的字节码的行号指示器，线程私有，若线程正在执行的是java方法，则记录的是正在执行的虚拟机字节码指令的地址；若是Native本地方法，这个计数器值为空。该内存区域没有规定任何outOfMemoryError（OOM）的区域。</li>
-<li>Java虚拟机栈：每个方法在执行的同时都会创建一个栈帧，用于存储局部变量表、操作数栈、动态链接、方法出口等信息。每个方法从调用直至执行完成的过程，对应一个栈帧在虚拟机栈中入栈到出栈的过程。线程私有。可能抛出StackOverflowError和OOM。<ul>
-<li>局部变量表：存放了编译期可知的各种基本数据类型（boolean、byte、char、short、int、float、long、double）、对象引用、returnAddress类型。局部变量表所需的内存空间在编译期间完成分配，当进入一个方法时，这个方法需要在帧中分配多大的局部变量空间是完全确定的，在方法运行期间不会改变。</li>
-</ul>
-</li>
-<li>本地方法栈：与虚拟机栈相似，区别是本地方法栈为虚拟机使用的native方法服务。可能抛出StackOverflowError和OOM。</li>
-<li>堆：存放对象实例，几乎所有对象实例都在这里分配内存。所有线程共享。在虚拟机启动时创建。JAVA堆是垃圾收集器管理的主要区域。可能会抛出OOM。</li>
-<li>方法区：所有线程共享的区域。用于存储已被虚拟机加载的类信息、常量、静态变量、即时编译器（JIT）编译后的代码等数据。该区域的内存回收目标主要是针对常量池的回收和对类型的卸载。可能抛出OOM。<ul>
-<li>运行时常量池：方法区的一部分。Class文件中除了有类的版本信息、字段、方法、接口等描述信息之外，还有一项信息是常量池，用于存放编译期生成的各种字面量和符号引用，这部分将在类加载后进入方法区的运行时常量池中存放。动态性，运行期间也可能将新的常量放入池内，如String的intern()方法。可能抛出OOM。</li>
-</ul>
-</li>
-<li>直接内存：并不是运行时数据区的一部分，JDK1.4新加入了NIO类，引入了一种基于通道channel和缓冲区buffer的io方式，可以使用native函数库直接分配堆外内存，然后通过存储在java堆中的DirectByteBuffer对象作为这块内存的引用进行操作。（Netty）。可能抛出OOM。
-      
-    </li></ul></div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/读书笔记/">读书笔记</a>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a href="/2018/06/26/JVM笔记第二章：Java内存区域与内存溢出异常/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-JVM笔记第三章：垃圾收集器与内存分配策略" class="article article-type-post" itemscope="" itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/06/26/JVM笔记第三章：垃圾收集器与内存分配策略/" class="article-date">
-  	<time datetime="2018-06-26T02:59:04.000Z" itemprop="datePublished">2018-06-26</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/06/26/JVM笔记第三章：垃圾收集器与内存分配策略/">JVM读书笔记之第三章</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="垃圾收集器与内存分配策略"><a href="#垃圾收集器与内存分配策略" class="headerlink" title="垃圾收集器与内存分配策略"></a>垃圾收集器与内存分配策略</h1><h2 id="引用计数算法"><a href="#引用计数算法" class="headerlink" title="引用计数算法"></a>引用计数算法</h2><p>给对象中添加一个引用计数器，每当一个地方引用它，计数器值加1；当引用失效时，计数器值减1；任何时候计数器值为0的对象就是不可能再被使用的。</p>
-<p>python使用的引用计数算法来进行内存管理，但java虚拟机没有使用，主要原因是它很难解决对象之间相互循环引用的问题。<br>
-      
-    </p></div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/读书笔记/">读书笔记</a>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a href="/2018/06/26/JVM笔记第三章：垃圾收集器与内存分配策略/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-iOS APP 开发初识" class="article article-type-post" itemscope="" itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/06/25/iOS APP 开发初识/" class="article-date">
-  	<time datetime="2018-06-25T18:25:37.000Z" itemprop="datePublished">2018-06-26</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/06/25/iOS APP 开发初识/">iOS APP 开发初识</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <ol>
-<li>创建项目</li>
-<li>在 storyboard 中构建 UI ，Auto Layout 和 stack view 是重点</li>
-<li>IBoutlet 是代码到 UI ，IBAction 是 UI 到代码，比如你想控制一个 button 的按下的动作，那么你需要为 button 定义它的 IBAction ，然后在按钮按下后，可能会触发其他变化，比如你在文本框输入了文本，按下提交，将你输入的文本替换到页面的一个 Label 上，这个时候你就需要去修改 IBoutlet 的变量。</li>
-<li><p>viewDidLoad -&gt; viewWillAppear -&gt; viewDidAppear -&gt; viewWillDisappear -&gt; viewDidDisappear</p>
-      
-    </li></ol></div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/编程/">编程</a>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a href="/2018/06/25/iOS APP 开发初识/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-  
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
-    </nav>
-  
 </div>
       <footer id="footer">
   <div class="outer">
@@ -868,8 +334,8 @@
 		fancybox: true,
 		mathjax: true,
 		animate: true,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
-<head>
+<head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="utf-8">
   
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>iOS APP 开发初始（二） | Johnny Ho&#39;s Home</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="ViewController 之间的三种通信方式">
@@ -14,7 +14,7 @@
 <meta property="og:site_name" content="Johnny Ho&#39;s Home">
 <meta property="og:description" content="ViewController 之间的三种通信方式">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-08-05T08:35:11.086Z">
+<meta property="og:updated_time" content="2018-11-19T10:59:35.429Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS APP 开发初始（二）">
 <meta name="twitter:description" content="ViewController 之间的三种通信方式">
@@ -26,7 +26,7 @@
   
   <link rel="stylesheet" href="/css/style.css">
 </head>
-
+</html>
 <body>
   <div id="container">
     <div class="left-col">
@@ -153,7 +153,7 @@
 	</div>
 </nav>
 
-      <div class="body-wrap"><article id="post-iOS APP 开发初始（二）" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-iOS APP 开发初始（二）" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
       <a href="/2018/06/25/iOS APP 开发初始（二）/" class="article-date">
@@ -163,7 +163,7 @@
   
   <div class="article-inner">
     
-      <input type="hidden" class="isFancy" />
+      <input type="hidden" class="isFancy">
     
     
       <header class="article-header">
@@ -206,7 +206,7 @@
 </ul>
 </li>
 <li><p>代码结合 segue</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@IBAction</span> <span class="function"><span class="keyword">func</span> <span class="title">playGameBySegueAndCode</span><span class="params">(sender: UIButton)</span></span> &#123;</span><br><span class="line">    performSegue(withIdentifier: <span class="string">"GameOnSegueAndCode"</span>, sender: sender)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">prepare</span><span class="params">(<span class="keyword">for</span> segue: UIStoryboardSegue, sender: Any?)</span></span> &#123;</span><br><span class="line">    <span class="keyword">if</span> segue.identifier == <span class="string">"GameOnSegueAndCode"</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="type">GameResultViewController</span> = segue.destination <span class="keyword">as</span>! <span class="type">GameResultViewController</span></span><br><span class="line">        <span class="keyword">let</span> button = sender <span class="keyword">as</span>! <span class="type">UIButton</span></span><br><span class="line">        <span class="keyword">let</span> myChoice = button.tag</span><br><span class="line">        <span class="keyword">let</span> computerChoice = getComputerChoice()</span><br><span class="line">        <span class="type">GameResultViewController</span>.result = getResult(myChoice, computerChoice: computerChoice)</span><br><span class="line">        <span class="type">GameResultViewController</span>.resultImageName = getResultImageName(myChoice, computerChoice: computerChoice)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@IBAction</span> <span class="function"><span class="keyword">func</span> <span class="title">playGameBySegueAndCode</span><span class="params">(sender: UIButton)</span></span> &#123;</span><br><span class="line">    performSegue(withIdentifier: <span class="string">"GameOnSegueAndCode"</span>, sender: sender)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">prepare</span><span class="params">(<span class="keyword">for</span> segue: UIStoryboardSegue, sender: <span class="keyword">Any</span>?)</span></span> &#123;</span><br><span class="line">    <span class="keyword">if</span> segue.identifier == <span class="string">"GameOnSegueAndCode"</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="type">GameResultViewController</span> = segue.destination <span class="keyword">as</span>! <span class="type">GameResultViewController</span></span><br><span class="line">        <span class="keyword">let</span> button = sender <span class="keyword">as</span>! <span class="type">UIButton</span></span><br><span class="line">        <span class="keyword">let</span> myChoice = button.tag</span><br><span class="line">        <span class="keyword">let</span> computerChoice = getComputerChoice()</span><br><span class="line">        <span class="type">GameResultViewController</span>.result = getResult(myChoice, computerChoice: computerChoice)</span><br><span class="line">        <span class="type">GameResultViewController</span>.resultImageName = getResultImageName(myChoice, computerChoice: computerChoice)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <ul>
 <li>在storyboard中为两个 VC 直接定义 segue，为segue定义 identifier</li>
 <li>定义 @IBAction，并将方法绑定到指定控件</li>
@@ -220,7 +220,7 @@
 <li><p>纯segue</p>
 </li>
 </ol>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">prepare</span><span class="params">(<span class="keyword">for</span> segue: UIStoryboardSegue, sender: Any?)</span></span> &#123;</span><br><span class="line">    <span class="keyword">if</span> segue.identifier == <span class="string">"GameOnSegueOnly"</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="type">GameResultViewController</span> = segue.destination <span class="keyword">as</span>! <span class="type">GameResultViewController</span></span><br><span class="line">        <span class="keyword">let</span> button = sender <span class="keyword">as</span>! <span class="type">UIButton</span></span><br><span class="line">        <span class="keyword">let</span> myChoice = button.tag</span><br><span class="line">        <span class="keyword">let</span> computerChoice = getComputerChoice()</span><br><span class="line">        <span class="type">GameResultViewController</span>.result = getResult(myChoice, computerChoice: computerChoice)</span><br><span class="line">        <span class="type">GameResultViewController</span>.resultImageName = getResultImageName(myChoice, computerChoice: computerChoice)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">prepare</span><span class="params">(<span class="keyword">for</span> segue: UIStoryboardSegue, sender: <span class="keyword">Any</span>?)</span></span> &#123;</span><br><span class="line">    <span class="keyword">if</span> segue.identifier == <span class="string">"GameOnSegueOnly"</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="type">GameResultViewController</span> = segue.destination <span class="keyword">as</span>! <span class="type">GameResultViewController</span></span><br><span class="line">        <span class="keyword">let</span> button = sender <span class="keyword">as</span>! <span class="type">UIButton</span></span><br><span class="line">        <span class="keyword">let</span> myChoice = button.tag</span><br><span class="line">        <span class="keyword">let</span> computerChoice = getComputerChoice()</span><br><span class="line">        <span class="type">GameResultViewController</span>.result = getResult(myChoice, computerChoice: computerChoice)</span><br><span class="line">        <span class="type">GameResultViewController</span>.resultImageName = getResultImageName(myChoice, computerChoice: computerChoice)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <ul>
 <li>在storyboard中直接在 当前 VC 中的控件（如按钮）与下一个 VC 定义 segue，为segue定义identifier</li>
 <li>不需要定义@IBAction</li>

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
-<head>
+<head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="utf-8">
   
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>JVM读书笔记之第十章 | Johnny Ho&#39;s Home</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="早期编译器优化概述 前端编译器：把java文件编译成class文件 JIT编译器（just in time compiler）：把字节码转变成机器码的过程 AOT编译器（ahead of time compiler）：直接把java文件编译成本地机器码">
@@ -14,7 +14,7 @@
 <meta property="og:site_name" content="Johnny Ho&#39;s Home">
 <meta property="og:description" content="早期编译器优化概述 前端编译器：把java文件编译成class文件 JIT编译器（just in time compiler）：把字节码转变成机器码的过程 AOT编译器（ahead of time compiler）：直接把java文件编译成本地机器码">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-08-05T08:35:11.086Z">
+<meta property="og:updated_time" content="2018-11-19T10:59:35.429Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JVM读书笔记之第十章">
 <meta name="twitter:description" content="早期编译器优化概述 前端编译器：把java文件编译成class文件 JIT编译器（just in time compiler）：把字节码转变成机器码的过程 AOT编译器（ahead of time compiler）：直接把java文件编译成本地机器码">
@@ -26,7 +26,7 @@
   
   <link rel="stylesheet" href="/css/style.css">
 </head>
-
+</html>
 <body>
   <div id="container">
     <div class="left-col">
@@ -153,7 +153,7 @@
 	</div>
 </nav>
 
-      <div class="body-wrap"><article id="post-JVM读书笔记之第十章" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-JVM读书笔记之第十章" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
       <a href="/2018/08/05/JVM读书笔记之第十章/" class="article-date">
@@ -163,7 +163,7 @@
   
   <div class="article-inner">
     
-      <input type="hidden" class="isFancy" />
+      <input type="hidden" class="isFancy">
     
     
       <header class="article-header">
@@ -224,7 +224,7 @@
 </li>
 <li><p>数据及控制流分析</p>
 <p>是对程序上下文逻辑更进一步的验证。可以检查出如局部变量在使用前是否有赋值、方法的每条路径是否都有返回值、是否所有的受检查异常都被正确处理等问题。该阶段与类加载时的数据及控制流分析的目的基本上是一致的，但校验范围有所分别，有一些校验项只有在编译期或运行期才能进行。例如：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 方法一带有final修饰</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">foo</span><span class="params">(<span class="keyword">final</span> <span class="keyword">int</span> arg)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">int</span> var = <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 方法二没有final修饰</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">foo</span><span class="params">(<span class="keyword">int</span> arg)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> var = <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 方法一带有final修饰</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">foo</span><span class="params">(<span class="keyword">final</span> <span class="keyword">int</span> arg)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">int</span> <span class="keyword">var</span> = <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 方法二没有final修饰</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">foo</span><span class="params">(<span class="keyword">int</span> arg)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> <span class="keyword">var</span> = <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>这两段代码编译出来的class文件没有任何区别，因为局部变量与字段（实例变量、类变量）有区别，它在常量池中没有CONSTANT_Fieldref_info的符号引用，自然就没有访问标志（Access_Flags）的信息，甚至可能连名称都不会保留下来（取决于编译时的选项），自然在class文件中不可能知道一个局部变量是否声明为final。因此将局部变量声明为final，对运行期是没有影响的，变量的不变形仅仅由编译器在编译期间保障。</p>
 </li>
 <li><p>解语法糖</p>
@@ -256,6 +256,15 @@
   
     
 <nav id="article-nav">
+  
+    <a href="/2018/08/05/JVM读书笔记之第十一章/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          JVM读书笔记之第十一章
+        
+      </div>
+    </a>
   
   
     <a href="/2018/07/24/使用hsql+junit模拟数据库接口编写UT/" id="article-nav-older" class="article-nav-link-wrap">
