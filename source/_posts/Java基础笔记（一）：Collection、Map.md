@@ -11,6 +11,8 @@ date: 2018-11-19 13:31:51
 
 先抛出问题：collection接口下面有哪些集合，hashmap的实现原理，要把1.7和1.8的区别(红黑树)讲出来，map有哪些实现类以及使用场景，hashmap, hashtable, linkedhashmap,weakHashMap, treemap, concurrentmap，linkedhashmap和treemap排序的区别，concurrenthashmap如何实现线程安全，这里也要把1.7和1.8实现差异说出来(分段加锁和cas技术)，说到这里以后就会问你cas实现原理( CPU Lock前缀指令),它是如何保证其他cpu core的cache失效的，然后会问你volatile的实现原理，要结合java内存模型来讲，可见性是如何实现的(内存屏障)，synchronized锁和reentrantlock的区别以及内部怎么实现的:常用的gc算法及优缺点，如何判断对象的存活性
 
+<!-- more -->
+
 ## Collection集合
 
 Collection接口是最基本的集合接口，代表了一组对象。以下是继承了Collection接口的几个集合接口：
@@ -241,4 +243,27 @@ Node<K,V> newNode(int hash, K key, V value, Node<K,V> e) {
 }
 ```
 
-每次调用HashMap的putVal
+每次调用继承自基类HashMap的putVal方法插入键值对的时候，都会调用newNode，在双向链表尾部插入节点。
+
+
+
+```java
+void afterNodeInsertion(boolean evict) { // possibly remove eldest
+    LinkedHashMap.Entry<K,V> first;
+    if (evict && (first = head) != null && removeEldestEntry(first)) {
+        K key = first.key;
+        removeNode(hash(key), key, null, false, true);
+    }
+}
+
+protected boolean removeEldestEntry(Map.Entry<K,V> eldest) {
+        return false;
+}
+```
+
+可能你会注意到，上面putVal方法中，若新插入了一个键值对（即不是覆盖原有的键值对），会调用`afterNodeInsertion`回调方法，`evict`参数表示是否执行删除最旧的元素，注意在删除最旧元素之前，还会判断`removeEldestEntry`方法的返回值，默认实现是返回false，通常我们需要覆盖该方法，自定义淘汰策略。
+
+
+
+## Treemap
+
