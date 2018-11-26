@@ -66,6 +66,15 @@ date: 2018-06-26 01:45:37
 
 **2.15** 如果在合并完分支后，你想删除掉该分支：`git branch -d test-branch`,但这只是对本地的仓库进行操作，这个时候你查看`git branch -a`，发现该分支仍然存在远端仓库中，所以你需要将删除分支这一操作也 push 到远端：`git push origin --delete test-branch`
 
+## 当需要修改之前的commit信息时
+
+修改上一次的提交：`git commit --amend`:
+
+如果要修改多次提交：
+
+**1.** `git rebase -i head~x`(x表示你需要修改多少个commit之前的内容，输多了一个两个也无所谓，反正可以pick保持不变)
+
+**2.** 进入交互界面，修改完后`git push --force`强制推送到origin库
 
 
 ## 常见问题
