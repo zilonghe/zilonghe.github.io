@@ -15,7 +15,7 @@
 <meta property="og:description" content="本地创建一个新的项目时1.1 进入你想要上传到 git 的目录，运行git init 1.2 在该文件夹中创建文件，这里用添加一个.gitignore文件为例子：touch .gitignore">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://od3b21nvv.bkt.clouddn.com/hexoimg79bfbdac37faf4030b8e7cf331063d9d.png-960.jpg">
-<meta property="og:updated_time" content="2018-11-19T16:21:27.283Z">
+<meta property="og:updated_time" content="2018-11-26T08:13:28.081Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="极简 Git 使用教程">
 <meta name="twitter:description" content="本地创建一个新的项目时1.1 进入你想要上传到 git 的目录，运行git init 1.2 在该文件夹中创建文件，这里用添加一个.gitignore文件为例子：touch .gitignore">
@@ -221,6 +221,10 @@
 <p><strong>2.13</strong> 最后还要 push 到远端仓库：<code>git push origin master</code></p>
 <p><strong>2.14</strong> 检查是否分支是否的确被合并：<code>git branch --merged</code>来查看被合并到 master 的分支</p>
 <p><strong>2.15</strong> 如果在合并完分支后，你想删除掉该分支：<code>git branch -d test-branch</code>,但这只是对本地的仓库进行操作，这个时候你查看<code>git branch -a</code>，发现该分支仍然存在远端仓库中，所以你需要将删除分支这一操作也 push 到远端：<code>git push origin --delete test-branch</code></p>
+<h2 id="当需要修改之前的commit信息时"><a href="#当需要修改之前的commit信息时" class="headerlink" title="当需要修改之前的commit信息时"></a>当需要修改之前的commit信息时</h2><p>修改上一次的提交：<code>git commit --amend</code>:</p>
+<p>如果要修改多次提交：</p>
+<p><strong>1.</strong> <code>git rebase -i head~x</code>(x表示你需要修改多少个commit之前的内容，输多了一个两个也无所谓，反正可以pick保持不变)</p>
+<p><strong>2.</strong> 进入交互界面，修改完后<code>git push --force</code>强制推送到origin库</p>
 <h2 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h2><ol>
 <li><p>当<code>git pull</code>遇到错误：<code>fatal: refusing to merge unrelated histories</code>，解决方法：</p>
 <p><code>git pull origin branchname --allow-unrelated-histories</code></p>
