@@ -1,11 +1,19 @@
-# Schema与数据类型优化
+---
+title: 高性能mysql笔记——第四章
+tags:
+  - 计算机知识
+categories:
+  - 编程
+date: 2019-05-20 22:33:24
+---
+## Schema与数据类型优化
 
 ## 数据类型的选择
 
 1. 更小的通常更好
 2. 简单就好，应该使用Mysql内建的类型而不是字符串来存储日期和时间；应该用整形存储IP地址。
 3. 尽量避免NULL；难优化，占用更多存储空间，特殊处理，索引记录需要额外的字节。
-
+<!-- more -->
 ### 整数类型（whole number）
 
 TINYINT、SMAILLINT、MEDIUMINT、INT、BIGINT
