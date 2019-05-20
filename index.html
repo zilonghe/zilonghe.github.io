@@ -153,11 +153,11 @@
 
       <div class="body-wrap">
   
-    <article id="post-docker笔记" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <article id="post-高性能mysql笔记——第五章" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/11/26/docker笔记/" class="article-date">
-  	<time datetime="2018-11-26T08:13:28.081Z" itemprop="datePublished">2018-11-26</time>
+      <a href="/2019/05/20/高性能mysql笔记——第五章/" class="article-date">
+  	<time datetime="2019-05-20T14:27:24.323Z" itemprop="datePublished">2019-05-20</time>
 </a>
     </div>
   
@@ -168,16 +168,35 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="docker笔记"><a href="#docker笔记" class="headerlink" title="docker笔记"></a>docker笔记</h1><p><code>docker image ls</code>：展示已有image</p>
-<p><code>docker run -it &lt;imageName&gt;</code>：以交互形式在一个新的container里面运行一个image</p>
-<p><code>docker container ls</code>：显示已有container</p>
-<p><code>docker build -t &lt;tag&gt;</code>：讲一个dockerfile编译成一个image</p>
-<p><code>docker ps</code>:显示正在运行的container</p>
-<p><code>docker exec</code>：Run a command in a running container</p>
-<p><code>docker stop</code>：停止一个正在运行的container</p>
-<p><code>docker start</code>：启动一个container</p>
-<p><code>docker rm</code>：删除一个container</p>
-<p><code>docker inspect</code>:Return low-level information on Docker objects</p>
+        <h1 id="创建高性能的索引"><a href="#创建高性能的索引" class="headerlink" title="创建高性能的索引"></a>创建高性能的索引</h1><p>索引（在MySQL中也叫做“键(key)”）是存储引擎用于快速找到记录的一种数据结构。</p>
+<h2 id="索引基础"><a href="#索引基础" class="headerlink" title="索引基础"></a>索引基础</h2><p>在MySQL中，存储引擎先在索引中找到对应值，然后根据匹配的索引记录找到对应的数据行。</p>
+<h3 id="索引的类型"><a href="#索引的类型" class="headerlink" title="索引的类型"></a>索引的类型</h3><ul>
+<li><p>B-Tree索引（InnoDB使用的是B+ Tree）</p>
+<p>存储引擎以不同方式使用B-Tree索引，性能也各有不同。例如，myisam使用前缀压缩技术使得索引更小，但InnoDB则按照原数据格式进行存储。再如myisam索引通过数据的物理位置引用被索引的行，而InnoDB则根据主键引用被索引的行。</p>
+<p>B-Tree通常意味着所有的值都是按顺序存储的，并且每一个叶子页到根的距离相同。</p>
+</li>
+<li><p>哈希索引</p>
+</li>
+<li><p>空间数据索引（R-Tree）</p>
+</li>
+<li><p>全文索引</p>
+</li>
+</ul>
+<h2 id="索引的优点"><a href="#索引的优点" class="headerlink" title="索引的优点"></a>索引的优点</h2><ol>
+<li>索引大大减少了服务器需要扫描的数据量。</li>
+<li>索引可以帮助服务器避免排序和临时表。</li>
+<li>索引可以将随机I/O变为顺序I/O。</li>
+</ol>
+<h2 id="高性能的索引策略"><a href="#高性能的索引策略" class="headerlink" title="高性能的索引策略"></a>高性能的索引策略</h2><h3 id="独立的列"><a href="#独立的列" class="headerlink" title="独立的列"></a>独立的列</h3><p>索引列不能是表达式的一部分，也不能是函数的参数。比如：</p>
+<p><code>select id from user where id + 1 = 5</code></p>
+<h3 id="前缀索引和索引选择性"><a href="#前缀索引和索引选择性" class="headerlink" title="前缀索引和索引选择性"></a>前缀索引和索引选择性</h3><h3 id="多列索引"><a href="#多列索引" class="headerlink" title="多列索引"></a>多列索引</h3><h3 id="选择合适的索引列顺序"><a href="#选择合适的索引列顺序" class="headerlink" title="选择合适的索引列顺序"></a>选择合适的索引列顺序</h3><ul>
+<li><p>将选择性最高的列放到索引最前列？</p>
+<p>当不需要考虑排序和分组时，将选择性最高的列放在前面通常是好的。这时候索引只用于优化where条件的查找。</p>
+</li>
+</ul>
+<h3 id="聚簇索引"><a href="#聚簇索引" class="headerlink" title="聚簇索引"></a>聚簇索引</h3><p>数据行实际上存放在索引的叶子页中，InnoDB的聚簇索引实际上在同一个结构中保存了B-Tree索引和数据行。</p>
+<p>聚簇索引的每一个叶子节点都包含了主键值、事务ID、用于事务和MVCC（多版本控制）的回滚指针以及所有的剩余列。如果主键是一个列前缀索引，InnoDB也会包含完整的主键列和剩下的其他列。</p>
+<p>InnoDB二级索引的叶子节点中存储的不是“行指针”，而是主键值，并以此作为指向行的“指针”。这样的策略减少了当出现行移动或者数据页分裂时二级索引的维护工作。使用主键值当作指针会让二级索引占用更多的空间，换来的好处是，InnoDB在移动行时无须更新二级索引中的这个“指针”。</p>
 
       
     </div>
@@ -204,7 +223,357 @@
 
 
   
-    <article id="post-Java基础笔记（一）：Collection、Map" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <article id="post-高性能mysql笔记——第四章" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2019/05/20/高性能mysql笔记——第四章/" class="article-date">
+  	<time datetime="2019-05-20T14:27:24.323Z" itemprop="datePublished">2019-05-20</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Schema与数据类型优化"><a href="#Schema与数据类型优化" class="headerlink" title="Schema与数据类型优化"></a>Schema与数据类型优化</h1><h2 id="数据类型的选择"><a href="#数据类型的选择" class="headerlink" title="数据类型的选择"></a>数据类型的选择</h2><ol>
+<li>更小的通常更好</li>
+<li>简单就好，应该使用Mysql内建的类型而不是字符串来存储日期和时间；应该用整形存储IP地址。</li>
+<li>尽量避免NULL；难优化，占用更多存储空间，特殊处理，索引记录需要额外的字节。</li>
+</ol>
+<h3 id="整数类型（whole-number）"><a href="#整数类型（whole-number）" class="headerlink" title="整数类型（whole number）"></a>整数类型（whole number）</h3><p>TINYINT、SMAILLINT、MEDIUMINT、INT、BIGINT</p>
+<p>mysql可以为整数类型指定宽度，比如INT(11)，对大多数应用是没有意义的；它不会限制值的合法范围，只是规定了mysql的一些交互工具（例如命令行客户端）用来显示字符的个数。对于存储和计算来说，INT(1)和INT(11)是相同的。</p>
+<h3 id="实数类型（real-number）"><a href="#实数类型（real-number）" class="headerlink" title="实数类型（real number）"></a>实数类型（real number）</h3><p>带有小数部分的数字。DECIMAL、FLOAT、DOUBLE</p>
+<p>DECIMAL用于存储精确的小数。</p>
+<p>mysql对小数进行精确计算需要额外的空间和计算开销，在数据量大的时候，考虑使用BIGINT代替DECIMAL，根据小数的位数乘以相应的倍数存储即可。</p>
+<h3 id="字符串类型"><a href="#字符串类型" class="headerlink" title="字符串类型"></a>字符串类型</h3><ul>
+<li><p>VARCHAR</p>
+<p>用于存储可变长字符串，比定长类型更节省空间，仅使用必要的空间。有一种情况例外，如果mysql表使用ROW_FORMAT=FIXED创建的话，每一行都会使用定长存储。</p>
+<p>VARCHAR需要使用1或2个额外字节去记录字符串的长度：如果列的最大长度小于等于255字节，则使用1个字节表示，否则使用2个字节。</p>
+<p>但是，由于行是变长的，在update时可能使行变得比原来更长，导致需要做额外的工作。</p>
+</li>
+<li><p>CHAR</p>
+<p>定长字符串类型。</p>
+<p>与VARCHAR不同的是，在存储CHAR值时，mysql会删除所有的末尾空行。CHAR适合存储很短的字符串或者所有值都接近一个同一个长度，例如MD5。</p>
+<p>对于经常变更的数据，CHAR也比VARCHAR更好，因为不容易产生碎片。</p>
+</li>
+<li><p>BLOB和TEXT</p>
+<p>用于存储很大的数据而设计的字符串数据类型，分别采用二进制和字符方式存储。</p>
+<p>mysql把每个BLOB和TEXT值当做一个独立的对象处理。当值太大时，InnoDB会使用专门的外部存储区域来进行存储，此时每个值在行内需要1~4个字节存储一个指针，然后在外部存储区域存储实际的值。</p>
+<p>BLOB类型存储的是二进制数据，没有排序规则或字符集，而TEXT类型有字符集和排序规则。</p>
+<p>mysql只对这种类型的每个列的最前max_sort_length进行排序，而不是整个字符串做排序</p>
+<p>mysql不能讲blob和text列全部长度的字符串进行索要，也不能使用这些索引消除排序。</p>
+<p>尽量避免使用BLOB和TEXT类型。</p>
+</li>
+<li><p>枚举（ENUM）</p>
+</li>
+</ul>
+<h3 id="日期和时间类型"><a href="#日期和时间类型" class="headerlink" title="日期和时间类型"></a>日期和时间类型</h3><p>Mysql能存储的最小时间粒度为秒，但是mysql可以使用微妙级的粒度进行临时计算。</p>
+<ul>
+<li><p>DATETIME</p>
+<p>能保存大范围的值，从1001年到9999年，精度为秒。把日期和时间封装到格式为YYYYMMDDHHMMSS的整数，与时区无关。使用8个字节的存储空间。</p>
+</li>
+<li><p>TIMESTAMP</p>
+<p>保存了从1970年1月1日午夜以来的秒数，与UNIX时间戳相同，只使用了4个字节的存储空间，因此范围比DATETIME小得多；只能表示从1970-2038年。可以使用BIGINT类型存储微妙级别的时间戳。</p>
+</li>
+</ul>
+<h3 id="位数据类型"><a href="#位数据类型" class="headerlink" title="位数据类型"></a>位数据类型</h3><ul>
+<li><p>BIT</p>
+<p>谨慎使用BIT类型，最好避免使用。</p>
+</li>
+<li><p>SET</p>
+</li>
+</ul>
+<h3 id="选择标识符（identifier）"><a href="#选择标识符（identifier）" class="headerlink" title="选择标识符（identifier）"></a>选择标识符（identifier）</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">标识列  又称为自增序列;</span><br><span class="line"> 含义 : 可以不用手动的插入值, 系统提供默认的序列值(1--&gt;n)</span><br><span class="line"> 特点 :  </span><br><span class="line">   1.标识列必须和主键搭配? 不一定,但要求是一个key</span><br><span class="line">   2.一个表可以有几个标示列?至多一个!</span><br><span class="line">   3.标识列的类型, 只能是数值型;</span><br><span class="line">   4.标识列可以通过 set auto_increment_increment = 3;设置步长</span><br><span class="line">   5.可以通过 手动插入值</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>整数通常是标识列最好的选择，很快并且可以使用auto_increment</p>
+</li>
+<li><p>ENUM和SET类型通常是一个糟糕的选择，大部分情况下都要避免这么做。</p>
+</li>
+<li><p>字符串类型</p>
+<p>如果可能，尽量避免使用字符串类型作为标识列，因为很消耗空间，通常比数字类型慢。</p>
+<p>对于随机的字符串也需要多加注意，如md5、sha、uuid产生的字符串，会任意分布在很大的空间内，这会导致insert和一些select语句变得很慢：</p>
+<ul>
+<li>因为插入值会随机地写到索引的不同位置，所以使得insert语句更慢。这会导致页分裂、磁盘随机访问，以及对于聚簇存储引擎产生聚簇索引碎片。</li>
+<li>select语句会变得更慢，因为逻辑上相邻的行会分布在磁盘和内存的不同地方。</li>
+<li>随机值导致缓存对所有类型的查询语句效果都很差，因为会使得缓存赖以工作的访问局部性原理失效。</li>
+</ul>
+<p>如果存储uuid值，则应该移除“-”符号，或者更好的做法是，用UNHEX()函数转换uuid值为16字节的数字，并且存储在一个BINARY(16)列中。检索时可以通过HEX()函数来格式化为十六进制格式。</p>
+</li>
+</ul>
+<h3 id="特殊类型数据"><a href="#特殊类型数据" class="headerlink" title="特殊类型数据"></a>特殊类型数据</h3><ul>
+<li>IPV4地址，人们经常使用VARCHAR(15)列来存储IP地址。然而，它们实际上是32位无符号整数，不是字符串。用小数点将地址分为四段的表示方法只是为了让人们阅读容易。所以应该用无符号整数存储IP地址。MYSQL提供INET_ATON()和INET_NTOA()函数在这两种表示方法之间转换。</li>
+</ul>
+<h2 id="MySQL-schema设计中的陷阱"><a href="#MySQL-schema设计中的陷阱" class="headerlink" title="MySQL schema设计中的陷阱"></a>MySQL schema设计中的陷阱</h2><ul>
+<li>太多的列</li>
+<li>太多的关联</li>
+<li>全能的枚举</li>
+<li>变相的枚举</li>
+</ul>
+<h2 id="范式和反范式"><a href="#范式和反范式" class="headerlink" title="范式和反范式"></a>范式和反范式</h2><p>在范式化的数据库中，每个事实数据会出现并且只出现一次。相反，反范式化的数据库中，信息是冗余的，可能会存储在多个地方。</p>
+<ul>
+<li>范式化的优点<ul>
+<li>范式化的更新操作通常比反范式化更快。</li>
+<li>范式化的表通常更小，可以更好地放在内存里，所以执行操作会更快。</li>
+<li>很少有多余的数据意味着更少需要使用DISTINCT或者GROUP BY语句。</li>
+</ul>
+</li>
+<li>范式化的缺点<ul>
+<li>通常需要关联，范式化可能将列存放在不同的表中。</li>
+</ul>
+</li>
+<li>混用范式化和反范式化：<ul>
+<li>最常见的反范式化数据的方法是复制或者缓存，在不同的表中存储相同的特定列。</li>
+</ul>
+</li>
+</ul>
+<h2 id="缓存表和汇总表"><a href="#缓存表和汇总表" class="headerlink" title="缓存表和汇总表"></a>缓存表和汇总表</h2><ul>
+<li><p>汇总表：</p>
+<ul>
+<li>保存的是使用GROUP BY语句聚合数据的表。</li>
+<li>实时计算统计值是很昂贵的操作，因为要么需要扫描表中的大部分数据，要么查询语句只能在某些特定的索引上才能有效运行，而这类特定索引一般会对UPDATE操作有影响，所以一般不希望创建这样的索引。</li>
+</ul>
+</li>
+<li><p>缓存表：</p>
+<ul>
+<li>表示存储那些可以比较简单地从schema其他表获取（但每次获取的速度比较慢）数据的表。</li>
+</ul>
+</li>
+<li><p>当使用缓存表和汇总表时，必须决定是实时维护数据还是定期重建。哪个更好依赖于应用程序，但是定期重建并不只是节省资源，也可以保持表不会有很多碎片，以及有完全顺序组织的索引（更加高效）。重建需要影子表的实现。</p>
+</li>
+<li><p>影子表：</p>
+<ul>
+<li><p>指的是一张在真实表“背后”创建的表，当完成了建表操作后，可以通过一个原子的重命名操作切换影子表和原表。</p>
+<p>例如，如果需要重建my_summary，则可以先创建my_summary_new，然后填充好数据，最后和真实表做切换。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DROP</span> <span class="keyword">TABLE</span> <span class="keyword">IF</span> <span class="keyword">EXISTS</span> my_summary_new, my_summary_old;</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> my_summary_new <span class="keyword">LIKE</span> my_summary;</span><br><span class="line"><span class="comment">--插入纪录至my_summary_new</span></span><br><span class="line"><span class="keyword">RENAME</span> <span class="keyword">TABLE</span> my_summary <span class="keyword">TO</span> my_summary_old, my_summary_new <span class="keyword">TO</span> my_summary;</span><br></pre></td></tr></table></figure>
+<p>在将my_summary这个名字分配给新建的表之前，将原始的my_summary表重命名为my_summary_old，就可以在下一次重建之前一直保留旧版本的数据，如果新表有问题，则可以很容易地进行快速回滚操作。</p>
+</li>
+</ul>
+</li>
+<li><p>物化视图</p>
+</li>
+<li>计数器表</li>
+</ul>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><ul>
+<li>尽量避免过度设计，例如会导致极其复杂查询的schema设计，或者有很多列的表设计</li>
+<li>使用小而简单的合适数据类型，除非真实数据模型中有确切的需要，否则应该尽可能地避免使用NULL值</li>
+<li>尽量使用相同的数据类型存储相似或相关的值，尤其是要在关联条件中使用的列。</li>
+<li>注意可变长字符串，其在临时表和排序时可能导致悲观的按最大长度分配内存。</li>
+<li>尽量使用整形定义标识列</li>
+<li>避免使用Mysql已经遗弃的特性，例如指定浮点数的精度，或者整数的显示宽度。</li>
+<li>小心使用ENUM和SET，最好避免使用BIT</li>
+</ul>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Netty源码学习笔记" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2019/05/20/Netty源码学习笔记/" class="article-date">
+  	<time datetime="2019-05-20T14:27:24.319Z" itemprop="datePublished">2019-05-20</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Netty源码学习笔记——Netty服务端启动"><a href="#Netty源码学习笔记——Netty服务端启动" class="headerlink" title="Netty源码学习笔记——Netty服务端启动"></a>Netty源码学习笔记——Netty服务端启动</h1><h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><ol>
+<li><p>服务端的socket在哪里初始化？</p>
+<p>答：在io.netty.bootstrap.ServerBootstrap#init中初始化服务端的socket。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">init</span><span class="params">(Channel channel)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="keyword">final</span> Map&lt;ChannelOption&lt;?&gt;, Object&gt; options = options0();</span><br><span class="line">        <span class="keyword">synchronized</span> (options) &#123;</span><br><span class="line">            channel.config().setOptions(options);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">final</span> Map&lt;AttributeKey&lt;?&gt;, Object&gt; attrs = attrs0();</span><br><span class="line">        <span class="keyword">synchronized</span> (attrs) &#123;</span><br><span class="line">            <span class="keyword">for</span> (Entry&lt;AttributeKey&lt;?&gt;, Object&gt; e: attrs.entrySet()) &#123;</span><br><span class="line">                <span class="meta">@SuppressWarnings</span>(<span class="string">"unchecked"</span>)</span><br><span class="line">                AttributeKey&lt;Object&gt; key = (AttributeKey&lt;Object&gt;) e.getKey();</span><br><span class="line">                channel.attr(key).set(e.getValue());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        ChannelPipeline p = channel.pipeline();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">final</span> EventLoopGroup currentChildGroup = childGroup;</span><br><span class="line">        <span class="keyword">final</span> ChannelHandler currentChildHandler = childHandler;</span><br><span class="line">        <span class="keyword">final</span> Entry&lt;ChannelOption&lt;?&gt;, Object&gt;[] currentChildOptions;</span><br><span class="line">        <span class="keyword">final</span> Entry&lt;AttributeKey&lt;?&gt;, Object&gt;[] currentChildAttrs;</span><br><span class="line">        <span class="keyword">synchronized</span> (childOptions) &#123;</span><br><span class="line">            currentChildOptions = childOptions.entrySet().toArray(newOptionArray(childOptions.size()));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">synchronized</span> (childAttrs) &#123;</span><br><span class="line">            currentChildAttrs = childAttrs.entrySet().toArray(newAttrArray(childAttrs.size()));</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        p.addLast(<span class="keyword">new</span> ChannelInitializer&lt;Channel&gt;() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">initChannel</span><span class="params">(Channel ch)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">                <span class="keyword">final</span> ChannelPipeline pipeline = ch.pipeline();</span><br><span class="line">                ChannelHandler handler = config.handler();</span><br><span class="line">                <span class="keyword">if</span> (handler != <span class="keyword">null</span>) &#123;</span><br><span class="line">                    pipeline.addLast(handler);</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="comment">// We add this handler via the EventLoop as the user may have used a ChannelInitializer as handler.</span></span><br><span class="line">                <span class="comment">// In this case the initChannel(...) method will only be called after this method returns. Because</span></span><br><span class="line">                <span class="comment">// of this we need to ensure we add our handler in a delayed fashion so all the users handler are</span></span><br><span class="line">                <span class="comment">// placed in front of the ServerBootstrapAcceptor.</span></span><br><span class="line">                ch.eventLoop().execute(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">                    <span class="meta">@Override</span></span><br><span class="line">                    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                        pipeline.addLast(<span class="keyword">new</span> ServerBootstrapAcceptor(</span><br><span class="line">                                currentChildGroup, currentChildHandler, currentChildOptions, currentChildAttrs));</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>在这里会将我们实际使用的代码中对serverbootstrap的配置初始化到服务端的channel上</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">ServerBootstrap b = <span class="keyword">new</span> ServerBootstrap();</span><br><span class="line">            b.group(bossGroup, workerGroup)</span><br><span class="line">                    .channel(NioServerSocketChannel.class)</span><br><span class="line">                    .childOption(ChannelOption.TCP_NODELAY, <span class="keyword">true</span>)</span><br><span class="line">                    .childAttr(AttributeKey.newInstance(<span class="string">"childAttr"</span>), <span class="string">"childAttrValue"</span>)</span><br><span class="line">                    .handler(<span class="keyword">new</span> ServerHandler())</span><br><span class="line">                    .childHandler(<span class="keyword">new</span> ChannelInitializer&lt;SocketChannel&gt;() &#123;</span><br><span class="line">                        <span class="meta">@Override</span></span><br><span class="line">                        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">initChannel</span><span class="params">(SocketChannel ch)</span> </span>&#123;</span><br><span class="line">                            ch.pipeline().addLast(<span class="keyword">new</span> AuthHandler());</span><br><span class="line">                            <span class="comment">//..</span></span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在哪里accept连接？</p>
+</li>
+</ol>
+<p>io.netty.channel.nio.AbstractNioChannel#doBeginRead</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">doBeginRead</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="comment">// Channel.read() or ChannelHandlerContext.read() was called</span></span><br><span class="line">        <span class="keyword">final</span> SelectionKey selectionKey = <span class="keyword">this</span>.selectionKey;</span><br><span class="line">        <span class="keyword">if</span> (!selectionKey.isValid()) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        readPending = <span class="keyword">true</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">int</span> interestOps = selectionKey.interestOps();</span><br><span class="line">        <span class="keyword">if</span> ((interestOps &amp; readInterestOp) == <span class="number">0</span>) &#123;</span><br><span class="line">            selectionKey.interestOps(interestOps | readInterestOp);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Operating Systems three easy pieces笔记" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2019/05/20/Operating Systems three easy pieces笔记/" class="article-date">
+  	<time datetime="2019-05-20T14:27:24.319Z" itemprop="datePublished">2019-05-20</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Operating-Systems-three-easy-pieces"><a href="#Operating-Systems-three-easy-pieces" class="headerlink" title="Operating Systems: three easy pieces"></a>Operating Systems: three easy pieces</h1><h2 id="virtualization"><a href="#virtualization" class="headerlink" title="virtualization"></a>virtualization</h2><h3 id="CPU-virtualization"><a href="#CPU-virtualization" class="headerlink" title="CPU virtualization"></a>CPU virtualization</h3><p>fork、join、exec</p>
+<p>trap</p>
+<p>用户态和内核态</p>
+<p>schedule</p>
+<p>​    single cpu</p>
+<p>​    multi cpu</p>
+<p>​        cpu cache</p>
+<p>​        work stealing</p>
+<p>总结，cpu虚拟化是对程序调度、权限控制的虚拟化，在此基础上需要确保安全性和高效性，一系列的技术由此衍生出来。</p>
+<h3 id="memory-virtualization"><a href="#memory-virtualization" class="headerlink" title="memory virtualization"></a>memory virtualization</h3><p>Adress space</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-docker笔记" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2019/05/20/docker笔记/" class="article-date">
+  	<time datetime="2019-05-20T14:27:24.319Z" itemprop="datePublished">2019-05-20</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="docker笔记"><a href="#docker笔记" class="headerlink" title="docker笔记"></a>docker笔记</h1><h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><p><code>image</code>：是镜像，就像是java中的一个类，静态资源</p>
+<p><code>container</code>：是容器，就像是java中的类实例，根据image运行起来的容器实例</p>
+<h2 id="基本命令"><a href="#基本命令" class="headerlink" title="基本命令"></a>基本命令</h2><p><code>docker image ls</code>：展示已有image</p>
+<p><code>docker run -it &lt;imageName&gt;</code>：以交互形式在一个新的container里面运行一个image</p>
+<p><code>docker run -d</code>:后台执行</p>
+<p><code>docker container ls</code>：显示已有container</p>
+<p><code>docker build -t &lt;tag&gt;</code>：讲一个dockerfile编译成一个image</p>
+<p><code>docker ps</code>:显示正在运行的container</p>
+<p><code>docker exec</code>：Run a command in a running container</p>
+<p><code>docker stop</code>：停止一个正在运行的container</p>
+<p><code>docker start</code>：启动一个container</p>
+<p><code>docker rm</code>：删除一个container</p>
+<p><code>docker inspect</code>:Return low-level information on Docker objects</p>
+<p><code>docker network ls</code>:展示已有网络</p>
+<p><code>docker network create -d &lt;driver&gt; &lt;name&gt;</code>：创建一个网络</p>
+<p><code>docker network inspect &lt;name&gt;</code>：查看一个网络的详情，比如包含了什么容器</p>
+<h2 id="docker网络"><a href="#docker网络" class="headerlink" title="docker网络"></a>docker网络</h2><h3 id="网络类型"><a href="#网络类型" class="headerlink" title="网络类型"></a>网络类型</h3><ul>
+<li>bridge：网桥模式，最常用</li>
+<li>host：共享host机器的网络命名空间</li>
+<li>none：孤立的网络命名空间，只有本地通过docker exec才能访问</li>
+</ul>
+<h3 id="bridge模式"><a href="#bridge模式" class="headerlink" title="bridge模式"></a>bridge模式</h3><p><code>—-link</code>：可以将一个容器连接到另外一个容器，然后可以通过容器名称访问，例子：<code>docker run -d --name test1 --link test2 busybox</code>，创建一个后台运行的busybox容器，名称为test1，与test2容器连接。</p>
+<p><code>--network</code>:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 创建一个driver为bridge的网络my-bridge</span><br><span class="line">docker network create -d bridge my-bridge</span><br><span class="line"># 启动一个容器，加入my-bridge</span><br><span class="line">docker run -d --name test3 --network my-bridge busybox</span><br></pre></td></tr></table></figure>
+<p>如用户自己创建了一个network（默认创建的容器都是加入docker0 bridge 网络），那么默认加入该网络的容器都可以通过容器名称访问。</p>
+<h3 id="端口映射"><a href="#端口映射" class="headerlink" title="端口映射"></a>端口映射</h3><p><code>docker run -p &lt;容器端口&gt;:&lt;需要映射到本地的端口&gt;</code></p>
+<p>设置环境变量：<code>docker run -e &lt;env_key&gt;=&lt;env_value&gt;</code></p>
+<h2 id="docker数据持久化"><a href="#docker数据持久化" class="headerlink" title="docker数据持久化"></a>docker数据持久化</h2><ol>
+<li><p>Data Valume：将container中运行产生的数据映射到本地路径。</p>
+<p><code>docker volume ls</code>：列出当前所有volume</p>
+<p><code>docker volume inspect &lt;id&gt;</code>：查看指定volume信息</p>
+<p><code>docker run -v &lt;volumeName&gt;:local/path</code>：指定需要映射的路径和volume的名字，可以复用</p>
+</li>
+<li><p>Bind Mounting：运行容器的时候指定本地路径和容器里面的路径，这两个路径将会同步共享</p>
+<p><code>docker run -v local/path:container/path</code></p>
+</li>
+</ol>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Java基础笔记（一）：Collection、Map" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
       <a href="/2018/11/19/Java基础笔记（一）：Collection、Map/" class="article-date">
@@ -268,7 +637,7 @@
 
 
   
-    <article id="post-JVM读书笔记之第十一章" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <article id="post-JVM读书笔记之第十一章" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
       <a href="/2018/08/05/JVM读书笔记之第十一章/" class="article-date">
@@ -332,7 +701,7 @@
 
 
   
-    <article id="post-JVM读书笔记之第十章" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <article id="post-JVM读书笔记之第十章" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
       <a href="/2018/08/05/JVM读书笔记之第十章/" class="article-date">
@@ -400,7 +769,7 @@
 
 
   
-    <article id="post-使用hsql+junit模拟数据库接口编写UT" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <article id="post-使用hsql+junit模拟数据库接口编写UT" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
       <a href="/2018/07/24/使用hsql+junit模拟数据库接口编写UT/" class="article-date">
@@ -464,7 +833,7 @@
 
 
   
-    <article id="post-JVM读书笔记第八章：虚拟机字节码执行引擎" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <article id="post-JVM读书笔记第八章：虚拟机字节码执行引擎" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
       <a href="/2018/07/18/JVM读书笔记第八章：虚拟机字节码执行引擎/" class="article-date">
@@ -528,280 +897,6 @@
 
 
   
-    <article id="post-JVM笔记第七章：虚拟机类加载机制" class="article article-type-post" itemscope="" itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/07/05/JVM笔记第七章：虚拟机类加载机制/" class="article-date">
-  	<time datetime="2018-07-05T11:31:33.000Z" itemprop="datePublished">2018-07-05</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/07/05/JVM笔记第七章：虚拟机类加载机制/">JVM读书笔记之第七章</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="虚拟机类加载机制"><a href="#虚拟机类加载机制" class="headerlink" title="虚拟机类加载机制"></a>虚拟机类加载机制</h1><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>虚拟机的类加载机制：虚拟机把描述类的数据从Class文件加载到内存，并对数据进行校验、转换解析和初始化，最终形成可以被虚拟机直接使用的java类型。</p>
-<p>在Java语言中，类型的加载、连接和初始化过程都是在程序运行期间完成的，这种策略虽然会令类加载时稍微增加一些开销，但会为java应用程序提供高度的灵活性。</p>
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/读书笔记/">读书笔记</a>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a href="/2018/07/05/JVM笔记第七章：虚拟机类加载机制/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-JVM笔记第二章：Java内存区域与内存溢出异常" class="article article-type-post" itemscope="" itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/06/26/JVM笔记第二章：Java内存区域与内存溢出异常/" class="article-date">
-  	<time datetime="2018-06-26T02:59:04.000Z" itemprop="datePublished">2018-06-26</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/06/26/JVM笔记第二章：Java内存区域与内存溢出异常/">JVM读书笔记之第二章</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="Java内存区域与内存溢出异常"><a href="#Java内存区域与内存溢出异常" class="headerlink" title="Java内存区域与内存溢出异常"></a>Java内存区域与内存溢出异常</h1><h2 id="运行时数据区域"><a href="#运行时数据区域" class="headerlink" title="运行时数据区域"></a>运行时数据区域</h2><ul>
-<li>程序计数器：当前线程执行的字节码的行号指示器，线程私有，若线程正在执行的是java方法，则记录的是正在执行的虚拟机字节码指令的地址；若是Native本地方法，这个计数器值为空。该内存区域没有规定任何outOfMemoryError（OOM）的区域。</li>
-<li>Java虚拟机栈：每个方法在执行的同时都会创建一个栈帧，用于存储局部变量表、操作数栈、动态链接、方法出口等信息。每个方法从调用直至执行完成的过程，对应一个栈帧在虚拟机栈中入栈到出栈的过程。线程私有。可能抛出StackOverflowError和OOM。<ul>
-<li>局部变量表：存放了编译期可知的各种基本数据类型（boolean、byte、char、short、int、float、long、double）、对象引用、returnAddress类型。局部变量表所需的内存空间在编译期间完成分配，当进入一个方法时，这个方法需要在帧中分配多大的局部变量空间是完全确定的，在方法运行期间不会改变。</li>
-</ul>
-</li>
-<li>本地方法栈：与虚拟机栈相似，区别是本地方法栈为虚拟机使用的native方法服务。可能抛出StackOverflowError和OOM。</li>
-<li>堆：存放对象实例，几乎所有对象实例都在这里分配内存。所有线程共享。在虚拟机启动时创建。JAVA堆是垃圾收集器管理的主要区域。可能会抛出OOM。</li>
-<li>方法区：所有线程共享的区域。用于存储已被虚拟机加载的类信息、常量、静态变量、即时编译器（JIT）编译后的代码等数据。该区域的内存回收目标主要是针对常量池的回收和对类型的卸载。可能抛出OOM。<ul>
-<li>运行时常量池：方法区的一部分。Class文件中除了有类的版本信息、字段、方法、接口等描述信息之外，还有一项信息是常量池，用于存放编译期生成的各种字面量和符号引用，这部分将在类加载后进入方法区的运行时常量池中存放。动态性，运行期间也可能将新的常量放入池内，如String的intern()方法。可能抛出OOM。</li>
-</ul>
-</li>
-<li>直接内存：并不是运行时数据区的一部分，JDK1.4新加入了NIO类，引入了一种基于通道channel和缓冲区buffer的io方式，可以使用native函数库直接分配堆外内存，然后通过存储在java堆中的DirectByteBuffer对象作为这块内存的引用进行操作。（Netty）。可能抛出OOM。
-      
-    </li></ul></div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/读书笔记/">读书笔记</a>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a href="/2018/06/26/JVM笔记第二章：Java内存区域与内存溢出异常/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-JVM笔记第三章：垃圾收集器与内存分配策略" class="article article-type-post" itemscope="" itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/06/26/JVM笔记第三章：垃圾收集器与内存分配策略/" class="article-date">
-  	<time datetime="2018-06-26T02:59:04.000Z" itemprop="datePublished">2018-06-26</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/06/26/JVM笔记第三章：垃圾收集器与内存分配策略/">JVM读书笔记之第三章</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="垃圾收集器与内存分配策略"><a href="#垃圾收集器与内存分配策略" class="headerlink" title="垃圾收集器与内存分配策略"></a>垃圾收集器与内存分配策略</h1><h2 id="引用计数算法"><a href="#引用计数算法" class="headerlink" title="引用计数算法"></a>引用计数算法</h2><p>给对象中添加一个引用计数器，每当一个地方引用它，计数器值加1；当引用失效时，计数器值减1；任何时候计数器值为0的对象就是不可能再被使用的。</p>
-<p>python使用的引用计数算法来进行内存管理，但java虚拟机没有使用，主要原因是它很难解决对象之间相互循环引用的问题。<br>
-      
-    </p></div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/读书笔记/">读书笔记</a>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a href="/2018/06/26/JVM笔记第三章：垃圾收集器与内存分配策略/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-iOS APP 开发初识" class="article article-type-post" itemscope="" itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/06/25/iOS APP 开发初识/" class="article-date">
-  	<time datetime="2018-06-25T18:25:37.000Z" itemprop="datePublished">2018-06-26</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/06/25/iOS APP 开发初识/">iOS APP 开发初识</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <ol>
-<li>创建项目</li>
-<li>在 storyboard 中构建 UI ，Auto Layout 和 stack view 是重点</li>
-<li>IBoutlet 是代码到 UI ，IBAction 是 UI 到代码，比如你想控制一个 button 的按下的动作，那么你需要为 button 定义它的 IBAction ，然后在按钮按下后，可能会触发其他变化，比如你在文本框输入了文本，按下提交，将你输入的文本替换到页面的一个 Label 上，这个时候你就需要去修改 IBoutlet 的变量。</li>
-<li><p>viewDidLoad -&gt; viewWillAppear -&gt; viewDidAppear -&gt; viewWillDisappear -&gt; viewDidDisappear</p>
-      
-    </li></ol></div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/编程/">编程</a>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a href="/2018/06/25/iOS APP 开发初识/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -812,7 +907,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2018 Johnny Ho
+    		&copy; 2019 Johnny Ho
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten

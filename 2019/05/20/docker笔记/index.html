@@ -4,27 +4,19 @@
   <meta charset="utf-8">
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Alfred workflow初步开发指南（一） | Johnny Ho&#39;s Home</title>
+  <title>Johnny Ho&#39;s Home</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="OS X用户都知道一款神器：Alfred但是大部分人都只是在用它的快捷搜索的功能，但是它最强大的功能是它的workflow，今天我来抛砖引玉，写一下如何开发属于自己的workflow。">
-<meta name="keywords" content="alfred">
+  <meta name="description" content="docker笔记基本概念image：是镜像，就像是java中的一个类，静态资源 container：是容器，就像是java中的类实例，根据image运行起来的容器实例 基本命令docker image ls：展示已有image docker run -it &amp;lt;imageName&amp;gt;：以交互形式在一个新的container里面运行一个image docker run -d:后台执行 doc">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Alfred workflow初步开发指南（一）">
-<meta property="og:url" content="http://johnho.cn/2016/07/26/Alfred-workflow-1/index.html">
+<meta property="og:title" content="Johnny Ho&#39;s Home">
+<meta property="og:url" content="http://johnho.cn/2019/05/20/docker笔记/index.html">
 <meta property="og:site_name" content="Johnny Ho&#39;s Home">
-<meta property="og:description" content="OS X用户都知道一款神器：Alfred但是大部分人都只是在用它的快捷搜索的功能，但是它最强大的功能是它的workflow，今天我来抛砖引玉，写一下如何开发属于自己的workflow。">
+<meta property="og:description" content="docker笔记基本概念image：是镜像，就像是java中的一个类，静态资源 container：是容器，就像是java中的类实例，根据image运行起来的容器实例 基本命令docker image ls：展示已有image docker run -it &amp;lt;imageName&amp;gt;：以交互形式在一个新的container里面运行一个image docker run -d:后台执行 doc">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://img.blog.csdn.net/20160726223537726">
-<meta property="og:image" content="http://img.blog.csdn.net/20160726223857915">
-<meta property="og:image" content="http://img.blog.csdn.net/20160726224320386">
-<meta property="og:image" content="http://img.blog.csdn.net/20160726224752138">
-<meta property="og:image" content="http://img.blog.csdn.net/20160726230431765">
-<meta property="og:image" content="http://img.blog.csdn.net/20160726231159917">
 <meta property="og:updated_time" content="2019-05-20T14:27:24.319Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Alfred workflow初步开发指南（一）">
-<meta name="twitter:description" content="OS X用户都知道一款神器：Alfred但是大部分人都只是在用它的快捷搜索的功能，但是它最强大的功能是它的workflow，今天我来抛砖引玉，写一下如何开发属于自己的workflow。">
-<meta name="twitter:image" content="http://img.blog.csdn.net/20160726223537726">
+<meta name="twitter:title" content="Johnny Ho&#39;s Home">
+<meta name="twitter:description" content="docker笔记基本概念image：是镜像，就像是java中的一个类，静态资源 container：是容器，就像是java中的类实例，根据image运行起来的容器实例 基本命令docker image ls：展示已有image docker run -it &amp;lt;imageName&amp;gt;：以交互形式在一个新的container里面运行一个image docker run -d:后台执行 doc">
   
     <link rel="alternative" href="/atom.xml" title="Johnny Ho&#39;s Home" type="application/atom+xml">
   
@@ -160,11 +152,11 @@
 	</div>
 </nav>
 
-      <div class="body-wrap"><article id="post-Alfred-workflow-1" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-docker笔记" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/07/26/Alfred-workflow-1/" class="article-date">
-  	<time datetime="2016-07-26T15:23:02.000Z" itemprop="datePublished">2016-07-26</time>
+      <a href="/2019/05/20/docker笔记/" class="article-date">
+  	<time datetime="2019-05-20T14:27:24.319Z" itemprop="datePublished">2019-05-20</time>
 </a>
     </div>
   
@@ -173,65 +165,45 @@
       <input type="hidden" class="isFancy">
     
     
-      <header class="article-header">
-        
-  
-    <h1 class="article-title" itemprop="name">
-      Alfred workflow初步开发指南（一）
-    </h1>
-  
-
-      </header>
-      
-      <div class="article-info article-info-post">
-        
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/alfred/">alfred</a></li></ul>
-	</div>
-
-        
-	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/工具/">工具</a>
-	</div>
-
-
-        <div class="clearfix"></div>
-      </div>
-      
-    
     <div class="article-entry" itemprop="articleBody">
       
-        <p>OS X用户都知道一款神器：<a href="https://www.alfredapp.com/" target="_blank" rel="noopener">Alfred</a><br>但是大部分人都只是在用它的快捷搜索的功能，但是它最强大的功能是它的workflow，今天我来抛砖引玉，写一下如何开发属于自己的workflow。</p>
-<a id="more"></a>
-<hr>
-<p>打开Alfred，点击上方栏目的workflows：</p>
-<p><img src="http://img.blog.csdn.net/20160726223537726" alt="栏目"></p>
-<p>建议大家可以先点击左边侧边栏下面的加号，试用几个examples，来熟悉workflow的大概操作流程：</p>
-<p><img src="http://img.blog.csdn.net/20160726223857915" alt="侧边栏"></p>
-<hr>
-<p>这里我演示开发一个简单又好用的workflow : quick search</p>
-<p><img src="http://img.blog.csdn.net/20160726224320386" alt="quick search"></p>
-<h2 id="触发器Triggers"><a href="#触发器Triggers" class="headerlink" title="触发器Triggers"></a>触发器Triggers</h2><p>定义触发你的workflow的动作Triggers，点击右上角的加号，这里我选择了hotkey，也就是以快捷键的形式来触发你的workflow：</p>
-<p><img src="http://img.blog.csdn.net/20160726224752138" alt="trigger"></p>
-<p>第一栏Hotkey：就是键入你想要定义的快捷键，这里我选择了command+2<br>第二栏Action：就是当你按下你定义的快捷键，将要触发的动作，第一个选项就是传递到workflow的下一步，第二个就是show alfred，显然我们应该选择第一个，不然也就没什么意义了：）<br>第三栏Argument：这个就是传递的参数了，这里我们选择Selection in OS X，也就是当前光标选中的文本。</p>
-<p>ok,到这里已经把触发器定义好了，Save保存。</p>
-<h2 id="Actions动作"><a href="#Actions动作" class="headerlink" title="Actions动作"></a>Actions动作</h2><p>有了触发器之后，我们当然就要定义触发的动作了，猛击加号，Actions，里面的动作都描述地很清楚了，这里我们选择Open URL</p>
-<p><img src="http://img.blog.csdn.net/20160726230431765" alt="actions"></p>
-<p>这里的{query}就是贯穿整个workflow传递的一个参数，trigger和action就是靠这个变量来通信。当我选中文本，并按下快捷键时，选中的文本就会传递以{query}传递到action处，那么这里我定义的是百度搜索，同样你可以定义其他搜索。</p>
-<blockquote>
-<p>注：获得其他搜索引擎url的方法：<br>打开其他网站的搜索，将地址栏的url里你输入搜索框的内容替换成{query}即可获得。</p>
-</blockquote>
-<p>最后点击Save。</p>
-<h2 id="大功告成"><a href="#大功告成" class="headerlink" title="大功告成"></a>大功告成</h2><p>最后将两个模块连接起来，你的第一个workflow就这么开发完了！</p>
-<p><img src="http://img.blog.csdn.net/20160726231159917" alt="这里写图片描述"></p>
-<p>试试选中文本再猛击command+2，是不是很好用！这和最快的普通操作：</p>
-<ol>
-<li>打开浏览器</li>
-<li>直接在浏览器的地址栏输入搜索的内容</li>
-<li>Enter<br>相比不知道有多高效！</li>
+        <h1 id="docker笔记"><a href="#docker笔记" class="headerlink" title="docker笔记"></a>docker笔记</h1><h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><p><code>image</code>：是镜像，就像是java中的一个类，静态资源</p>
+<p><code>container</code>：是容器，就像是java中的类实例，根据image运行起来的容器实例</p>
+<h2 id="基本命令"><a href="#基本命令" class="headerlink" title="基本命令"></a>基本命令</h2><p><code>docker image ls</code>：展示已有image</p>
+<p><code>docker run -it &lt;imageName&gt;</code>：以交互形式在一个新的container里面运行一个image</p>
+<p><code>docker run -d</code>:后台执行</p>
+<p><code>docker container ls</code>：显示已有container</p>
+<p><code>docker build -t &lt;tag&gt;</code>：讲一个dockerfile编译成一个image</p>
+<p><code>docker ps</code>:显示正在运行的container</p>
+<p><code>docker exec</code>：Run a command in a running container</p>
+<p><code>docker stop</code>：停止一个正在运行的container</p>
+<p><code>docker start</code>：启动一个container</p>
+<p><code>docker rm</code>：删除一个container</p>
+<p><code>docker inspect</code>:Return low-level information on Docker objects</p>
+<p><code>docker network ls</code>:展示已有网络</p>
+<p><code>docker network create -d &lt;driver&gt; &lt;name&gt;</code>：创建一个网络</p>
+<p><code>docker network inspect &lt;name&gt;</code>：查看一个网络的详情，比如包含了什么容器</p>
+<h2 id="docker网络"><a href="#docker网络" class="headerlink" title="docker网络"></a>docker网络</h2><h3 id="网络类型"><a href="#网络类型" class="headerlink" title="网络类型"></a>网络类型</h3><ul>
+<li>bridge：网桥模式，最常用</li>
+<li>host：共享host机器的网络命名空间</li>
+<li>none：孤立的网络命名空间，只有本地通过docker exec才能访问</li>
+</ul>
+<h3 id="bridge模式"><a href="#bridge模式" class="headerlink" title="bridge模式"></a>bridge模式</h3><p><code>—-link</code>：可以将一个容器连接到另外一个容器，然后可以通过容器名称访问，例子：<code>docker run -d --name test1 --link test2 busybox</code>，创建一个后台运行的busybox容器，名称为test1，与test2容器连接。</p>
+<p><code>--network</code>:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 创建一个driver为bridge的网络my-bridge</span><br><span class="line">docker network create -d bridge my-bridge</span><br><span class="line"># 启动一个容器，加入my-bridge</span><br><span class="line">docker run -d --name test3 --network my-bridge busybox</span><br></pre></td></tr></table></figure>
+<p>如用户自己创建了一个network（默认创建的容器都是加入docker0 bridge 网络），那么默认加入该网络的容器都可以通过容器名称访问。</p>
+<h3 id="端口映射"><a href="#端口映射" class="headerlink" title="端口映射"></a>端口映射</h3><p><code>docker run -p &lt;容器端口&gt;:&lt;需要映射到本地的端口&gt;</code></p>
+<p>设置环境变量：<code>docker run -e &lt;env_key&gt;=&lt;env_value&gt;</code></p>
+<h2 id="docker数据持久化"><a href="#docker数据持久化" class="headerlink" title="docker数据持久化"></a>docker数据持久化</h2><ol>
+<li><p>Data Valume：将container中运行产生的数据映射到本地路径。</p>
+<p><code>docker volume ls</code>：列出当前所有volume</p>
+<p><code>docker volume inspect &lt;id&gt;</code>：查看指定volume信息</p>
+<p><code>docker run -v &lt;volumeName&gt;:local/path</code>：指定需要映射的路径和volume的名字，可以复用</p>
+</li>
+<li><p>Bind Mounting：运行容器的时候指定本地路径和容器里面的路径，这两个路径将会同步共享</p>
+<p><code>docker run -v local/path:container/path</code></p>
+</li>
 </ol>
-<h2 id="未完待续"><a href="#未完待续" class="headerlink" title="未完待续"></a>未完待续</h2><p>但是在使用的过程中，你会发现，当选中的文本是一个网址时，是不能够直接打开网址的，那这个时候你就可以再定义多一个workflow专门打开网址啦，这个就留给读者们自己开发吧~</p>
-<p>下一期将讲述Alfred中的精华workflow中的精华：Run Script！</p>
 
       
     </div>
@@ -241,18 +213,18 @@
     
 <nav id="article-nav">
   
-    <a href="/2016/09/11/Alfredworkflow2/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2019/05/20/Operating Systems three easy pieces笔记/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption"><</strong>
       <div class="article-nav-title">
         
-          Alfred workflow初步开发指南（二）
+          (no title)
         
       </div>
     </a>
   
   
-    <a href="/2016/06/20/竞争的残酷/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">竞争的残酷</div>
+    <a href="/2018/11/19/Java基础笔记（一）：Collection、Map/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Java基础笔记（一）：Collection、Map</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -287,7 +259,7 @@
 
 <div class="duoshuo">
 	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="Alfred-workflow-1" data-title="Alfred workflow初步开发指南（一）" data-url="http://johnho.cn/2016/07/26/Alfred-workflow-1/"></div>
+	<div class="ds-thread" data-thread-key="docker笔记" data-title data-url="http://johnho.cn/2019/05/20/docker笔记/"></div>
 	<!-- 多说评论框 end -->
 	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 	<script type="text/javascript">
