@@ -267,3 +267,90 @@ protected boolean removeEldestEntry(Map.Entry<K,V> eldest) {
 
 ## Treemap
 
+TreeMap是另外一种有序的map，与LinkedHashMap根据键值对插入的顺序来保证顺序的方式不一样，treeMap是根据key值的自然顺序，或者传入的comparator来排序。TreeMap非同步，可以使用`Collections.synchronizedSortedMap(new TreeMap(...))`获取同步的TreeMap，同样，treeMap的也是具有fail-fast行为的。treeMap的底层实现是红黑树。
+
+
+
+```java
+public V put(K key, V value) {
+    Entry<K,V> t = root;
+    if (t == null) {
+        compare(key, key); // type (and possibly null) check
+
+        root = new Entry<>(key, value, null);
+        size = 1;
+        modCount++;
+        return null;
+    }
+    int cmp;
+    Entry<K,V> parent;
+    // split comparator and comparable paths
+    Comparator<? super K> cpr = comparator;
+    // 若有comparator，则使用comparator来进行key值的比较，否则根据key值的自然顺序比较，下面两个分支的操作都一样，就是找到应该插入的位置
+    if (cpr != null) {
+        do {
+            parent = t;
+            cmp = cpr.compare(key, t.key);
+            if (cmp < 0)
+                t = t.left;
+            else if (cmp > 0)
+                t = t.right;
+            else
+                return t.setValue(value);
+        } while (t != null);
+    }
+    else {
+        if (key == null)
+            throw new NullPointerException();
+        @SuppressWarnings("unchecked")
+            Comparable<? super K> k = (Comparable<? super K>) key;
+        do {
+            parent = t;
+            cmp = k.compareTo(t.key);
+            if (cmp < 0)
+                t = t.left;
+            else if (cmp > 0)
+                t = t.right;
+            else
+                return t.setValue(value);
+        } while (t != null);
+    }
+    Entry<K,V> e = new Entry<>(key, value, parent);
+    if (cmp < 0)
+        parent.left = e;
+    else
+        parent.right = e;
+    // 插入后需要对红黑树进行调整，关键步骤
+    fixAfterInsertion(e);
+    size++;
+    modCount++;
+    return null;
+}
+```
+
+put函数的操作比较简单，比较key值，找到插入的位置，插入节点，调整红黑树，这里大概讲讲红黑树的定义及规则，还有左旋右旋操作，由于记住也没什么太大意义，具体调整的技巧则不讨论了。
+
+#### 红黑树
+
+红黑树又称红-黑二叉树，它首先是一颗二叉树，它具体二叉树所有的特性。同时红黑树更是一颗自平衡的排序二叉树。
+
+二叉树满足一个基本性质–即树中的任何节点的值大于它的左子节点，且小于它的右子节点。按照这个基本性质使得树的检索效率大大提高。我们知道在生成二叉树的过程是非常容易失衡的，最坏的情况就是一边倒（只有右/左子树），这样势必会导致二叉树的检索效率大大降低（O(n)），所以为了维持二叉树的平衡，大牛们提出了各种实现的算法，如：[AVL](http://baike.baidu.com/view/414610.htm)，[SBT](http://baike.baidu.com/view/2957252.htm)，[伸展树](http://baike.baidu.com/view/1118088.htm)，[TREAP](http://baike.baidu.com/view/956602.htm) ，[红黑树](http://baike.baidu.com/view/133754.htm?fr=aladdin#1_1)等等。
+
+平衡二叉树必须具备如下特性：它是一棵空树或它的左右两个子树的高度差的绝对值不超过 1，并且左右两个子树都是一棵平衡二叉树。
+
+##### 定义
+
+1. 节点是红色或黑色
+
+2. 根是黑色
+
+3. 所有叶子都是黑色（叶子是NULL节点）
+
+4. 如果一个节点是红的，则它的两个儿子都是黑的
+
+5. 从任一节点到其叶子的所有路径都包含相同数目的黑色节点。
+
+写到一半，发现讲得更好的[博客](https://github.com/CarpenterLee/JCFInternals/blob/master/markdown/5-TreeSet%20and%20TreeMap.md)...
+
+
+
