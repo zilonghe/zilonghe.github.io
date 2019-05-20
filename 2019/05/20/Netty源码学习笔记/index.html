@@ -4,19 +4,20 @@
   <meta charset="utf-8">
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Johnny Ho&#39;s Home</title>
+  <title>Netty源码学习笔记——Netty服务端启动 | Johnny Ho&#39;s Home</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Netty源码学习笔记——Netty服务端启动问题 服务端的socket在哪里初始化？ 答：在io.netty.bootstrap.ServerBootstrap#init中初始化服务端的socket。 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152@Ov">
+  <meta name="description" content="问题 服务端的socket在哪里初始化？ 答：在io.netty.bootstrap.ServerBootstrap#init中初始化服务端的socket。 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152@Override    void init(Cha">
+<meta name="keywords" content="计算机知识">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Johnny Ho&#39;s Home">
+<meta property="og:title" content="Netty源码学习笔记——Netty服务端启动">
 <meta property="og:url" content="http://johnho.cn/2019/05/20/Netty源码学习笔记/index.html">
 <meta property="og:site_name" content="Johnny Ho&#39;s Home">
-<meta property="og:description" content="Netty源码学习笔记——Netty服务端启动问题 服务端的socket在哪里初始化？ 答：在io.netty.bootstrap.ServerBootstrap#init中初始化服务端的socket。 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152@Ov">
+<meta property="og:description" content="问题 服务端的socket在哪里初始化？ 答：在io.netty.bootstrap.ServerBootstrap#init中初始化服务端的socket。 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152@Override    void init(Cha">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-05-20T14:27:24.319Z">
+<meta property="og:updated_time" content="2019-05-20T14:36:35.457Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Johnny Ho&#39;s Home">
-<meta name="twitter:description" content="Netty源码学习笔记——Netty服务端启动问题 服务端的socket在哪里初始化？ 答：在io.netty.bootstrap.ServerBootstrap#init中初始化服务端的socket。 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152@Ov">
+<meta name="twitter:title" content="Netty源码学习笔记——Netty服务端启动">
+<meta name="twitter:description" content="问题 服务端的socket在哪里初始化？ 答：在io.netty.bootstrap.ServerBootstrap#init中初始化服务端的socket。 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152@Override    void init(Cha">
   
     <link rel="alternative" href="/atom.xml" title="Johnny Ho&#39;s Home" type="application/atom+xml">
   
@@ -98,7 +99,7 @@
 				
 				<section class="switch-part switch-part2">
 					<div class="widget tagcloud" id="js-tagcloud">
-						<a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/MongoDB/" style="font-size: 10px;">MongoDB</a> <a href="/tags/Mybatis/" style="font-size: 10px;">Mybatis</a> <a href="/tags/NBA/" style="font-size: 10px;">NBA</a> <a href="/tags/alfred/" style="font-size: 13.33px;">alfred</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/iOS/" style="font-size: 13.33px;">iOS</a> <a href="/tags/linux/" style="font-size: 16.67px;">linux</a> <a href="/tags/python/" style="font-size: 13.33px;">python</a> <a href="/tags/单元测试/" style="font-size: 10px;">单元测试</a> <a href="/tags/计算机知识/" style="font-size: 10px;">计算机知识</a>
+						<a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/MongoDB/" style="font-size: 10px;">MongoDB</a> <a href="/tags/Mybatis/" style="font-size: 10px;">Mybatis</a> <a href="/tags/NBA/" style="font-size: 10px;">NBA</a> <a href="/tags/alfred/" style="font-size: 12.5px;">alfred</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/iOS/" style="font-size: 12.5px;">iOS</a> <a href="/tags/linux/" style="font-size: 15px;">linux</a> <a href="/tags/python/" style="font-size: 12.5px;">python</a> <a href="/tags/单元测试/" style="font-size: 10px;">单元测试</a> <a href="/tags/计算机知识/" style="font-size: 17.5px;">计算机知识</a>
 					</div>
 				</section>
 				
@@ -156,7 +157,7 @@
   
     <div class="article-meta">
       <a href="/2019/05/20/Netty源码学习笔记/" class="article-date">
-  	<time datetime="2019-05-20T14:27:24.319Z" itemprop="datePublished">2019-05-20</time>
+  	<time datetime="2019-05-20T14:34:20.000Z" itemprop="datePublished">2019-05-20</time>
 </a>
     </div>
   
@@ -165,9 +166,35 @@
       <input type="hidden" class="isFancy">
     
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Netty源码学习笔记——Netty服务端启动
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/计算机知识/">计算机知识</a></li></ul>
+	</div>
+
+        
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/编程/">编程</a>
+	</div>
+
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="Netty源码学习笔记——Netty服务端启动"><a href="#Netty源码学习笔记——Netty服务端启动" class="headerlink" title="Netty源码学习笔记——Netty服务端启动"></a>Netty源码学习笔记——Netty服务端启动</h1><h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><ol>
+        <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><ol>
 <li><p>服务端的socket在哪里初始化？</p>
 <p>答：在io.netty.bootstrap.ServerBootstrap#init中初始化服务端的socket。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">init</span><span class="params">(Channel channel)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="keyword">final</span> Map&lt;ChannelOption&lt;?&gt;, Object&gt; options = options0();</span><br><span class="line">        <span class="keyword">synchronized</span> (options) &#123;</span><br><span class="line">            channel.config().setOptions(options);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">final</span> Map&lt;AttributeKey&lt;?&gt;, Object&gt; attrs = attrs0();</span><br><span class="line">        <span class="keyword">synchronized</span> (attrs) &#123;</span><br><span class="line">            <span class="keyword">for</span> (Entry&lt;AttributeKey&lt;?&gt;, Object&gt; e: attrs.entrySet()) &#123;</span><br><span class="line">                <span class="meta">@SuppressWarnings</span>(<span class="string">"unchecked"</span>)</span><br><span class="line">                AttributeKey&lt;Object&gt; key = (AttributeKey&lt;Object&gt;) e.getKey();</span><br><span class="line">                channel.attr(key).set(e.getValue());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        ChannelPipeline p = channel.pipeline();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">final</span> EventLoopGroup currentChildGroup = childGroup;</span><br><span class="line">        <span class="keyword">final</span> ChannelHandler currentChildHandler = childHandler;</span><br><span class="line">        <span class="keyword">final</span> Entry&lt;ChannelOption&lt;?&gt;, Object&gt;[] currentChildOptions;</span><br><span class="line">        <span class="keyword">final</span> Entry&lt;AttributeKey&lt;?&gt;, Object&gt;[] currentChildAttrs;</span><br><span class="line">        <span class="keyword">synchronized</span> (childOptions) &#123;</span><br><span class="line">            currentChildOptions = childOptions.entrySet().toArray(newOptionArray(childOptions.size()));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">synchronized</span> (childAttrs) &#123;</span><br><span class="line">            currentChildAttrs = childAttrs.entrySet().toArray(newAttrArray(childAttrs.size()));</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        p.addLast(<span class="keyword">new</span> ChannelInitializer&lt;Channel&gt;() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">initChannel</span><span class="params">(Channel ch)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">                <span class="keyword">final</span> ChannelPipeline pipeline = ch.pipeline();</span><br><span class="line">                ChannelHandler handler = config.handler();</span><br><span class="line">                <span class="keyword">if</span> (handler != <span class="keyword">null</span>) &#123;</span><br><span class="line">                    pipeline.addLast(handler);</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="comment">// We add this handler via the EventLoop as the user may have used a ChannelInitializer as handler.</span></span><br><span class="line">                <span class="comment">// In this case the initChannel(...) method will only be called after this method returns. Because</span></span><br><span class="line">                <span class="comment">// of this we need to ensure we add our handler in a delayed fashion so all the users handler are</span></span><br><span class="line">                <span class="comment">// placed in front of the ServerBootstrapAcceptor.</span></span><br><span class="line">                ch.eventLoop().execute(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">                    <span class="meta">@Override</span></span><br><span class="line">                    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                        pipeline.addLast(<span class="keyword">new</span> ServerBootstrapAcceptor(</span><br><span class="line">                                currentChildGroup, currentChildHandler, currentChildOptions, currentChildAttrs));</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
@@ -188,7 +215,7 @@
     
 <nav id="article-nav">
   
-    <a href="/2019/05/20/高性能mysql笔记——第四章/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2019/05/20/docker笔记/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption"><</strong>
       <div class="article-nav-title">
         
@@ -198,8 +225,8 @@
     </a>
   
   
-    <a href="/2019/05/20/Operating Systems three easy pieces笔记/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title"></div>
+    <a href="/2019/05/20/高性能mysql笔记——第四章/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">高性能mysql笔记——第四章</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -234,7 +261,7 @@
 
 <div class="duoshuo">
 	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="Netty源码学习笔记" data-title data-url="http://johnho.cn/2019/05/20/Netty源码学习笔记/"></div>
+	<div class="ds-thread" data-thread-key="Netty源码学习笔记" data-title="Netty源码学习笔记——Netty服务端启动" data-url="http://johnho.cn/2019/05/20/Netty源码学习笔记/"></div>
 	<!-- 多说评论框 end -->
 	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 	<script type="text/javascript">

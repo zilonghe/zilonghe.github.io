@@ -4,19 +4,20 @@
   <meta charset="utf-8">
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Johnny Ho&#39;s Home</title>
+  <title>高性能mysql笔记——第四章 | Johnny Ho&#39;s Home</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Schema与数据类型优化数据类型的选择 更小的通常更好 简单就好，应该使用Mysql内建的类型而不是字符串来存储日期和时间；应该用整形存储IP地址。 尽量避免NULL；难优化，占用更多存储空间，特殊处理，索引记录需要额外的字节。  整数类型（whole number）TINYINT、SMAILLINT、MEDIUMINT、INT、BIGINT mysql可以为整数类型指定宽度，比如INT(11)">
+  <meta name="description" content="Schema与数据类型优化数据类型的选择 更小的通常更好 简单就好，应该使用Mysql内建的类型而不是字符串来存储日期和时间；应该用整形存储IP地址。 尽量避免NULL；难优化，占用更多存储空间，特殊处理，索引记录需要额外的字节。">
+<meta name="keywords" content="计算机知识">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Johnny Ho&#39;s Home">
+<meta property="og:title" content="高性能mysql笔记——第四章">
 <meta property="og:url" content="http://johnho.cn/2019/05/20/高性能mysql笔记——第四章/index.html">
 <meta property="og:site_name" content="Johnny Ho&#39;s Home">
-<meta property="og:description" content="Schema与数据类型优化数据类型的选择 更小的通常更好 简单就好，应该使用Mysql内建的类型而不是字符串来存储日期和时间；应该用整形存储IP地址。 尽量避免NULL；难优化，占用更多存储空间，特殊处理，索引记录需要额外的字节。  整数类型（whole number）TINYINT、SMAILLINT、MEDIUMINT、INT、BIGINT mysql可以为整数类型指定宽度，比如INT(11)">
+<meta property="og:description" content="Schema与数据类型优化数据类型的选择 更小的通常更好 简单就好，应该使用Mysql内建的类型而不是字符串来存储日期和时间；应该用整形存储IP地址。 尽量避免NULL；难优化，占用更多存储空间，特殊处理，索引记录需要额外的字节。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-05-20T14:27:24.323Z">
+<meta property="og:updated_time" content="2019-05-20T14:36:35.461Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Johnny Ho&#39;s Home">
-<meta name="twitter:description" content="Schema与数据类型优化数据类型的选择 更小的通常更好 简单就好，应该使用Mysql内建的类型而不是字符串来存储日期和时间；应该用整形存储IP地址。 尽量避免NULL；难优化，占用更多存储空间，特殊处理，索引记录需要额外的字节。  整数类型（whole number）TINYINT、SMAILLINT、MEDIUMINT、INT、BIGINT mysql可以为整数类型指定宽度，比如INT(11)">
+<meta name="twitter:title" content="高性能mysql笔记——第四章">
+<meta name="twitter:description" content="Schema与数据类型优化数据类型的选择 更小的通常更好 简单就好，应该使用Mysql内建的类型而不是字符串来存储日期和时间；应该用整形存储IP地址。 尽量避免NULL；难优化，占用更多存储空间，特殊处理，索引记录需要额外的字节。">
   
     <link rel="alternative" href="/atom.xml" title="Johnny Ho&#39;s Home" type="application/atom+xml">
   
@@ -98,7 +99,7 @@
 				
 				<section class="switch-part switch-part2">
 					<div class="widget tagcloud" id="js-tagcloud">
-						<a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/MongoDB/" style="font-size: 10px;">MongoDB</a> <a href="/tags/Mybatis/" style="font-size: 10px;">Mybatis</a> <a href="/tags/NBA/" style="font-size: 10px;">NBA</a> <a href="/tags/alfred/" style="font-size: 13.33px;">alfred</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/iOS/" style="font-size: 13.33px;">iOS</a> <a href="/tags/linux/" style="font-size: 16.67px;">linux</a> <a href="/tags/python/" style="font-size: 13.33px;">python</a> <a href="/tags/单元测试/" style="font-size: 10px;">单元测试</a> <a href="/tags/计算机知识/" style="font-size: 10px;">计算机知识</a>
+						<a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/MongoDB/" style="font-size: 10px;">MongoDB</a> <a href="/tags/Mybatis/" style="font-size: 10px;">Mybatis</a> <a href="/tags/NBA/" style="font-size: 10px;">NBA</a> <a href="/tags/alfred/" style="font-size: 12.5px;">alfred</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/iOS/" style="font-size: 12.5px;">iOS</a> <a href="/tags/linux/" style="font-size: 15px;">linux</a> <a href="/tags/python/" style="font-size: 12.5px;">python</a> <a href="/tags/单元测试/" style="font-size: 10px;">单元测试</a> <a href="/tags/计算机知识/" style="font-size: 17.5px;">计算机知识</a>
 					</div>
 				</section>
 				
@@ -156,7 +157,7 @@
   
     <div class="article-meta">
       <a href="/2019/05/20/高性能mysql笔记——第四章/" class="article-date">
-  	<time datetime="2019-05-20T14:27:24.323Z" itemprop="datePublished">2019-05-20</time>
+  	<time datetime="2019-05-20T14:33:24.000Z" itemprop="datePublished">2019-05-20</time>
 </a>
     </div>
   
@@ -165,14 +166,41 @@
       <input type="hidden" class="isFancy">
     
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      高性能mysql笔记——第四章
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/计算机知识/">计算机知识</a></li></ul>
+	</div>
+
+        
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/编程/">编程</a>
+	</div>
+
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="Schema与数据类型优化"><a href="#Schema与数据类型优化" class="headerlink" title="Schema与数据类型优化"></a>Schema与数据类型优化</h1><h2 id="数据类型的选择"><a href="#数据类型的选择" class="headerlink" title="数据类型的选择"></a>数据类型的选择</h2><ol>
+        <h2 id="Schema与数据类型优化"><a href="#Schema与数据类型优化" class="headerlink" title="Schema与数据类型优化"></a>Schema与数据类型优化</h2><h2 id="数据类型的选择"><a href="#数据类型的选择" class="headerlink" title="数据类型的选择"></a>数据类型的选择</h2><ol>
 <li>更小的通常更好</li>
 <li>简单就好，应该使用Mysql内建的类型而不是字符串来存储日期和时间；应该用整形存储IP地址。</li>
-<li>尽量避免NULL；难优化，占用更多存储空间，特殊处理，索引记录需要额外的字节。</li>
+<li>尽量避免NULL；难优化，占用更多存储空间，特殊处理，索引记录需要额外的字节。<a id="more"></a>
+<h3 id="整数类型（whole-number）"><a href="#整数类型（whole-number）" class="headerlink" title="整数类型（whole number）"></a>整数类型（whole number）</h3></li>
 </ol>
-<h3 id="整数类型（whole-number）"><a href="#整数类型（whole-number）" class="headerlink" title="整数类型（whole number）"></a>整数类型（whole number）</h3><p>TINYINT、SMAILLINT、MEDIUMINT、INT、BIGINT</p>
+<p>TINYINT、SMAILLINT、MEDIUMINT、INT、BIGINT</p>
 <p>mysql可以为整数类型指定宽度，比如INT(11)，对大多数应用是没有意义的；它不会限制值的合法范围，只是规定了mysql的一些交互工具（例如命令行客户端）用来显示字符的个数。对于存储和计算来说，INT(1)和INT(11)是相同的。</p>
 <h3 id="实数类型（real-number）"><a href="#实数类型（real-number）" class="headerlink" title="实数类型（real number）"></a>实数类型（real number）</h3><p>带有小数部分的数字。DECIMAL、FLOAT、DOUBLE</p>
 <p>DECIMAL用于存储精确的小数。</p>
@@ -303,18 +331,18 @@
     
 <nav id="article-nav">
   
-    <a href="/2019/05/20/高性能mysql笔记——第五章/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2019/05/20/Netty源码学习笔记/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption"><</strong>
       <div class="article-nav-title">
         
-          (no title)
+          Netty源码学习笔记——Netty服务端启动
         
       </div>
     </a>
   
   
-    <a href="/2019/05/20/Netty源码学习笔记/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title"></div>
+    <a href="/2019/05/20/高性能mysql笔记——第五章/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">高性能mysql笔记——第五章</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -349,7 +377,7 @@
 
 <div class="duoshuo">
 	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="高性能mysql笔记——第四章" data-title data-url="http://johnho.cn/2019/05/20/高性能mysql笔记——第四章/"></div>
+	<div class="ds-thread" data-thread-key="高性能mysql笔记——第四章" data-title="高性能mysql笔记——第四章" data-url="http://johnho.cn/2019/05/20/高性能mysql笔记——第四章/"></div>
 	<!-- 多说评论框 end -->
 	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 	<script type="text/javascript">

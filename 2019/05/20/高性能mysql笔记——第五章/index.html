@@ -4,19 +4,20 @@
   <meta charset="utf-8">
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Johnny Ho&#39;s Home</title>
+  <title>高性能mysql笔记——第五章 | Johnny Ho&#39;s Home</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="创建高性能的索引索引（在MySQL中也叫做“键(key)”）是存储引擎用于快速找到记录的一种数据结构。 索引基础在MySQL中，存储引擎先在索引中找到对应值，然后根据匹配的索引记录找到对应的数据行。 索引的类型 B-Tree索引（InnoDB使用的是B+ Tree） 存储引擎以不同方式使用B-Tree索引，性能也各有不同。例如，myisam使用前缀压缩技术使得索引更小，但InnoDB则按照原数据格">
+  <meta name="description" content="创建高性能的索引索引（在MySQL中也叫做“键(key)”）是存储引擎用于快速找到记录的一种数据结构。">
+<meta name="keywords" content="计算机知识">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Johnny Ho&#39;s Home">
+<meta property="og:title" content="高性能mysql笔记——第五章">
 <meta property="og:url" content="http://johnho.cn/2019/05/20/高性能mysql笔记——第五章/index.html">
 <meta property="og:site_name" content="Johnny Ho&#39;s Home">
-<meta property="og:description" content="创建高性能的索引索引（在MySQL中也叫做“键(key)”）是存储引擎用于快速找到记录的一种数据结构。 索引基础在MySQL中，存储引擎先在索引中找到对应值，然后根据匹配的索引记录找到对应的数据行。 索引的类型 B-Tree索引（InnoDB使用的是B+ Tree） 存储引擎以不同方式使用B-Tree索引，性能也各有不同。例如，myisam使用前缀压缩技术使得索引更小，但InnoDB则按照原数据格">
+<meta property="og:description" content="创建高性能的索引索引（在MySQL中也叫做“键(key)”）是存储引擎用于快速找到记录的一种数据结构。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-05-20T14:27:24.323Z">
+<meta property="og:updated_time" content="2019-05-20T14:36:35.461Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Johnny Ho&#39;s Home">
-<meta name="twitter:description" content="创建高性能的索引索引（在MySQL中也叫做“键(key)”）是存储引擎用于快速找到记录的一种数据结构。 索引基础在MySQL中，存储引擎先在索引中找到对应值，然后根据匹配的索引记录找到对应的数据行。 索引的类型 B-Tree索引（InnoDB使用的是B+ Tree） 存储引擎以不同方式使用B-Tree索引，性能也各有不同。例如，myisam使用前缀压缩技术使得索引更小，但InnoDB则按照原数据格">
+<meta name="twitter:title" content="高性能mysql笔记——第五章">
+<meta name="twitter:description" content="创建高性能的索引索引（在MySQL中也叫做“键(key)”）是存储引擎用于快速找到记录的一种数据结构。">
   
     <link rel="alternative" href="/atom.xml" title="Johnny Ho&#39;s Home" type="application/atom+xml">
   
@@ -98,7 +99,7 @@
 				
 				<section class="switch-part switch-part2">
 					<div class="widget tagcloud" id="js-tagcloud">
-						<a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/MongoDB/" style="font-size: 10px;">MongoDB</a> <a href="/tags/Mybatis/" style="font-size: 10px;">Mybatis</a> <a href="/tags/NBA/" style="font-size: 10px;">NBA</a> <a href="/tags/alfred/" style="font-size: 13.33px;">alfred</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/iOS/" style="font-size: 13.33px;">iOS</a> <a href="/tags/linux/" style="font-size: 16.67px;">linux</a> <a href="/tags/python/" style="font-size: 13.33px;">python</a> <a href="/tags/单元测试/" style="font-size: 10px;">单元测试</a> <a href="/tags/计算机知识/" style="font-size: 10px;">计算机知识</a>
+						<a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/MongoDB/" style="font-size: 10px;">MongoDB</a> <a href="/tags/Mybatis/" style="font-size: 10px;">Mybatis</a> <a href="/tags/NBA/" style="font-size: 10px;">NBA</a> <a href="/tags/alfred/" style="font-size: 12.5px;">alfred</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/iOS/" style="font-size: 12.5px;">iOS</a> <a href="/tags/linux/" style="font-size: 15px;">linux</a> <a href="/tags/python/" style="font-size: 12.5px;">python</a> <a href="/tags/单元测试/" style="font-size: 10px;">单元测试</a> <a href="/tags/计算机知识/" style="font-size: 17.5px;">计算机知识</a>
 					</div>
 				</section>
 				
@@ -156,7 +157,7 @@
   
     <div class="article-meta">
       <a href="/2019/05/20/高性能mysql笔记——第五章/" class="article-date">
-  	<time datetime="2019-05-20T14:27:24.323Z" itemprop="datePublished">2019-05-20</time>
+  	<time datetime="2019-05-20T14:32:00.000Z" itemprop="datePublished">2019-05-20</time>
 </a>
     </div>
   
@@ -165,9 +166,36 @@
       <input type="hidden" class="isFancy">
     
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      高性能mysql笔记——第五章
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/计算机知识/">计算机知识</a></li></ul>
+	</div>
+
+        
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/编程/">编程</a>
+	</div>
+
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="创建高性能的索引"><a href="#创建高性能的索引" class="headerlink" title="创建高性能的索引"></a>创建高性能的索引</h1><p>索引（在MySQL中也叫做“键(key)”）是存储引擎用于快速找到记录的一种数据结构。</p>
+        <h2 id="创建高性能的索引"><a href="#创建高性能的索引" class="headerlink" title="创建高性能的索引"></a>创建高性能的索引</h2><p>索引（在MySQL中也叫做“键(key)”）是存储引擎用于快速找到记录的一种数据结构。</p>
+<a id="more"></a>
 <h2 id="索引基础"><a href="#索引基础" class="headerlink" title="索引基础"></a>索引基础</h2><p>在MySQL中，存储引擎先在索引中找到对应值，然后根据匹配的索引记录找到对应的数据行。</p>
 <h3 id="索引的类型"><a href="#索引的类型" class="headerlink" title="索引的类型"></a>索引的类型</h3><ul>
 <li><p>B-Tree索引（InnoDB使用的是B+ Tree）</p>
@@ -205,9 +233,18 @@
     
 <nav id="article-nav">
   
+    <a href="/2019/05/20/高性能mysql笔记——第四章/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          高性能mysql笔记——第四章
+        
+      </div>
+    </a>
   
-    <a href="/2019/05/20/高性能mysql笔记——第四章/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title"></div>
+  
+    <a href="/2018/11/19/Java基础笔记（一）：Collection、Map/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Java基础笔记（一）：Collection、Map</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -242,7 +279,7 @@
 
 <div class="duoshuo">
 	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="高性能mysql笔记——第五章" data-title data-url="http://johnho.cn/2019/05/20/高性能mysql笔记——第五章/"></div>
+	<div class="ds-thread" data-thread-key="高性能mysql笔记——第五章" data-title="高性能mysql笔记——第五章" data-url="http://johnho.cn/2019/05/20/高性能mysql笔记——第五章/"></div>
 	<!-- 多说评论框 end -->
 	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 	<script type="text/javascript">
