@@ -1,9 +1,9 @@
 ---
-title:ARTS计划第1期
-tags:
-  - ARTS
-categories:
-  - 打卡
+title: ARTS计划第1期
+tags: 
+  -  ARTS
+categories: 
+  -  打卡
 date: 2019-06-08 00:05:15
 ---
 
