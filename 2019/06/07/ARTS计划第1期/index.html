@@ -4,27 +4,20 @@
   <meta charset="utf-8">
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Alfred workflow初步开发指南（一） | Johnny Ho&#39;s Home</title>
+  <title>ARTS计划第1期 | Johnny Ho&#39;s Home</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="OS X用户都知道一款神器：Alfred但是大部分人都只是在用它的快捷搜索的功能，但是它最强大的功能是它的workflow，今天我来抛砖引玉，写一下如何开发属于自己的workflow。">
-<meta name="keywords" content="alfred">
+  <meta name="description" content="ARTS计划第1期这里是响应「左耳朵耗子」的ARTS打卡计划分享，每周发布一篇。">
+<meta name="keywords" content="ARTS">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Alfred workflow初步开发指南（一）">
-<meta property="og:url" content="http://johnho.cn/2016/07/26/Alfred-workflow-1/index.html">
+<meta property="og:title" content="ARTS计划第1期">
+<meta property="og:url" content="http://johnho.cn/2019/06/07/ARTS计划第1期/index.html">
 <meta property="og:site_name" content="Johnny Ho&#39;s Home">
-<meta property="og:description" content="OS X用户都知道一款神器：Alfred但是大部分人都只是在用它的快捷搜索的功能，但是它最强大的功能是它的workflow，今天我来抛砖引玉，写一下如何开发属于自己的workflow。">
+<meta property="og:description" content="ARTS计划第1期这里是响应「左耳朵耗子」的ARTS打卡计划分享，每周发布一篇。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://img.blog.csdn.net/20160726223537726">
-<meta property="og:image" content="http://img.blog.csdn.net/20160726223857915">
-<meta property="og:image" content="http://img.blog.csdn.net/20160726224320386">
-<meta property="og:image" content="http://img.blog.csdn.net/20160726224752138">
-<meta property="og:image" content="http://img.blog.csdn.net/20160726230431765">
-<meta property="og:image" content="http://img.blog.csdn.net/20160726231159917">
 <meta property="og:updated_time" content="2019-06-07T16:17:17.753Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Alfred workflow初步开发指南（一）">
-<meta name="twitter:description" content="OS X用户都知道一款神器：Alfred但是大部分人都只是在用它的快捷搜索的功能，但是它最强大的功能是它的workflow，今天我来抛砖引玉，写一下如何开发属于自己的workflow。">
-<meta name="twitter:image" content="http://img.blog.csdn.net/20160726223537726">
+<meta name="twitter:title" content="ARTS计划第1期">
+<meta name="twitter:description" content="ARTS计划第1期这里是响应「左耳朵耗子」的ARTS打卡计划分享，每周发布一篇。">
   
     <link rel="alternative" href="/atom.xml" title="Johnny Ho&#39;s Home" type="application/atom+xml">
   
@@ -160,11 +153,11 @@
 	</div>
 </nav>
 
-      <div class="body-wrap"><article id="post-Alfred-workflow-1" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-ARTS计划第1期" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/07/26/Alfred-workflow-1/" class="article-date">
-  	<time datetime="2016-07-26T15:23:02.000Z" itemprop="datePublished">2016-07-26</time>
+      <a href="/2019/06/07/ARTS计划第1期/" class="article-date">
+  	<time datetime="2019-06-07T16:05:15.000Z" itemprop="datePublished">2019-06-08</time>
 </a>
     </div>
   
@@ -177,7 +170,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Alfred workflow初步开发指南（一）
+      ARTS计划第1期
     </h1>
   
 
@@ -186,12 +179,12 @@
       <div class="article-info article-info-post">
         
 	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/alfred/">alfred</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ARTS/">ARTS</a></li></ul>
 	</div>
 
         
 	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/工具/">工具</a>
+	<a class="article-category-link" href="/categories/打卡/">打卡</a>
 	</div>
 
 
@@ -201,37 +194,16 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>OS X用户都知道一款神器：<a href="https://www.alfredapp.com/" target="_blank" rel="noopener">Alfred</a><br>但是大部分人都只是在用它的快捷搜索的功能，但是它最强大的功能是它的workflow，今天我来抛砖引玉，写一下如何开发属于自己的workflow。</p>
-<a id="more"></a>
-<hr>
-<p>打开Alfred，点击上方栏目的workflows：</p>
-<p><img src="http://img.blog.csdn.net/20160726223537726" alt="栏目"></p>
-<p>建议大家可以先点击左边侧边栏下面的加号，试用几个examples，来熟悉workflow的大概操作流程：</p>
-<p><img src="http://img.blog.csdn.net/20160726223857915" alt="侧边栏"></p>
-<hr>
-<p>这里我演示开发一个简单又好用的workflow : quick search</p>
-<p><img src="http://img.blog.csdn.net/20160726224320386" alt="quick search"></p>
-<h2 id="触发器Triggers"><a href="#触发器Triggers" class="headerlink" title="触发器Triggers"></a>触发器Triggers</h2><p>定义触发你的workflow的动作Triggers，点击右上角的加号，这里我选择了hotkey，也就是以快捷键的形式来触发你的workflow：</p>
-<p><img src="http://img.blog.csdn.net/20160726224752138" alt="trigger"></p>
-<p>第一栏Hotkey：就是键入你想要定义的快捷键，这里我选择了command+2<br>第二栏Action：就是当你按下你定义的快捷键，将要触发的动作，第一个选项就是传递到workflow的下一步，第二个就是show alfred，显然我们应该选择第一个，不然也就没什么意义了：）<br>第三栏Argument：这个就是传递的参数了，这里我们选择Selection in OS X，也就是当前光标选中的文本。</p>
-<p>ok,到这里已经把触发器定义好了，Save保存。</p>
-<h2 id="Actions动作"><a href="#Actions动作" class="headerlink" title="Actions动作"></a>Actions动作</h2><p>有了触发器之后，我们当然就要定义触发的动作了，猛击加号，Actions，里面的动作都描述地很清楚了，这里我们选择Open URL</p>
-<p><img src="http://img.blog.csdn.net/20160726230431765" alt="actions"></p>
-<p>这里的{query}就是贯穿整个workflow传递的一个参数，trigger和action就是靠这个变量来通信。当我选中文本，并按下快捷键时，选中的文本就会传递以{query}传递到action处，那么这里我定义的是百度搜索，同样你可以定义其他搜索。</p>
-<blockquote>
-<p>注：获得其他搜索引擎url的方法：<br>打开其他网站的搜索，将地址栏的url里你输入搜索框的内容替换成{query}即可获得。</p>
-</blockquote>
-<p>最后点击Save。</p>
-<h2 id="大功告成"><a href="#大功告成" class="headerlink" title="大功告成"></a>大功告成</h2><p>最后将两个模块连接起来，你的第一个workflow就这么开发完了！</p>
-<p><img src="http://img.blog.csdn.net/20160726231159917" alt="这里写图片描述"></p>
-<p>试试选中文本再猛击command+2，是不是很好用！这和最快的普通操作：</p>
-<ol>
-<li>打开浏览器</li>
-<li>直接在浏览器的地址栏输入搜索的内容</li>
-<li>Enter<br>相比不知道有多高效！</li>
-</ol>
-<h2 id="未完待续"><a href="#未完待续" class="headerlink" title="未完待续"></a>未完待续</h2><p>但是在使用的过程中，你会发现，当选中的文本是一个网址时，是不能够直接打开网址的，那这个时候你就可以再定义多一个workflow专门打开网址啦，这个就留给读者们自己开发吧~</p>
-<p>下一期将讲述Alfred中的精华workflow中的精华：Run Script！</p>
+        <h1 id="ARTS计划第1期"><a href="#ARTS计划第1期" class="headerlink" title="ARTS计划第1期"></a>ARTS计划第1期</h1><p>这里是响应「左耳朵耗子」的ARTS打卡计划分享，每周发布一篇。<br><a id="more"></a></p>
+<p>A：每周至少做一个LeetCode算法题</p>
+<p>R：阅读并点评至少一篇英文技术文章</p>
+<p>T：学习至少一个技术技巧</p>
+<p>S：分享一篇有观点和思考的技术文章（个人修订：或者一些想法，用于记录）</p>
+<h2 id="Algorithm"><a href="#Algorithm" class="headerlink" title="Algorithm"></a>Algorithm</h2><p>133.克隆图<a href="https://github.com/zilonghe/leetcode-solution/commit/d4a0396b902efa455bd921ad83b423d8f75321ee" target="_blank" rel="noopener">https://github.com/zilonghe/leetcode-solution/commit/d4a0396b902efa455bd921ad83b423d8f75321ee</a></p>
+<p>494.目标和<a href="https://github.com/zilonghe/leetcode-solution/commit/2b14ae7e63a6edd9995f2f9d22d04ce8249fd6f8" target="_blank" rel="noopener">https://github.com/zilonghe/leetcode-solution/commit/2b14ae7e63a6edd9995f2f9d22d04ce8249fd6f8</a></p>
+<h2 id="Review"><a href="#Review" class="headerlink" title="Review"></a>Review</h2><h2 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h2><p><a href="https://blog.csdn.net/davis2015csdn/article/details/75220046" target="_blank" rel="noopener">springboot多环境配置</a></p>
+<h2 id="Share"><a href="#Share" class="headerlink" title="Share"></a>Share</h2><h3 id="技术转管理？"><a href="#技术转管理？" class="headerlink" title="技术转管理？"></a>技术转管理？</h3><p>​    最近换到了一个新部门，新部门的工作方式是一个人带着几个合作方去负责一个独立的模块，这就需要我对一个刚接手的模块，去熟悉并且分解需求到具体的任务给下面的兄弟。</p>
+<p>​    老实说，那几个合作方的水平令人堪忧，有时候我甚至想自己来，但是又明白需要培养他们独立承担工作的能力的重要性。这是我第一次真正需要承担起管理的工作，其实我只想专心写代码，但这又好像是程序员职业上升的最终道路：技术转管理。见步行步吧，毕竟现在我的代码水平还有很大的提升空间，希望能技术和管理双修吧。</p>
 
       
     </div>
@@ -241,18 +213,18 @@
     
 <nav id="article-nav">
   
-    <a href="/2016/09/11/Alfredworkflow2/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2019/06/07/docker笔记/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption"><</strong>
       <div class="article-nav-title">
         
-          Alfred workflow初步开发指南（二）
+          (no title)
         
       </div>
     </a>
   
   
-    <a href="/2016/06/20/竞争的残酷/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">竞争的残酷</div>
+    <a href="/2019/05/20/Netty源码学习笔记/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Netty源码学习笔记——Netty服务端启动</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -287,7 +259,7 @@
 
 <div class="duoshuo">
 	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="Alfred-workflow-1" data-title="Alfred workflow初步开发指南（一）" data-url="http://johnho.cn/2016/07/26/Alfred-workflow-1/"></div>
+	<div class="ds-thread" data-thread-key="ARTS计划第1期" data-title="ARTS计划第1期" data-url="http://johnho.cn/2019/06/07/ARTS计划第1期/"></div>
 	<!-- 多说评论框 end -->
 	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 	<script type="text/javascript">
