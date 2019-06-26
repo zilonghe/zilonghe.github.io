@@ -14,7 +14,7 @@
 <meta property="og:site_name" content="Johnny Ho&#39;s Home">
 <meta property="og:description" content="Java内存区域与内存溢出异常运行时数据区域 程序计数器：当前线程执行的字节码的行号指示器，线程私有，若线程正在执行的是java方法，则记录的是正在执行的虚拟机字节码指令的地址；若是Native本地方法，这个计数器值为空。该内存区域没有规定任何outOfMemoryError（OOM）的区域。 Java虚拟机栈：每个方法在执行的同时都会创建一个栈帧，用于存储局部变量表、操作数栈、动态链接、方法出口">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-06-23T16:58:31.328Z">
+<meta property="og:updated_time" content="2019-06-26T07:26:05.420Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JVM读书笔记之第二章">
 <meta name="twitter:description" content="Java内存区域与内存溢出异常运行时数据区域 程序计数器：当前线程执行的字节码的行号指示器，线程私有，若线程正在执行的是java方法，则记录的是正在执行的虚拟机字节码指令的地址；若是Native本地方法，这个计数器值为空。该内存区域没有规定任何outOfMemoryError（OOM）的区域。 Java虚拟机栈：每个方法在执行的同时都会创建一个栈帧，用于存储局部变量表、操作数栈、动态链接、方法出口">
@@ -195,14 +195,14 @@
     <div class="article-entry" itemprop="articleBody">
       
         <h1 id="Java内存区域与内存溢出异常"><a href="#Java内存区域与内存溢出异常" class="headerlink" title="Java内存区域与内存溢出异常"></a>Java内存区域与内存溢出异常</h1><h2 id="运行时数据区域"><a href="#运行时数据区域" class="headerlink" title="运行时数据区域"></a>运行时数据区域</h2><ul>
-<li>程序计数器：当前线程执行的字节码的行号指示器，线程私有，若线程正在执行的是java方法，则记录的是正在执行的虚拟机字节码指令的地址；若是Native本地方法，这个计数器值为空。该内存区域没有规定任何outOfMemoryError（OOM）的区域。</li>
-<li>Java虚拟机栈：每个方法在执行的同时都会创建一个栈帧，用于存储局部变量表、操作数栈、动态链接、方法出口等信息。每个方法从调用直至执行完成的过程，对应一个栈帧在虚拟机栈中入栈到出栈的过程。线程私有。可能抛出StackOverflowError和OOM。<ul>
+<li>程序计数器：当前线程执行的字节码的行号指示器，<strong>线程私有</strong>，若线程正在执行的是java方法，则记录的是正在执行的虚拟机字节码指令的地址；若是Native本地方法，这个计数器值为空。该内存区域没有规定任何outOfMemoryError（OOM）的区域。</li>
+<li>Java虚拟机栈：每个方法在执行的同时都会创建一个栈帧，用于存储局部变量表、操作数栈、动态链接、方法出口等信息。每个方法从调用直至执行完成的过程，对应一个栈帧在虚拟机栈中入栈到出栈的过程。<strong>线程私有</strong>。可能抛出StackOverflowError和OOM。<ul>
 <li>局部变量表：存放了编译期可知的各种基本数据类型（boolean、byte、char、short、int、float、long、double）、对象引用、returnAddress类型。局部变量表所需的内存空间在编译期间完成分配，当进入一个方法时，这个方法需要在帧中分配多大的局部变量空间是完全确定的，在方法运行期间不会改变。</li>
 </ul>
 </li>
 <li>本地方法栈：与虚拟机栈相似，区别是本地方法栈为虚拟机使用的native方法服务。可能抛出StackOverflowError和OOM。</li>
-<li>堆：存放对象实例，几乎所有对象实例都在这里分配内存。所有线程共享。在虚拟机启动时创建。JAVA堆是垃圾收集器管理的主要区域。可能会抛出OOM。</li>
-<li>方法区：所有线程共享的区域。用于存储已被虚拟机加载的类信息、常量、静态变量、即时编译器（JIT）编译后的代码等数据。该区域的内存回收目标主要是针对常量池的回收和对类型的卸载。可能抛出OOM。<ul>
+<li>堆：存放对象实例，几乎所有对象实例都在这里分配内存。所有<strong>线程共享</strong>。在虚拟机启动时创建。JAVA堆是垃圾收集器管理的主要区域。可能会抛出OOM。</li>
+<li>方法区：所有<strong>线程共享</strong>的区域。用于存储已被虚拟机加载的类信息、常量、静态变量、即时编译器（JIT）编译后的代码等数据。该区域的内存回收目标主要是针对常量池的回收和对类型的卸载。可能抛出OOM。<ul>
 <li>运行时常量池：方法区的一部分。Class文件中除了有类的版本信息、字段、方法、接口等描述信息之外，还有一项信息是常量池，用于存放编译期生成的各种字面量和符号引用，这部分将在类加载后进入方法区的运行时常量池中存放。动态性，运行期间也可能将新的常量放入池内，如String的intern()方法。可能抛出OOM。</li>
 </ul>
 </li>
