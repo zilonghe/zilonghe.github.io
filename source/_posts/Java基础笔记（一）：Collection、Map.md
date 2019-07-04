@@ -226,7 +226,92 @@ Map接口不是继承于Collection接口，它描述了键值对的映射，不�
 
 ### 总结
 
-HashMap的实现原理是，通过传入的键值对，对键进行hash，并存放在哈希表中的具体某个桶中，当多个键值的hash值相同时，即哈希冲突时，桶中的节点起初以链表形式存储，在1.8中，若链表节点的数目大于树化的阈值8并且桶的个数大于等于64时，会将链表转换成红黑树实现，否则会进行resize扩容，将当前的桶个数扩大一倍，并重启hash分配位置。当获取指定的键值的时候，会将键的hash值与哈希表的长度-1进行逻辑与操作获得具体存放的桶位置，若该桶的节点数不唯一，则通过遍历该桶的节点，通过equals匹配获取目标键值。
+HashMap的实现原理是，通过传入的键值对，对键进行hash，并存放在哈希表中的具体某个桶中，当多个键值的hash值相同时，即哈希冲突时，桶中的节点起初以链表形式存储，在1.8中，若链表节点的数目大于树化的阈值8并且桶的个数大于等于64时，会将链表转换成红黑树实现，否则（链表节点数目大于树化阈值但桶个数小于64）会进行resize扩容，将当前的桶个数扩大一倍，并重hash分配位置。当获取指定的键值的时候，会将键的hash值与哈希表的长度-1进行逻辑与操作获得具体存放的桶位置，若该桶的节点数不唯一，则通过遍历该桶的节点，通过equals匹配获取目标键值。
+
+
+
+## ConcurrentHashMap
+
+线程安全的高并发hashmap，不允许null键值对，jdk1.8中锁定每个桶的链表头或者红黑树的根节点来保证线程安全，只要hash不冲突，就不会有竞争，效率更高。
+
+### 关键操作
+
+```java
+final V putVal(K key, V value, boolean onlyIfAbsent) {
+    	// 不允许空的key或者value
+        if (key == null || value == null) throw new NullPointerException();
+    	// 计算传入的key值的hash值
+        int hash = spread(key.hashCode());
+        int binCount = 0;
+    	// for循环是为了配合cas，不断重试
+        for (Node<K,V>[] tab = table;;) {
+            Node<K,V> f; int n, i, fh;
+            // 如果桶数组还没初始化，则初始化桶数组
+            if (tab == null || (n = tab.length) == 0)
+                tab = initTable();
+            // 如果索引到的桶为空，则cas设置该桶的头结点为当前插入键值对
+            else if ((f = tabAt(tab, i = (n - 1) & hash)) == null) {
+                // 如果设置成功，则直接break；如果有竞争，其他地方把该桶初始化了，则下一次循环不会走到这里
+                if (casTabAt(tab, i, null,
+                             new Node<K,V>(hash, key, value, null)))
+                    break;                   // no lock when adding to empty bin
+            }
+            // 如果当前桶数组正在扩容，则帮助它扩容
+            else if ((fh = f.hash) == MOVED)
+                tab = helpTransfer(tab, f);
+            else {
+                V oldVal = null;
+                // 对桶的头结点加锁
+                synchronized (f) {
+                    // 确保在此过程中，map没有进行扩容等操作，还是修改同一个桶
+                    if (tabAt(tab, i) == f) {
+                        // 当前节点是链表头结点
+                        if (fh >= 0) {
+                            binCount = 1;
+                            for (Node<K,V> e = f;; ++binCount) {
+                                K ek;
+                                if (e.hash == hash &&
+                                    ((ek = e.key) == key ||
+                                     (ek != null && key.equals(ek)))) {
+                                    oldVal = e.val;
+                                    if (!onlyIfAbsent)
+                                        e.val = value;
+                                    break;
+                                }
+                                Node<K,V> pred = e;
+                                if ((e = e.next) == null) {
+                                    pred.next = new Node<K,V>(hash, key,
+                                                              value, null);
+                                    break;
+                                }
+                            }
+                        }
+                        else if (f instanceof TreeBin) {
+                            Node<K,V> p;
+                            binCount = 2;
+                            if ((p = ((TreeBin<K,V>)f).putTreeVal(hash, key,
+                                                           value)) != null) {
+                                oldVal = p.val;
+                                if (!onlyIfAbsent)
+                                    p.val = value;
+                            }
+                        }
+                    }
+                }
+                if (binCount != 0) {
+                    if (binCount >= TREEIFY_THRESHOLD)
+                        treeifyBin(tab, i);
+                    if (oldVal != null)
+                        return oldVal;
+                    break;
+                }
+            }
+        }
+        addCount(1L, binCount);
+        return null;
+    }
+```
+
 
 
 
