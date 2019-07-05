@@ -270,6 +270,7 @@ final V putVal(K key, V value, boolean onlyIfAbsent) {
                             binCount = 1;
                             for (Node<K,V> e = f;; ++binCount) {
                                 K ek;
+                                // 如果hash值相等，则更新
                                 if (e.hash == hash &&
                                     ((ek = e.key) == key ||
                                      (ek != null && key.equals(ek)))) {
@@ -279,6 +280,7 @@ final V putVal(K key, V value, boolean onlyIfAbsent) {
                                     break;
                                 }
                                 Node<K,V> pred = e;
+                                // hash值不相等，遍历链表，将新节点插入到末尾
                                 if ((e = e.next) == null) {
                                     pred.next = new Node<K,V>(hash, key,
                                                               value, null);
@@ -286,9 +288,11 @@ final V putVal(K key, V value, boolean onlyIfAbsent) {
                                 }
                             }
                         }
+                        // 如果是红黑树
                         else if (f instanceof TreeBin) {
                             Node<K,V> p;
                             binCount = 2;
+                            // 插入新红黑树节点
                             if ((p = ((TreeBin<K,V>)f).putTreeVal(hash, key,
                                                            value)) != null) {
                                 oldVal = p.val;
@@ -299,6 +303,7 @@ final V putVal(K key, V value, boolean onlyIfAbsent) {
                     }
                 }
                 if (binCount != 0) {
+                    // 如果当前桶的节点个数大于树化阈值，则转化成红黑树
                     if (binCount >= TREEIFY_THRESHOLD)
                         treeifyBin(tab, i);
                     if (oldVal != null)
