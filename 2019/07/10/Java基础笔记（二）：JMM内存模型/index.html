@@ -4,19 +4,20 @@
   <meta charset="utf-8">
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Johnny Ho&#39;s Home</title>
+  <title>Java基础笔记（二）：JMM内存模型 | Johnny Ho&#39;s Home</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Operating Systems: three easy piecesvirtualizationCPU virtualizationfork、join、exec trap 用户态和内核态 schedule ​    single cpu ​    multi cpu ​        cpu cache ​        work stealing 总结，cpu虚拟化是对程序调度、权限控制的虚">
+  <meta name="description" content="Java基础笔记（二）：JMM内存模型先抛出问题：JMM内存模型是什么，cas实现原理( CPU Lock前缀指令),它是如何保证其他cpu core的cache失效的，然后会问你volatile的实现原理，要结合java内存模型来讲，可见性是如何实现的(内存屏障)，synchronized锁和reentrantlock的区别以及内部怎么实现的:常用的gc算法及优缺点，如何判断对象的存活性">
+<meta name="keywords" content="Java">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Johnny Ho&#39;s Home">
-<meta property="og:url" content="http://johnho.cn/2019/07/05/Operating Systems three easy pieces笔记/index.html">
+<meta property="og:title" content="Java基础笔记（二）：JMM内存模型">
+<meta property="og:url" content="http://johnho.cn/2019/07/10/Java基础笔记（二）：JMM内存模型/index.html">
 <meta property="og:site_name" content="Johnny Ho&#39;s Home">
-<meta property="og:description" content="Operating Systems: three easy piecesvirtualizationCPU virtualizationfork、join、exec trap 用户态和内核态 schedule ​    single cpu ​    multi cpu ​        cpu cache ​        work stealing 总结，cpu虚拟化是对程序调度、权限控制的虚">
+<meta property="og:description" content="Java基础笔记（二）：JMM内存模型先抛出问题：JMM内存模型是什么，cas实现原理( CPU Lock前缀指令),它是如何保证其他cpu core的cache失效的，然后会问你volatile的实现原理，要结合java内存模型来讲，可见性是如何实现的(内存屏障)，synchronized锁和reentrantlock的区别以及内部怎么实现的:常用的gc算法及优缺点，如何判断对象的存活性">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-07-05T08:30:37.864Z">
+<meta property="og:updated_time" content="2019-07-10T08:15:25.393Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Johnny Ho&#39;s Home">
-<meta name="twitter:description" content="Operating Systems: three easy piecesvirtualizationCPU virtualizationfork、join、exec trap 用户态和内核态 schedule ​    single cpu ​    multi cpu ​        cpu cache ​        work stealing 总结，cpu虚拟化是对程序调度、权限控制的虚">
+<meta name="twitter:title" content="Java基础笔记（二）：JMM内存模型">
+<meta name="twitter:description" content="Java基础笔记（二）：JMM内存模型先抛出问题：JMM内存模型是什么，cas实现原理( CPU Lock前缀指令),它是如何保证其他cpu core的cache失效的，然后会问你volatile的实现原理，要结合java内存模型来讲，可见性是如何实现的(内存屏障)，synchronized锁和reentrantlock的区别以及内部怎么实现的:常用的gc算法及优缺点，如何判断对象的存活性">
   
     <link rel="alternative" href="/atom.xml" title="Johnny Ho&#39;s Home" type="application/atom+xml">
   
@@ -152,11 +153,11 @@
 	</div>
 </nav>
 
-      <div class="body-wrap"><article id="post-Operating Systems three easy pieces笔记" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-Java基础笔记（二）：JMM内存模型" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2019/07/05/Operating Systems three easy pieces笔记/" class="article-date">
-  	<time datetime="2019-07-05T08:30:37.864Z" itemprop="datePublished">2019-07-05</time>
+      <a href="/2019/07/10/Java基础笔记（二）：JMM内存模型/" class="article-date">
+  	<time datetime="2019-07-10T08:12:21.000Z" itemprop="datePublished">2019-07-10</time>
 </a>
     </div>
   
@@ -165,18 +166,36 @@
       <input type="hidden" class="isFancy" />
     
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Java基础笔记（二）：JMM内存模型
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
+	</div>
+
+        
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/面试/">面试</a>
+	</div>
+
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="Operating-Systems-three-easy-pieces"><a href="#Operating-Systems-three-easy-pieces" class="headerlink" title="Operating Systems: three easy pieces"></a>Operating Systems: three easy pieces</h1><h2 id="virtualization"><a href="#virtualization" class="headerlink" title="virtualization"></a>virtualization</h2><h3 id="CPU-virtualization"><a href="#CPU-virtualization" class="headerlink" title="CPU virtualization"></a>CPU virtualization</h3><p>fork、join、exec</p>
-<p>trap</p>
-<p>用户态和内核态</p>
-<p>schedule</p>
-<p>​    single cpu</p>
-<p>​    multi cpu</p>
-<p>​        cpu cache</p>
-<p>​        work stealing</p>
-<p>总结，cpu虚拟化是对程序调度、权限控制的虚拟化，在此基础上需要确保安全性和高效性，一系列的技术由此衍生出来。</p>
-<h3 id="memory-virtualization"><a href="#memory-virtualization" class="headerlink" title="memory virtualization"></a>memory virtualization</h3><p>Adress space</p>
+        <h1 id="Java基础笔记（二）：JMM内存模型"><a href="#Java基础笔记（二）：JMM内存模型" class="headerlink" title="Java基础笔记（二）：JMM内存模型"></a>Java基础笔记（二）：JMM内存模型</h1><p>先抛出问题：JMM内存模型是什么，cas实现原理( CPU Lock前缀指令),它是如何保证其他cpu core的cache失效的，然后会问你volatile的实现原理，要结合java内存模型来讲，可见性是如何实现的(内存屏障)，synchronized锁和reentrantlock的区别以及内部怎么实现的:常用的gc算法及优缺点，如何判断对象的存活性</p>
+<a id="more"></a>
 
       
     </div>
@@ -186,9 +205,18 @@
     
 <nav id="article-nav">
   
+    <a href="/2019/07/10/docker笔记/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
   
-    <a href="/2019/07/05/docker笔记/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title"></div>
+  
+    <a href="/2019/07/05/ATRS计划第3期/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">ARTS计划第3期</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -223,7 +251,7 @@
 
 <div class="duoshuo">
 	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="Operating Systems three easy pieces笔记" data-title="" data-url="http://johnho.cn/2019/07/05/Operating Systems three easy pieces笔记/"></div>
+	<div class="ds-thread" data-thread-key="Java基础笔记（二）：JMM内存模型" data-title="Java基础笔记（二）：JMM内存模型" data-url="http://johnho.cn/2019/07/10/Java基础笔记（二）：JMM内存模型/"></div>
 	<!-- 多说评论框 end -->
 	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 	<script type="text/javascript">
