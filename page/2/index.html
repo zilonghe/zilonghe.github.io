@@ -97,7 +97,7 @@
 				
 				<section class="switch-part switch-part2">
 					<div class="widget tagcloud" id="js-tagcloud">
-						<a href="/tags/ARTS/" style="font-size: 15px;">ARTS</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/MongoDB/" style="font-size: 10px;">MongoDB</a> <a href="/tags/Mybatis/" style="font-size: 10px;">Mybatis</a> <a href="/tags/NBA/" style="font-size: 10px;">NBA</a> <a href="/tags/alfred/" style="font-size: 12.5px;">alfred</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/iOS/" style="font-size: 12.5px;">iOS</a> <a href="/tags/linux/" style="font-size: 15px;">linux</a> <a href="/tags/python/" style="font-size: 12.5px;">python</a> <a href="/tags/单元测试/" style="font-size: 10px;">单元测试</a> <a href="/tags/计算机知识/" style="font-size: 17.5px;">计算机知识</a>
+						<a href="/tags/ARTS/" style="font-size: 16.67px;">ARTS</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/MongoDB/" style="font-size: 10px;">MongoDB</a> <a href="/tags/Mybatis/" style="font-size: 10px;">Mybatis</a> <a href="/tags/alfred/" style="font-size: 13.33px;">alfred</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/linux/" style="font-size: 16.67px;">linux</a> <a href="/tags/python/" style="font-size: 13.33px;">python</a> <a href="/tags/单元测试/" style="font-size: 10px;">单元测试</a> <a href="/tags/计算机知识/" style="font-size: 16.67px;">计算机知识</a>
 					</div>
 				</section>
 				
@@ -152,202 +152,6 @@
 </nav>
 
       <div class="body-wrap">
-  
-    <article id="post-JVM读书笔记之第十一章" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/08/05/JVM读书笔记之第十一章/" class="article-date">
-  	<time datetime="2018-08-05T08:35:04.000Z" itemprop="datePublished">2018-08-05</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/05/JVM读书笔记之第十一章/">JVM读书笔记之第十一章</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="晚期（运行期）优化"><a href="#晚期（运行期）优化" class="headerlink" title="晚期（运行期）优化"></a>晚期（运行期）优化</h1><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>当虚拟机发现某个方法或代码块的运行特别频繁时，就会把这些代码认定为“热点代码”。为了提高热点代码的执行效率，在运行时，虚拟机将会把这些代码编译成与本地平台相关的机器码，并进行各种层次的优化，完成这个任务的编译器称为即时编译器（JIT）。</p>
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/读书笔记/">读书笔记</a>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a  href="/2018/08/05/JVM读书笔记之第十一章/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-JVM读书笔记之第十章" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/08/05/JVM读书笔记之第十章/" class="article-date">
-  	<time datetime="2018-08-05T05:36:11.000Z" itemprop="datePublished">2018-08-05</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/05/JVM读书笔记之第十章/">JVM读书笔记之第十章</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="早期编译器优化"><a href="#早期编译器优化" class="headerlink" title="早期编译器优化"></a>早期编译器优化</h1><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><ul>
-<li>前端编译器：把java文件编译成class文件</li>
-<li>JIT编译器（just in time compiler）：把字节码转变成机器码的过程</li>
-<li>AOT编译器（ahead of time compiler）：直接把java文件编译成本地机器码</li>
-</ul>
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/读书笔记/">读书笔记</a>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a  href="/2018/08/05/JVM读书笔记之第十章/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-使用hsql+junit模拟数据库接口编写UT" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/07/24/使用hsql+junit模拟数据库接口编写UT/" class="article-date">
-  	<time datetime="2018-07-24T03:42:11.000Z" itemprop="datePublished">2018-07-24</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/07/24/使用hsql+junit模拟数据库接口编写UT/">使用hsql+junit模拟mybatis数据库接口编写UT</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="使用hsql-junit模拟mybatis数据库接口编写UT"><a href="#使用hsql-junit模拟mybatis数据库接口编写UT" class="headerlink" title="使用hsql+junit模拟mybatis数据库接口编写UT"></a>使用hsql+junit模拟mybatis数据库接口编写UT</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>目前UT的框架已经是万花齐放，有mockito、easymock、spock等等优秀的框架，在这篇文章中，主要介绍以hsql内存数据库来模拟数据库接口的方式</p>
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Mybatis/">Mybatis</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/单元测试/">单元测试</a></li></ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/编程/">编程</a>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a  href="/2018/07/24/使用hsql+junit模拟数据库接口编写UT/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
   
     <article id="post-JVM读书笔记第八章：虚拟机字节码执行引擎" class="article article-type-post" itemscope itemprop="blogPost">
   
@@ -619,138 +423,6 @@
 
 
   
-    <article id="post-未完成/iOS APP 开发初识" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/06/25/未完成/iOS APP 开发初识/" class="article-date">
-  	<time datetime="2018-06-25T18:25:37.000Z" itemprop="datePublished">2018-06-26</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/06/25/未完成/iOS APP 开发初识/">iOS APP 开发初识</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <ol>
-<li>创建项目</li>
-<li>在 storyboard 中构建 UI ，Auto Layout 和 stack view 是重点</li>
-<li>IBoutlet 是代码到 UI ，IBAction 是 UI 到代码，比如你想控制一个 button 的按下的动作，那么你需要为 button 定义它的 IBAction ，然后在按钮按下后，可能会触发其他变化，比如你在文本框输入了文本，按下提交，将你输入的文本替换到页面的一个 Label 上，这个时候你就需要去修改 IBoutlet 的变量。</li>
-<li><p>viewDidLoad -&gt; viewWillAppear -&gt; viewDidAppear -&gt; viewWillDisappear -&gt; viewDidDisappear</p>
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/编程/">编程</a>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a  href="/2018/06/25/未完成/iOS APP 开发初识/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-未完成/iOS APP 开发初始（二）" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/06/25/未完成/iOS APP 开发初始（二）/" class="article-date">
-  	<time datetime="2018-06-25T18:24:37.000Z" itemprop="datePublished">2018-06-26</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/06/25/未完成/iOS APP 开发初始（二）/">iOS APP 开发初始（二）</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="ViewController-之间的三种通信方式"><a href="#ViewController-之间的三种通信方式" class="headerlink" title="ViewController 之间的三种通信方式"></a>ViewController 之间的三种通信方式</h2>
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/编程/">编程</a>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a  href="/2018/06/25/未完成/iOS APP 开发初始（二）/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
     <article id="post-SSH 原理" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -797,6 +469,331 @@
       
         <p class="article-more-link">
           <a  href="/2018/06/25/SSH 原理/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-极简git使用教程" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/06/25/极简git使用教程/" class="article-date">
+  	<time datetime="2018-06-25T17:45:37.000Z" itemprop="datePublished">2018-06-26</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/06/25/极简git使用教程/">极简 Git 使用教程</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="本地创建一个新的项目时"><a href="#本地创建一个新的项目时" class="headerlink" title="本地创建一个新的项目时"></a>本地创建一个新的项目时</h2><p><strong>1.1</strong> 进入你想要上传到 git 的目录，运行<code>git init</code></p>
+<p><strong>1.2</strong> 在该文件夹中创建文件，这里用添加一个<code>.gitignore</code>文件为例子：<code>touch .gitignore</code></p>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/git/">git</a></li></ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/工具/">工具</a>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a  href="/2018/06/25/极简git使用教程/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-万恶的字符集" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/09/27/万恶的字符集/" class="article-date">
+  	<time datetime="2016-09-27T13:55:11.000Z" itemprop="datePublished">2016-09-27</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/09/27/万恶的字符集/">万恶的字符集</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="http://od3b21nvv.bkt.clouddn.com/utf8.png" alt="UTF8"></p>
+<p>日常生活中经常要与编码打交道，老是分不清各种编码的区别，一怒之下，就有了这篇文章。</p>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/计算机知识/">计算机知识</a></li></ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/编程/">编程</a>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a  href="/2016/09/27/万恶的字符集/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-常用kill命令及用法" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/09/16/常用kill命令及用法/" class="article-date">
+  	<time datetime="2016-09-16T07:06:11.000Z" itemprop="datePublished">2016-09-16</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/09/16/常用kill命令及用法/">常用kill命令及用法</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>当你想要杀掉某个进程 / 服务的时候，你自然而然会想到用<code>kill</code>命令结合<code>ps/grep</code>找出进程<code>id</code>并将其杀之，但很多人也许并不知道<code>kill</code>命令还有很多其他选项，而我们又该怎么去选择。今天这一篇主要是介绍常用的<code>kill</code>命令及其用法。</p>
+<p><img src="http://od3b21nvv.bkt.clouddn.com/hexoimg15f106c985499f555c97316bee98afba.png-960.jpg" alt="kill bill"></p>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li></ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/编程/">编程</a>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a  href="/2016/09/16/常用kill命令及用法/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Alfredworkflow2" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/09/11/Alfredworkflow2/" class="article-date">
+  	<time datetime="2016-09-11T17:29:04.000Z" itemprop="datePublished">2016-09-12</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/09/11/Alfredworkflow2/">Alfred workflow初步开发指南（二）</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>有些朋友说，第一期写得有点太不接地气儿了，那么我先在开头讲清楚，这个Alfred Workflow教程到底是干什么的，以及Workflow是什么。<br>而且我会在接下来的教程中，面向两部分人会有不同的内容：</p>
+<p>第一种：普通用户，不需要用到Run Script中的部分功能的（需要自己写代码的），但也不要说对普通用户就没用了，因为你可以直接到文章最后下载我写好的 Workflow! （楼主好人一生平安）</p>
+<p>第二种：程序员专用的，比如我现在写的blog就是在本地写好文章，再通过我自己定义的 Workflow 一键上传到服务器的，又或者是你需要启动某些系统服务，跑某些脚本，等等。换句话说就是写 shell 脚本啦~</p>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/alfred/">alfred</a></li></ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/工具/">工具</a>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a  href="/2016/09/11/Alfredworkflow2/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Alfred-workflow-1" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/07/26/Alfred-workflow-1/" class="article-date">
+  	<time datetime="2016-07-26T15:23:02.000Z" itemprop="datePublished">2016-07-26</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/07/26/Alfred-workflow-1/">Alfred workflow初步开发指南（一）</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>OS X用户都知道一款神器：<a href="https://www.alfredapp.com/" target="_blank" rel="noopener">Alfred</a><br>但是大部分人都只是在用它的快捷搜索的功能，但是它最强大的功能是它的workflow，今天我来抛砖引玉，写一下如何开发属于自己的workflow。</p>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/alfred/">alfred</a></li></ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/工具/">工具</a>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a  href="/2016/07/26/Alfred-workflow-1/#more">more >></a>
         </p>
       
       <div class="clearfix"></div>

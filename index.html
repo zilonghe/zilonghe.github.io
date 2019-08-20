@@ -97,7 +97,7 @@
 				
 				<section class="switch-part switch-part2">
 					<div class="widget tagcloud" id="js-tagcloud">
-						<a href="/tags/ARTS/" style="font-size: 15px;">ARTS</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/MongoDB/" style="font-size: 10px;">MongoDB</a> <a href="/tags/Mybatis/" style="font-size: 10px;">Mybatis</a> <a href="/tags/NBA/" style="font-size: 10px;">NBA</a> <a href="/tags/alfred/" style="font-size: 12.5px;">alfred</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/iOS/" style="font-size: 12.5px;">iOS</a> <a href="/tags/linux/" style="font-size: 15px;">linux</a> <a href="/tags/python/" style="font-size: 12.5px;">python</a> <a href="/tags/单元测试/" style="font-size: 10px;">单元测试</a> <a href="/tags/计算机知识/" style="font-size: 17.5px;">计算机知识</a>
+						<a href="/tags/ARTS/" style="font-size: 16.67px;">ARTS</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/MongoDB/" style="font-size: 10px;">MongoDB</a> <a href="/tags/Mybatis/" style="font-size: 10px;">Mybatis</a> <a href="/tags/alfred/" style="font-size: 13.33px;">alfred</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/linux/" style="font-size: 16.67px;">linux</a> <a href="/tags/python/" style="font-size: 13.33px;">python</a> <a href="/tags/单元测试/" style="font-size: 10px;">单元测试</a> <a href="/tags/计算机知识/" style="font-size: 16.67px;">计算机知识</a>
 					</div>
 				</section>
 				
@@ -152,135 +152,6 @@
 </nav>
 
       <div class="body-wrap">
-  
-    <article id="post-未完成/Operating Systems three easy pieces笔记" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2019/08/20/未完成/Operating Systems three easy pieces笔记/" class="article-date">
-  	<time datetime="2019-08-20T17:14:15.765Z" itemprop="datePublished">2019-08-21</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="Operating-Systems-three-easy-pieces"><a href="#Operating-Systems-three-easy-pieces" class="headerlink" title="Operating Systems: three easy pieces"></a>Operating Systems: three easy pieces</h1><h2 id="virtualization"><a href="#virtualization" class="headerlink" title="virtualization"></a>virtualization</h2><h3 id="CPU-virtualization"><a href="#CPU-virtualization" class="headerlink" title="CPU virtualization"></a>CPU virtualization</h3><p>fork、join、exec</p>
-<p>trap</p>
-<p>用户态和内核态</p>
-<p>schedule</p>
-<p>​    single cpu</p>
-<p>​    multi cpu</p>
-<p>​        cpu cache</p>
-<p>​        work stealing</p>
-<p>总结，cpu虚拟化是对程序调度、权限控制的虚拟化，在此基础上需要确保安全性和高效性，一系列的技术由此衍生出来。</p>
-<h3 id="memory-virtualization"><a href="#memory-virtualization" class="headerlink" title="memory virtualization"></a>memory virtualization</h3><p>Adress space</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-未完成/docker笔记" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2019/08/20/未完成/docker笔记/" class="article-date">
-  	<time datetime="2019-08-20T17:14:15.765Z" itemprop="datePublished">2019-08-21</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="docker笔记"><a href="#docker笔记" class="headerlink" title="docker笔记"></a>docker笔记</h1><h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><p><code>image</code>：是镜像，就像是java中的一个类，静态资源</p>
-<p><code>container</code>：是容器，就像是java中的类实例，根据image运行起来的容器实例</p>
-<h2 id="基本命令"><a href="#基本命令" class="headerlink" title="基本命令"></a>基本命令</h2><p><code>docker image ls</code>：展示已有image</p>
-<p><code>docker run -it &lt;imageName&gt;</code>：以交互形式在一个新的container里面运行一个image</p>
-<p><code>docker run -d</code>:后台执行</p>
-<p><code>docker container ls</code>：显示已有container</p>
-<p><code>docker build -t &lt;tag&gt;</code>：讲一个dockerfile编译成一个image</p>
-<p><code>docker ps</code>:显示正在运行的container</p>
-<p><code>docker exec</code>：Run a command in a running container</p>
-<p><code>docker stop</code>：停止一个正在运行的container</p>
-<p><code>docker start</code>：启动一个container</p>
-<p><code>docker rm</code>：删除一个container</p>
-<p><code>docker inspect</code>:Return low-level information on Docker objects</p>
-<p><code>docker network ls</code>:展示已有网络</p>
-<p><code>docker network create -d &lt;driver&gt; &lt;name&gt;</code>：创建一个网络</p>
-<p><code>docker network inspect &lt;name&gt;</code>：查看一个网络的详情，比如包含了什么容器</p>
-<h2 id="docker网络"><a href="#docker网络" class="headerlink" title="docker网络"></a>docker网络</h2><h3 id="网络类型"><a href="#网络类型" class="headerlink" title="网络类型"></a>网络类型</h3><ul>
-<li>bridge：网桥模式，最常用</li>
-<li>host：共享host机器的网络命名空间</li>
-<li>none：孤立的网络命名空间，只有本地通过docker exec才能访问</li>
-</ul>
-<h3 id="bridge模式"><a href="#bridge模式" class="headerlink" title="bridge模式"></a>bridge模式</h3><p><code>—-link</code>：可以将一个容器连接到另外一个容器，然后可以通过容器名称访问，例子：<code>docker run -d --name test1 --link test2 busybox</code>，创建一个后台运行的busybox容器，名称为test1，与test2容器连接。</p>
-<p><code>--network</code>:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 创建一个driver为bridge的网络my-bridge</span><br><span class="line">docker network create -d bridge my-bridge</span><br><span class="line"># 启动一个容器，加入my-bridge</span><br><span class="line">docker run -d --name test3 --network my-bridge busybox</span><br></pre></td></tr></table></figure>
-<p>如用户自己创建了一个network（默认创建的容器都是加入docker0 bridge 网络），那么默认加入该网络的容器都可以通过容器名称访问。</p>
-<h3 id="端口映射"><a href="#端口映射" class="headerlink" title="端口映射"></a>端口映射</h3><p><code>docker run -p &lt;容器端口&gt;:&lt;需要映射到本地的端口&gt;</code></p>
-<p>设置环境变量：<code>docker run -e &lt;env_key&gt;=&lt;env_value&gt;</code></p>
-<h2 id="docker数据持久化"><a href="#docker数据持久化" class="headerlink" title="docker数据持久化"></a>docker数据持久化</h2><ol>
-<li><p>Data Valume：将container中运行产生的数据映射到本地路径。</p>
-<p><code>docker volume ls</code>：列出当前所有volume</p>
-<p><code>docker volume inspect &lt;id&gt;</code>：查看指定volume信息</p>
-<p><code>docker run -v &lt;volumeName&gt;:local/path</code>：指定需要映射的路径和volume的名字，可以复用</p>
-</li>
-<li><p>Bind Mounting：运行容器的时候指定本地路径和容器里面的路径，这两个路径将会同步共享</p>
-<p><code>docker run -v local/path:container/path</code></p>
-</li>
-</ol>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
   
     <article id="post-Java基础笔记（二）：JMM内存模型" class="article article-type-post" itemscope itemprop="blogPost">
   
@@ -538,78 +409,6 @@
 
 
   
-    <article id="post-未完成/Netty源码学习笔记" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2019/05/20/未完成/Netty源码学习笔记/" class="article-date">
-  	<time datetime="2019-05-20T14:34:20.000Z" itemprop="datePublished">2019-05-20</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/05/20/未完成/Netty源码学习笔记/">Netty源码学习笔记——Netty服务端启动</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><ol>
-<li><p>服务端的socket在哪里初始化？</p>
-<p>答：在io.netty.bootstrap.ServerBootstrap#init中初始化服务端的socket。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">init</span><span class="params">(Channel channel)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="keyword">final</span> Map&lt;ChannelOption&lt;?&gt;, Object&gt; options = options0();</span><br><span class="line">        <span class="keyword">synchronized</span> (options) &#123;</span><br><span class="line">            channel.config().setOptions(options);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">final</span> Map&lt;AttributeKey&lt;?&gt;, Object&gt; attrs = attrs0();</span><br><span class="line">        <span class="keyword">synchronized</span> (attrs) &#123;</span><br><span class="line">            <span class="keyword">for</span> (Entry&lt;AttributeKey&lt;?&gt;, Object&gt; e: attrs.entrySet()) &#123;</span><br><span class="line">                <span class="meta">@SuppressWarnings</span>(<span class="string">"unchecked"</span>)</span><br><span class="line">                AttributeKey&lt;Object&gt; key = (AttributeKey&lt;Object&gt;) e.getKey();</span><br><span class="line">                channel.attr(key).set(e.getValue());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        ChannelPipeline p = channel.pipeline();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">final</span> EventLoopGroup currentChildGroup = childGroup;</span><br><span class="line">        <span class="keyword">final</span> ChannelHandler currentChildHandler = childHandler;</span><br><span class="line">        <span class="keyword">final</span> Entry&lt;ChannelOption&lt;?&gt;, Object&gt;[] currentChildOptions;</span><br><span class="line">        <span class="keyword">final</span> Entry&lt;AttributeKey&lt;?&gt;, Object&gt;[] currentChildAttrs;</span><br><span class="line">        <span class="keyword">synchronized</span> (childOptions) &#123;</span><br><span class="line">            currentChildOptions = childOptions.entrySet().toArray(newOptionArray(childOptions.size()));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">synchronized</span> (childAttrs) &#123;</span><br><span class="line">            currentChildAttrs = childAttrs.entrySet().toArray(newAttrArray(childAttrs.size()));</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        p.addLast(<span class="keyword">new</span> ChannelInitializer&lt;Channel&gt;() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">initChannel</span><span class="params">(Channel ch)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">                <span class="keyword">final</span> ChannelPipeline pipeline = ch.pipeline();</span><br><span class="line">                ChannelHandler handler = config.handler();</span><br><span class="line">                <span class="keyword">if</span> (handler != <span class="keyword">null</span>) &#123;</span><br><span class="line">                    pipeline.addLast(handler);</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="comment">// We add this handler via the EventLoop as the user may have used a ChannelInitializer as handler.</span></span><br><span class="line">                <span class="comment">// In this case the initChannel(...) method will only be called after this method returns. Because</span></span><br><span class="line">                <span class="comment">// of this we need to ensure we add our handler in a delayed fashion so all the users handler are</span></span><br><span class="line">                <span class="comment">// placed in front of the ServerBootstrapAcceptor.</span></span><br><span class="line">                ch.eventLoop().execute(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">                    <span class="meta">@Override</span></span><br><span class="line">                    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                        pipeline.addLast(<span class="keyword">new</span> ServerBootstrapAcceptor(</span><br><span class="line">                                currentChildGroup, currentChildHandler, currentChildOptions, currentChildAttrs));</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<p>在这里会将我们实际使用的代码中对serverbootstrap的配置初始化到服务端的channel上</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">ServerBootstrap b = <span class="keyword">new</span> ServerBootstrap();</span><br><span class="line">            b.group(bossGroup, workerGroup)</span><br><span class="line">                    .channel(NioServerSocketChannel.class)</span><br><span class="line">                    .childOption(ChannelOption.TCP_NODELAY, <span class="keyword">true</span>)</span><br><span class="line">                    .childAttr(AttributeKey.newInstance(<span class="string">"childAttr"</span>), <span class="string">"childAttrValue"</span>)</span><br><span class="line">                    .handler(<span class="keyword">new</span> ServerHandler())</span><br><span class="line">                    .childHandler(<span class="keyword">new</span> ChannelInitializer&lt;SocketChannel&gt;() &#123;</span><br><span class="line">                        <span class="meta">@Override</span></span><br><span class="line">                        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">initChannel</span><span class="params">(SocketChannel ch)</span> </span>&#123;</span><br><span class="line">                            ch.pipeline().addLast(<span class="keyword">new</span> AuthHandler());</span><br><span class="line">                            <span class="comment">//..</span></span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;);</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>在哪里accept连接？</p>
-</li>
-</ol>
-<p>io.netty.channel.nio.AbstractNioChannel#doBeginRead</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">doBeginRead</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="comment">// Channel.read() or ChannelHandlerContext.read() was called</span></span><br><span class="line">        <span class="keyword">final</span> SelectionKey selectionKey = <span class="keyword">this</span>.selectionKey;</span><br><span class="line">        <span class="keyword">if</span> (!selectionKey.isValid()) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        readPending = <span class="keyword">true</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">int</span> interestOps = selectionKey.interestOps();</span><br><span class="line">        <span class="keyword">if</span> ((interestOps &amp; readInterestOp) == <span class="number">0</span>) &#123;</span><br><span class="line">            selectionKey.interestOps(interestOps | readInterestOp);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/计算机知识/">计算机知识</a></li></ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/编程/">编程</a>
-	</div>
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
     <article id="post-高性能mysql笔记——第四章" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -787,6 +586,202 @@
       
         <p class="article-more-link">
           <a  href="/2018/11/19/Java基础笔记（一）：Collection、Map/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-JVM读书笔记之第十一章" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/08/05/JVM读书笔记之第十一章/" class="article-date">
+  	<time datetime="2018-08-05T08:35:04.000Z" itemprop="datePublished">2018-08-05</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/05/JVM读书笔记之第十一章/">JVM读书笔记之第十一章</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="晚期（运行期）优化"><a href="#晚期（运行期）优化" class="headerlink" title="晚期（运行期）优化"></a>晚期（运行期）优化</h1><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>当虚拟机发现某个方法或代码块的运行特别频繁时，就会把这些代码认定为“热点代码”。为了提高热点代码的执行效率，在运行时，虚拟机将会把这些代码编译成与本地平台相关的机器码，并进行各种层次的优化，完成这个任务的编译器称为即时编译器（JIT）。</p>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/读书笔记/">读书笔记</a>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a  href="/2018/08/05/JVM读书笔记之第十一章/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-JVM读书笔记之第十章" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/08/05/JVM读书笔记之第十章/" class="article-date">
+  	<time datetime="2018-08-05T05:36:11.000Z" itemprop="datePublished">2018-08-05</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/05/JVM读书笔记之第十章/">JVM读书笔记之第十章</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="早期编译器优化"><a href="#早期编译器优化" class="headerlink" title="早期编译器优化"></a>早期编译器优化</h1><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><ul>
+<li>前端编译器：把java文件编译成class文件</li>
+<li>JIT编译器（just in time compiler）：把字节码转变成机器码的过程</li>
+<li>AOT编译器（ahead of time compiler）：直接把java文件编译成本地机器码</li>
+</ul>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/读书笔记/">读书笔记</a>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a  href="/2018/08/05/JVM读书笔记之第十章/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-使用hsql+junit模拟数据库接口编写UT" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/07/24/使用hsql+junit模拟数据库接口编写UT/" class="article-date">
+  	<time datetime="2018-07-24T03:42:11.000Z" itemprop="datePublished">2018-07-24</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/07/24/使用hsql+junit模拟数据库接口编写UT/">使用hsql+junit模拟mybatis数据库接口编写UT</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="使用hsql-junit模拟mybatis数据库接口编写UT"><a href="#使用hsql-junit模拟mybatis数据库接口编写UT" class="headerlink" title="使用hsql+junit模拟mybatis数据库接口编写UT"></a>使用hsql+junit模拟mybatis数据库接口编写UT</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>目前UT的框架已经是万花齐放，有mockito、easymock、spock等等优秀的框架，在这篇文章中，主要介绍以hsql内存数据库来模拟数据库接口的方式</p>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Mybatis/">Mybatis</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/单元测试/">单元测试</a></li></ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/编程/">编程</a>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a  href="/2018/07/24/使用hsql+junit模拟数据库接口编写UT/#more">more >></a>
         </p>
       
       <div class="clearfix"></div>

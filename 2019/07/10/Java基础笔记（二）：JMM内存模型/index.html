@@ -14,7 +14,7 @@
 <meta property="og:site_name" content="Johnny Ho&#39;s Home">
 <meta property="og:description" content="Java基础笔记（二）：JMM内存模型先抛出问题：JMM内存模型是什么，cas实现原理( CPU Lock前缀指令),它是如何保证其他cpu core的cache失效的，然后会问你volatile的实现原理，要结合java内存模型来讲，可见性是如何实现的(内存屏障)，synchronized锁和reentrantlock的区别以及内部怎么实现的:常用的gc算法及优缺点，如何判断对象的存活性">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-08-20T17:14:15.765Z">
+<meta property="og:updated_time" content="2019-08-20T17:18:05.157Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java基础笔记（二）：JMM内存模型">
 <meta name="twitter:description" content="Java基础笔记（二）：JMM内存模型先抛出问题：JMM内存模型是什么，cas实现原理( CPU Lock前缀指令),它是如何保证其他cpu core的cache失效的，然后会问你volatile的实现原理，要结合java内存模型来讲，可见性是如何实现的(内存屏障)，synchronized锁和reentrantlock的区别以及内部怎么实现的:常用的gc算法及优缺点，如何判断对象的存活性">
@@ -99,7 +99,7 @@
 				
 				<section class="switch-part switch-part2">
 					<div class="widget tagcloud" id="js-tagcloud">
-						<a href="/tags/ARTS/" style="font-size: 15px;">ARTS</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/MongoDB/" style="font-size: 10px;">MongoDB</a> <a href="/tags/Mybatis/" style="font-size: 10px;">Mybatis</a> <a href="/tags/NBA/" style="font-size: 10px;">NBA</a> <a href="/tags/alfred/" style="font-size: 12.5px;">alfred</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/iOS/" style="font-size: 12.5px;">iOS</a> <a href="/tags/linux/" style="font-size: 15px;">linux</a> <a href="/tags/python/" style="font-size: 12.5px;">python</a> <a href="/tags/单元测试/" style="font-size: 10px;">单元测试</a> <a href="/tags/计算机知识/" style="font-size: 17.5px;">计算机知识</a>
+						<a href="/tags/ARTS/" style="font-size: 16.67px;">ARTS</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/MongoDB/" style="font-size: 10px;">MongoDB</a> <a href="/tags/Mybatis/" style="font-size: 10px;">Mybatis</a> <a href="/tags/alfred/" style="font-size: 13.33px;">alfred</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/linux/" style="font-size: 16.67px;">linux</a> <a href="/tags/python/" style="font-size: 13.33px;">python</a> <a href="/tags/单元测试/" style="font-size: 10px;">单元测试</a> <a href="/tags/计算机知识/" style="font-size: 16.67px;">计算机知识</a>
 					</div>
 				</section>
 				
@@ -204,15 +204,6 @@
   
     
 <nav id="article-nav">
-  
-    <a href="/2019/08/20/未完成/docker笔记/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          (no title)
-        
-      </div>
-    </a>
   
   
     <a href="/2019/07/05/ATRS计划第3期/" id="article-nav-older" class="article-nav-link-wrap">
