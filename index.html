@@ -153,6 +153,72 @@
 
       <div class="body-wrap">
   
+    <article id="post-java程序线上问题排查" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2019/09/18/java程序线上问题排查/" class="article-date">
+  	<time datetime="2019-09-18T13:05:57.000Z" itemprop="datePublished">2019-09-18</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/09/18/java程序线上问题排查/">Java程序线上问题排查</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Java程序线上问题排查"><a href="#Java程序线上问题排查" class="headerlink" title="Java程序线上问题排查"></a>Java程序线上问题排查</h1><h2 id="ps命令查看进程id"><a href="#ps命令查看进程id" class="headerlink" title="ps命令查看进程id"></a>ps命令查看进程id</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 普通使用方法</span></span><br><span class="line">ps -ef | grep &#123;应用关键字&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 过滤掉grep进程的记录</span></span><br><span class="line">ps -ef | grep &#123;应用关键字&#125; | grep -v <span class="string">"grep"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 只取进程id</span></span><br><span class="line">ps -ef | grep &#123;应用关键字&#125; | grep -v <span class="string">"grep"</span> | awk <span class="string">'&#123;print $2&#125;'</span></span><br></pre></td></tr></table></figure>
+<h2 id="jmap命令"><a href="#jmap命令" class="headerlink" title="jmap命令"></a>jmap命令</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看堆内存使用情况</span></span><br><span class="line">jmap -heap &#123;pid&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 结合上述用法</span></span><br><span class="line">ps -ef | grep &#123;应用关键字&#125; | grep -v <span class="string">"grep"</span> | xargs jmap -heap</span><br><span class="line"></span><br><span class="line">[root@xxx ~]<span class="comment"># ps -ef | grep xxx | grep -v "grep" | awk '&#123;print $2&#125;' | xargs jmap -heap</span></span><br><span class="line">Attaching to process ID 83112, please <span class="built_in">wait</span>...</span><br><span class="line">Debugger attached successfully.</span><br><span class="line">Server compiler detected.</span><br><span class="line">JVM version is 25.212-b04</span><br><span class="line"></span><br><span class="line">using thread-local object allocation.</span><br><span class="line">Garbage-First (G1) GC with 8 thread(s)</span><br><span class="line"></span><br><span class="line">Heap Configuration:</span><br><span class="line">   MinHeapFreeRatio         = 40</span><br><span class="line">   MaxHeapFreeRatio         = 70</span><br><span class="line">   MaxHeapSize              = 1073741824 (1024.0MB)</span><br><span class="line">   NewSize                  = 1363144 (1.2999954223632812MB)</span><br><span class="line">   MaxNewSize               = 643825664 (614.0MB)</span><br><span class="line">   OldSize                  = 5452592 (5.1999969482421875MB)</span><br><span class="line">   NewRatio                 = 2</span><br><span class="line">   SurvivorRatio            = 8</span><br><span class="line">   MetaspaceSize            = 21807104 (20.796875MB)</span><br><span class="line">   CompressedClassSpaceSize = 1073741824 (1024.0MB)</span><br><span class="line">   MaxMetaspaceSize         = 17592186044415 MB</span><br><span class="line">   G1HeapRegionSize         = 1048576 (1.0MB)</span><br><span class="line"></span><br><span class="line">Heap Usage:</span><br><span class="line">G1 Heap:</span><br><span class="line">   regions  = 1024</span><br><span class="line">   capacity = 1073741824 (1024.0MB)</span><br><span class="line">   used     = 325123808 (310.0622253417969MB)</span><br><span class="line">   free     = 748618016 (713.9377746582031MB)</span><br><span class="line">   30.27951419353485% used</span><br><span class="line">G1 Young Generation:</span><br><span class="line">Eden Space:</span><br><span class="line">   regions  = 49</span><br><span class="line">   capacity = 661651456 (631.0MB)</span><br><span class="line">   used     = 51380224 (49.0MB)</span><br><span class="line">   free     = 610271232 (582.0MB)</span><br><span class="line">   7.765451664025356% used</span><br><span class="line">Survivor Space:</span><br><span class="line">   regions  = 14</span><br><span class="line">   capacity = 14680064 (14.0MB)</span><br><span class="line">   used     = 14680064 (14.0MB)</span><br><span class="line">   free     = 0 (0.0MB)</span><br><span class="line">   100.0% used</span><br><span class="line">G1 Old Generation:</span><br><span class="line">   regions  = 269</span><br><span class="line">   capacity = 397410304 (379.0MB)</span><br><span class="line">   used     = 259063520 (247.06222534179688MB)</span><br><span class="line">   free     = 138346784 (131.93777465820312MB)</span><br><span class="line">   65.18792225377226% used</span><br><span class="line"></span><br><span class="line">40192 interned Strings occupying 4681792 bytes.</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 转储内存快照至hprof文件，方便使用MAT分析，一般定位内存溢出和泄漏</span></span><br><span class="line">jmap -dump:format=b,file=./xxx.hprof &#123;pid&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="jstat命令查看垃圾收集GC情况"><a href="#jstat命令查看垃圾收集GC情况" class="headerlink" title="jstat命令查看垃圾收集GC情况"></a>jstat命令查看垃圾收集GC情况</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 每隔2000毫秒输出一次gc情况，输出20次</span></span><br><span class="line">jstat -gc &#123;pid&#125; 2000 20</span><br><span class="line"></span><br><span class="line">[root@host-192-168-98-230 ~]<span class="comment"># jstat -gc 83112 2000 20</span></span><br><span class="line"> S0C    S1C    S0U    S1U      EC       EU        OC         OU       MC     MU    CCSC   CCSU   YGC     YGCT    FGC    FGCT     GCT   </span><br><span class="line"> 0.0   14336.0  0.0   14336.0 646144.0 75776.0   388096.0   252991.7  102144.0 96846.7 12032.0 11092.7 620248 10258.578 44644 32701.778 42960.356</span><br><span class="line"> 0.0   14336.0  0.0   14336.0 646144.0 75776.0   388096.0   252991.7  102144.0 96846.7 12032.0 11092.7 620248 10258.578 44644 32701.778 42960.356</span><br><span class="line"> 0.0   14336.0  0.0   14336.0 646144.0 75776.0   388096.0   252991.7  102144.0 96846.7 12032.0 11092.7 620248 10258.578 44644 32701.778 42960.356</span><br><span class="line"> 0.0   14336.0  0.0   14336.0 646144.0 75776.0   388096.0   252991.7  102144.0 96846.7 12032.0 11092.7 620248 10258.578 44644 32701.778 42960.356</span><br><span class="line"> 0.0   14336.0  0.0   14336.0 646144.0 75776.0   388096.0   252991.7  102144.0 96846.7 12032.0 11092.7 620248 10258.578 44644 32701.778 42960.356</span><br><span class="line"> 0.0   14336.0  0.0   14336.0 646144.0 75776.0   388096.0   252991.7  102144.0 96846.7 12032.0 11092.7 620248 10258.578 44644 32701.778 42960.356</span><br><span class="line"> 0.0   14336.0  0.0   14336.0 646144.0 75776.0   388096.0   252991.7  102144.0 96846.7 12032.0 11092.7 620248 10258.578 44644 32701.778 42960.356</span><br><span class="line"> 0.0   14336.0  0.0   14336.0 646144.0 75776.0   388096.0   252991.7  102144.0 96846.7 12032.0 11092.7 620248 10258.578 44644 32701.778 42960.356</span><br><span class="line"> 0.0   14336.0  0.0   14336.0 646144.0 75776.0   388096.0   252991.7  102144.0 96846.7 12032.0 11092.7 620248 10258.578 44644 32701.778 42960.356</span><br><span class="line"> 0.0   14336.0  0.0   14336.0 646144.0 75776.0   388096.0   252991.7  102144.0 96846.7 12032.0 11092.7 620248 10258.578 44644 32701.778 42960.356</span><br><span class="line"> 0.0   14336.0  0.0   14336.0 646144.0 75776.0   388096.0   252991.7  102144.0 96846.7 12032.0 11092.7 620248 10258.578 44644 32701.778 42960.356</span><br><span class="line"> 0.0   14336.0  0.0   14336.0 646144.0 76800.0   388096.0   252991.7  102144.0 96846.7 12032.0 11092.7 620248 10258.578 44644 32701.778 42960.356</span><br><span class="line"> 0.0   14336.0  0.0   14336.0 646144.0 76800.0   388096.0   252991.7  102144.0 96846.7 12032.0 11092.7 620248 10258.578 44644 32701.778 42960.356</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line"><span class="comment"># 结果说明</span></span><br><span class="line">S0C：第一个幸存区的大小</span><br><span class="line">S1C：第二个幸存区的大小</span><br><span class="line">S0U：第一个幸存区的使用大小</span><br><span class="line">S1U：第二个幸存区的使用大小</span><br><span class="line">EC：伊甸园区的大小</span><br><span class="line">EU：伊甸园区的使用大小</span><br><span class="line">OC：老年代大小</span><br><span class="line">OU：老年代使用大小</span><br><span class="line">MC：方法区大小</span><br><span class="line">MU：方法区使用大小</span><br><span class="line">CCSC:压缩类空间大小</span><br><span class="line">CCSU:压缩类空间使用大小</span><br><span class="line">YGC：年轻代垃圾回收次数</span><br><span class="line">YGCT：年轻代垃圾回收消耗时间</span><br><span class="line">FGC：老年代垃圾回收次数</span><br><span class="line">FGCT：老年代垃圾回收消耗时间</span><br><span class="line">GCT：垃圾回收消耗总时间</span><br></pre></td></tr></table></figure>
+<h2 id="jstack命令查看线程快照，定位死锁-阻塞等问题"><a href="#jstack命令查看线程快照，定位死锁-阻塞等问题" class="headerlink" title="jstack命令查看线程快照，定位死锁/阻塞等问题"></a>jstack命令查看线程快照，定位死锁/阻塞等问题</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">jstack &#123;pid&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 一般流程</span></span><br><span class="line">1. top -p -H &#123;pid&#125;，查看该java进程中的异常线程pid</span><br><span class="line">2. <span class="built_in">printf</span> 0x%x &#123;tid&#125;，转换线程id为十六进制</span><br><span class="line">3. jstack &#123;pid&#125; &gt; ./xxx.log</span><br><span class="line">4. 在jstack日志中查看第二步的线程id日志</span><br><span class="line"></span><br><span class="line"><span class="comment"># one more thing</span></span><br><span class="line">可以将jstack日志上传到 https://gceasy.io/index.jsp<span class="comment">#features 进行可视化分析</span></span><br></pre></td></tr></table></figure>
+<h2 id="打开GC日志"><a href="#打开GC日志" class="headerlink" title="打开GC日志"></a>打开GC日志</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">在java启动参数添加</span><br><span class="line">-XX:+PrintGC # 简单的日志</span><br><span class="line">-XX:+PrintGCDetails # 详细的日志</span><br><span class="line">-Xloggc:/xxx/logs/gc.$$.log&quot; # 输出到文件，$$符号的意思是表示脚本当前运行的进程号</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/工具/">工具</a>
+	</div>
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-Java基础笔记（二）：JMM内存模型" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -718,70 +784,6 @@
       
         <p class="article-more-link">
           <a  href="/2018/08/05/JVM读书笔记之第十章/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-使用hsql+junit模拟数据库接口编写UT" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/07/24/使用hsql+junit模拟数据库接口编写UT/" class="article-date">
-  	<time datetime="2018-07-24T03:42:11.000Z" itemprop="datePublished">2018-07-24</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/07/24/使用hsql+junit模拟数据库接口编写UT/">使用hsql+junit模拟mybatis数据库接口编写UT</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="使用hsql-junit模拟mybatis数据库接口编写UT"><a href="#使用hsql-junit模拟mybatis数据库接口编写UT" class="headerlink" title="使用hsql+junit模拟mybatis数据库接口编写UT"></a>使用hsql+junit模拟mybatis数据库接口编写UT</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>目前UT的框架已经是万花齐放，有mockito、easymock、spock等等优秀的框架，在这篇文章中，主要介绍以hsql内存数据库来模拟数据库接口的方式</p>
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Mybatis/">Mybatis</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/单元测试/">单元测试</a></li></ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/编程/">编程</a>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a  href="/2018/07/24/使用hsql+junit模拟数据库接口编写UT/#more">more >></a>
         </p>
       
       <div class="clearfix"></div>
