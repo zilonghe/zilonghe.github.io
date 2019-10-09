@@ -22,6 +22,8 @@ ps -ef | grep {应用关键字} | grep -v "grep"
 ps -ef | grep {应用关键字} | grep -v "grep" | awk '{print $2}'
 ```
 
+<!-- more -->
+
 ## jmap命令
 
 ```bash
