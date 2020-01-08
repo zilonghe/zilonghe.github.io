@@ -1,0 +1,700 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="计算机知识,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1">
+
+
+
+
+
+
+<meta name="description" content="日常生活中经常要与编码打交道，老是分不清各种编码的区别，一怒之下，就有了这篇文章。">
+<meta name="keywords" content="计算机知识">
+<meta property="og:type" content="article">
+<meta property="og:title" content="万恶的字符集">
+<meta property="og:url" content="http://johnho.cn/2016/09/27/万恶的字符集/index.html">
+<meta property="og:site_name" content="Johnny Ho&#39;s Home">
+<meta property="og:description" content="日常生活中经常要与编码打交道，老是分不清各种编码的区别，一怒之下，就有了这篇文章。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://od3b21nvv.bkt.clouddn.com/utf8.png">
+<meta property="og:updated_time" content="2020-01-08T16:54:37.152Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="万恶的字符集">
+<meta name="twitter:description" content="日常生活中经常要与编码打交道，老是分不清各种编码的区别，一怒之下，就有了这篇文章。">
+<meta name="twitter:image" content="http://od3b21nvv.bkt.clouddn.com/utf8.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: 'Author'
+    }
+  };
+</script>
+
+  <title> 万恶的字符集 | Johnny Ho's Home </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Johnny Ho's Home</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                万恶的字符集
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-09-27T13:55:11+00:00" content="2016-09-27">
+              2016-09-27
+            </time>
+          </span>
+
+          
+            <span class="post-category">
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/编程/" itemprop="url" rel="index">
+                    <span itemprop="name">编程</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/09/27/万恶的字符集/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/09/27/万恶的字符集/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+              &nbsp; | &nbsp;
+              <span class="page-pv"><i class="fa fa-file-o"></i>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+              </span>
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="http://od3b21nvv.bkt.clouddn.com/utf8.png" alt="UTF8"></p>
+<p>日常生活中经常要与编码打交道，老是分不清各种编码的区别，一怒之下，就有了这篇文章。</p>
+<a id="more"></a>
+<h2 id="1-ASCII-码"><a href="#1-ASCII-码" class="headerlink" title="1. ASCII 码"></a>1. ASCII 码</h2><p>八位，一个字节，最高位为0，表示全部英文字符。最先出现的字符集，全称是 <code>American Standard Code for Information Interchange</code> ，从名字就看出来这是只适用于美国人的，于是乎其他国家也先后对 ASCII 码进行扩展，以表示自己的语言字符。</p>
+<h2 id="2-对-ASCII-码的扩展"><a href="#2-对-ASCII-码的扩展" class="headerlink" title="2. 对 ASCII 码的扩展"></a>2. 对 ASCII 码的扩展</h2><p>中国人对 ASCII 码的中文扩展自然就是：GB2312、GB18030（后者是前者的扩充），统称为<code>DBCS(Double Byte Charecter Set 双字节字符集)</code> ，这个字符集标准就是，两字节长的汉子字符和一字节长的英文字符并存于同一套编码方案中，意思就是：<strong>在这个字符集标准里，当一个字节的值大于 127 （把大于 127 的值的字符都全部干掉，重新编码了）的话，那就认为它是一个中文字符，一句话来说，就是 一个汉字算两个英文字符 </strong>。</p>
+<p>但是这样子每个国家都有自己的编码标准，在互联网时代，势必会在相互通信上造成很大烦扰。于是就有了一个统一天下的字符集标准：Unicode。</p>
+<h2 id="3-Unicode"><a href="#3-Unicode" class="headerlink" title="3. Unicode"></a>3. Unicode</h2><p>Unicode 顾名思义就是能够表示几乎所有字符的<strong>编码字符集</strong>，注意这里只是一个字符集，它规定了每个符号都拥有自己独一无二的编码。</p>
+<p>但是这只是一个符号集，只规定了符号的编码，而没有规定计算机该如何存储这个编码。</p>
+<p>假设一个汉字的 Unicode 二进制编码有 15 位，即至少需要 2 个字节来表示。而同时存在一个英文字符，它的二进制编码只有 8 位，只需要一个字节就可以表示了。那计算机该怎么知道 2 个字节代表着一个汉字，而不是分别代表 2 个英文字符呢？如果 Unicode 统一规定所有字符都用 3 个字节来表示，没有用到的全置 0 ，那这样子对英文字符来说，势必是巨大的浪费。</p>
+<p>于是乎，我们需要一个科学的 Unicode 字符集编码规范，那就是我们常说的 <strong>UTF-8</strong>了。</p>
+<h2 id="4-UTF-8"><a href="#4-UTF-8" class="headerlink" title="4. UTF-8"></a>4. UTF-8</h2><p>UTF-8 是 Unicode 的实现方式之一，还有 UTF-16（字符用两个字节或四个字节表示）、UTF-32（字符用四个字节表示），它们与 Unicode 的关系是：</p>
+<ul>
+<li><strong>Unicode 是编码字符集，每个字符在这里都能找到一个二进制编码；</strong></li>
+<li><strong>UTF-X 是字符编码，规定计算机该以什么形式（ 1 个字节？ 2 个字节？）来存储 Unicode 二进制编码。</strong></li>
+</ul>
+<h3 id="UTF-8-的编码规则"><a href="#UTF-8-的编码规则" class="headerlink" title="UTF-8 的编码规则"></a>UTF-8 的编码规则</h3><p><a href="http://www.ruanyifeng.com/blog/2007/10/ascii_unicode_and_utf-8.html" target="_blank" rel="noopener">这里</a>讲的很清晰了，所以我就直接引用他的内容了：</p>
+<blockquote>
+<p>UTF-8 最大的一个特点，就是它是一种变长的编码方式。它可以使用 1~4 个字节表示一个符号，根据不同的符号而变化字节长度。</p>
+<p>UTF-8 的编码规则很简单，只有二条：</p>
+<p>1）对于单字节的符号，字节的第一位设为 0，后面 7 位为这个符号的 unicode 码。因此对于英语字母，UTF-8 编码和 ASCII 码是相同的。</p>
+<p>2）对于 n 字节的符号（n&gt;1），第一个字节的前 n 位都设为 1，第 n+1 位设为 0，后面字节的前两位一律设为 10。剩下的没有提及的二进制位，全部为这个符号的 unicode 码。</p>
+<p>下表总结了编码规则，字母 x 表示可用编码的位。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&gt; Unicode 符号范围 | UTF-8 编码方式</span><br><span class="line">&gt; (十六进制) | （二进制）</span><br><span class="line">&gt; --------------------+---------------------------------------------</span><br><span class="line">&gt; 0000 0000-0000 007F | 0xxxxxxx</span><br><span class="line">&gt; 0000 0080-0000 07FF | 110xxxxx 10xxxxxx</span><br><span class="line">&gt; 0000 0800-0000 FFFF | 1110xxxx 10xxxxxx 10xxxxxx</span><br><span class="line">&gt; 0001 0000-0010 FFFF | 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<blockquote>
+<p>跟据上表，解读 UTF-8 编码非常简单。如果一个字节的第一位是 0，则这个字节单独就是一个字符；如果第一位是 1，则连续有多少个 1，就表示当前字符占用多少个字节。</p>
+<p>下面，还是以汉字 “严” 为例，演示如何实现 UTF-8 编码。</p>
+<p>已知 “严” 的 unicode 是 4E25（100111000100101），根据上表，可以发现 4E25 处在第三行的范围内（0000 0800-0000 FFFF），因此 “严” 的 UTF-8 编码需要三个字节，即格式是 “1110xxxx 10xxxxxx 10xxxxxx”。然后，从 “严” 的最后一个二进制位开始，依次从后向前填入格式中的 x，多出的位补 0。这样就得到了，”严” 的 UTF-8 编码是 “11100100 10111000 10100101”，转换成十六进制就是 E4B8A5。</p>
+</blockquote>
+<h2 id="5-文本文件的编码"><a href="#5-文本文件的编码" class="headerlink" title="5. 文本文件的编码"></a>5. 文本文件的编码</h2><p>当你在网络中传输一个文件时，你需要告诉接收方，这个文件该以什么样的编码方式打开，不然你用 UTF-8 方式进行编码，然后对方用 ANSI 方式解码，到最后就是一堆乱码啦~</p>
+<p>假设你的文本文件里只有一个汉字 “严” ，它的 Unicode 编码是 254E ，UTF-8 编码是 E4B8A5 ，GB2312 编码是 D1CF</p>
+<p>如果你以下列各种方式进行编码的话，文本文件的编码都会略有不同：（建议用 UltraEdit 软件进行查看，以十六进制的格式）</p>
+<ol>
+<li>ANSI: 该编码方式，对于英文文件就采用 ASCII 编码方式，对于中文就用 GB2312。此时这个文件的编码就是两个字节 <code>D1 CF</code></li>
+<li>Unicode: 指的是 UCS-2 编码方式，以两个字节存入字符的Unicode 码。此时这个文件的编码就是四个字节 <code>FF FE 25 4E</code>，其中<code>FF FE</code>表示的是以小头方式存储。</li>
+<li>Unicode big endian: 此时这个文件的编码就是四个字节 <code>FE FF 25 4E</code>，其中<code>FE FF</code>表示的是以大头方式存储。</li>
+<li>UTF-8: 文件的编码就是六个字节 <code>EF BB BF E4 B8 A5</code> ，前三个字节<code>EF BB BF</code>代表了这是 UTF-8 编码。</li>
+</ol>
+<h2 id="6-引用"><a href="#6-引用" class="headerlink" title="6. 引用"></a>6. 引用</h2><p><a href="http://www.ruanyifeng.com/blog/2007/10/ascii_unicode_and_utf-8.html" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/2007/10/ascii_unicode_and_utf-8.html</a> </p>
+<p><a href="http://cenalulu.github.io/linux/character-encoding/" target="_blank" rel="noopener">http://cenalulu.github.io/linux/character-encoding/</a></p>
+<p><a href="http://blog.csdn.net/ylyuanlu/article/details/41844009" target="_blank" rel="noopener">http://blog.csdn.net/ylyuanlu/article/details/41844009</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/计算机知识/" rel="tag">#计算机知识</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/09/16/常用kill命令及用法/" rel="next" title="常用kill命令及用法">
+                <i class="fa fa-chevron-left"></i> 常用kill命令及用法
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/06/25/极简git使用教程/" rel="prev" title="极简 Git 使用教程">
+                极简 Git 使用教程 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/09/27/万恶的字符集/" data-title="万恶的字符集" data-url="http://johnho.cn/2016/09/27/万恶的字符集/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/pic.jpg" alt="Johnny Ho">
+          <p class="site-author-name" itemprop="name">Johnny Ho</p>
+          <p class="site-description motion-element" itemprop="description">Nothing at all.</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">26</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/zilonghe" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/simple-68" target="_blank" title="Zhihu">
+                  
+                    <i class="fa fa-fw fa-zhihu"></i>
+                  
+                  Zhihu
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-ASCII-码"><span class="nav-number">1.</span> <span class="nav-text">1. ASCII 码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-对-ASCII-码的扩展"><span class="nav-number">2.</span> <span class="nav-text">2. 对 ASCII 码的扩展</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-Unicode"><span class="nav-number">3.</span> <span class="nav-text">3. Unicode</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-UTF-8"><span class="nav-number">4.</span> <span class="nav-text">4. UTF-8</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#UTF-8-的编码规则"><span class="nav-number">4.1.</span> <span class="nav-text">UTF-8 的编码规则</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-文本文件的编码"><span class="nav-number">5.</span> <span class="nav-text">5. 文本文件的编码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-引用"><span class="nav-number">6.</span> <span class="nav-text">6. 引用</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Johnny Ho</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https:/busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"johnho-notes"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

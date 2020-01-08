@@ -1,0 +1,687 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="计算机知识,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1">
+
+
+
+
+
+
+<meta name="description" content="创建高性能的索引索引（在MySQL中也叫做“键(key)”）是存储引擎用于快速找到记录的一种数据结构。">
+<meta name="keywords" content="计算机知识">
+<meta property="og:type" content="article">
+<meta property="og:title" content="高性能mysql笔记——第五章">
+<meta property="og:url" content="http://johnho.cn/2019/05/20/高性能mysql笔记——第五章/index.html">
+<meta property="og:site_name" content="Johnny Ho&#39;s Home">
+<meta property="og:description" content="创建高性能的索引索引（在MySQL中也叫做“键(key)”）是存储引擎用于快速找到记录的一种数据结构。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-01-08T16:54:37.152Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="高性能mysql笔记——第五章">
+<meta name="twitter:description" content="创建高性能的索引索引（在MySQL中也叫做“键(key)”）是存储引擎用于快速找到记录的一种数据结构。">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: 'Author'
+    }
+  };
+</script>
+
+  <title> 高性能mysql笔记——第五章 | Johnny Ho's Home </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Johnny Ho's Home</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                高性能mysql笔记——第五章
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2019-05-20T14:32:00+00:00" content="2019-05-20">
+              2019-05-20
+            </time>
+          </span>
+
+          
+            <span class="post-category">
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/编程/" itemprop="url" rel="index">
+                    <span itemprop="name">编程</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2019/05/20/高性能mysql笔记——第五章/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/05/20/高性能mysql笔记——第五章/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+              &nbsp; | &nbsp;
+              <span class="page-pv"><i class="fa fa-file-o"></i>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+              </span>
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="创建高性能的索引"><a href="#创建高性能的索引" class="headerlink" title="创建高性能的索引"></a>创建高性能的索引</h2><p>索引（在MySQL中也叫做“键(key)”）是存储引擎用于快速找到记录的一种数据结构。</p>
+<a id="more"></a>
+<h2 id="索引基础"><a href="#索引基础" class="headerlink" title="索引基础"></a>索引基础</h2><p>在MySQL中，存储引擎先在索引中找到对应值，然后根据匹配的索引记录找到对应的数据行。</p>
+<h3 id="索引的类型"><a href="#索引的类型" class="headerlink" title="索引的类型"></a>索引的类型</h3><ul>
+<li><p>B-Tree索引（InnoDB使用的是B+ Tree）</p>
+<p>存储引擎以不同方式使用B-Tree索引，性能也各有不同。例如，myisam使用前缀压缩技术使得索引更小，但InnoDB则按照原数据格式进行存储。再如myisam索引通过数据的物理位置引用被索引的行，而InnoDB则根据主键引用被索引的行。</p>
+<p>B-Tree通常意味着所有的值都是按顺序存储的，并且每一个叶子页到根的距离相同。</p>
+</li>
+<li><p>哈希索引</p>
+</li>
+<li><p>空间数据索引（R-Tree）</p>
+</li>
+<li><p>全文索引</p>
+</li>
+</ul>
+<h2 id="索引的优点"><a href="#索引的优点" class="headerlink" title="索引的优点"></a>索引的优点</h2><ol>
+<li>索引大大减少了服务器需要扫描的数据量。</li>
+<li>索引可以帮助服务器避免排序和临时表。</li>
+<li>索引可以将随机I/O变为顺序I/O。</li>
+</ol>
+<h2 id="高性能的索引策略"><a href="#高性能的索引策略" class="headerlink" title="高性能的索引策略"></a>高性能的索引策略</h2><h3 id="独立的列"><a href="#独立的列" class="headerlink" title="独立的列"></a>独立的列</h3><p>索引列不能是表达式的一部分，也不能是函数的参数。比如：</p>
+<p><code>select id from user where id + 1 = 5</code></p>
+<h3 id="前缀索引和索引选择性"><a href="#前缀索引和索引选择性" class="headerlink" title="前缀索引和索引选择性"></a>前缀索引和索引选择性</h3><h3 id="多列索引"><a href="#多列索引" class="headerlink" title="多列索引"></a>多列索引</h3><h3 id="选择合适的索引列顺序"><a href="#选择合适的索引列顺序" class="headerlink" title="选择合适的索引列顺序"></a>选择合适的索引列顺序</h3><ul>
+<li><p>将选择性最高的列放到索引最前列？</p>
+<p>当不需要考虑排序和分组时，将选择性最高的列放在前面通常是好的。这时候索引只用于优化where条件的查找。</p>
+</li>
+</ul>
+<h3 id="聚簇索引"><a href="#聚簇索引" class="headerlink" title="聚簇索引"></a>聚簇索引</h3><p>数据行实际上存放在索引的叶子页中，InnoDB的聚簇索引实际上在同一个结构中保存了B-Tree索引和数据行。</p>
+<p>聚簇索引的每一个叶子节点都包含了主键值、事务ID、用于事务和MVCC（多版本控制）的回滚指针以及所有的剩余列。如果主键是一个列前缀索引，InnoDB也会包含完整的主键列和剩下的其他列。</p>
+<p>InnoDB二级索引的叶子节点中存储的不是“行指针”，而是主键值，并以此作为指向行的“指针”。这样的策略减少了当出现行移动或者数据页分裂时二级索引的维护工作。使用主键值当作指针会让二级索引占用更多的空间，换来的好处是，InnoDB在移动行时无须更新二级索引中的这个“指针”。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/计算机知识/" rel="tag">#计算机知识</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/11/19/Java基础笔记（一）：Collection、Map/" rel="next" title="Java基础笔记（一）：Collection、Map">
+                <i class="fa fa-chevron-left"></i> Java基础笔记（一）：Collection、Map
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/05/20/高性能mysql笔记——第四章/" rel="prev" title="高性能mysql笔记——第四章">
+                高性能mysql笔记——第四章 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2019/05/20/高性能mysql笔记——第五章/" data-title="高性能mysql笔记——第五章" data-url="http://johnho.cn/2019/05/20/高性能mysql笔记——第五章/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/pic.jpg" alt="Johnny Ho">
+          <p class="site-author-name" itemprop="name">Johnny Ho</p>
+          <p class="site-description motion-element" itemprop="description">Nothing at all.</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">26</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/zilonghe" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/simple-68" target="_blank" title="Zhihu">
+                  
+                    <i class="fa fa-fw fa-zhihu"></i>
+                  
+                  Zhihu
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#创建高性能的索引"><span class="nav-number">1.</span> <span class="nav-text">创建高性能的索引</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#索引基础"><span class="nav-number">2.</span> <span class="nav-text">索引基础</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#索引的类型"><span class="nav-number">2.1.</span> <span class="nav-text">索引的类型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#索引的优点"><span class="nav-number">3.</span> <span class="nav-text">索引的优点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#高性能的索引策略"><span class="nav-number">4.</span> <span class="nav-text">高性能的索引策略</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#独立的列"><span class="nav-number">4.1.</span> <span class="nav-text">独立的列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#前缀索引和索引选择性"><span class="nav-number">4.2.</span> <span class="nav-text">前缀索引和索引选择性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多列索引"><span class="nav-number">4.3.</span> <span class="nav-text">多列索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#选择合适的索引列顺序"><span class="nav-number">4.4.</span> <span class="nav-text">选择合适的索引列顺序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#聚簇索引"><span class="nav-number">4.5.</span> <span class="nav-text">聚簇索引</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Johnny Ho</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https:/busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"johnho-notes"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

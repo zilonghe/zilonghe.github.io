@@ -1,0 +1,721 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="linux,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1">
+
+
+
+
+
+
+<meta name="description" content="引用自此用法$ ssh username@remotehost">
+<meta name="keywords" content="linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SSH 原理">
+<meta property="og:url" content="http://johnho.cn/2018/06/25/SSH 原理/index.html">
+<meta property="og:site_name" content="Johnny Ho&#39;s Home">
+<meta property="og:description" content="引用自此用法$ ssh username@remotehost">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-01-08T16:54:37.152Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SSH 原理">
+<meta name="twitter:description" content="引用自此用法$ ssh username@remotehost">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: 'Author'
+    }
+  };
+</script>
+
+  <title> SSH 原理 | Johnny Ho's Home </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Johnny Ho's Home</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                SSH 原理
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2018-06-25T17:49:37+00:00" content="2018-06-26">
+              2018-06-26
+            </time>
+          </span>
+
+          
+            <span class="post-category">
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/编程/" itemprop="url" rel="index">
+                    <span itemprop="name">编程</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2018/06/25/SSH 原理/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/06/25/SSH 原理/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+              &nbsp; | &nbsp;
+              <span class="page-pv"><i class="fa fa-file-o"></i>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+              </span>
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="引用自此"><a href="#引用自此" class="headerlink" title="引用自此"></a>引用自<a href="http://www.ruanyifeng.com/blog/2011/12/ssh_remote_login.html" target="_blank" rel="noopener">此</a></h3><h2 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h2><p><code>$ ssh username@remotehost</code></p>
+<a id="more"></a>
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><ol>
+<li><p>公钥加密技术</p>
+<ol>
+<li>用户请求登陆远程主机（通过ssh）</li>
+<li>远程主机收到用户的登陆请求，把自己的公钥发给用户。</li>
+<li>用户使用这个公钥，将登陆密码加密后，发送给远程主机。</li>
+<li>远程主机用自己的私钥，解密，如果密码正确，则同意登陆。</li>
+</ol>
+</li>
+<li><p>中间人攻击</p>
+<ol>
+<li>假设有人截获了用户发送的登陆请求，然后冒充远程主机，发送了伪造的公钥给用户，由于ssh协议不是像https那样有证书中心（CA）公证，所以用户很难知道真伪。</li>
+<li>如果用户没有发现是假的，将自己的密码通过伪造的公钥加密后发送给伪造远程主机，那么远程主机通过自己的私钥解密后，则知道了用户的登陆密码。</li>
+<li>所以，ssh使用了口令登陆和公钥登陆。</li>
+</ol>
+</li>
+<li><p>口令登陆</p>
+<ol>
+<li>第一次登陆远程主机时，系统会提示：</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ ssh username@remotehost</span><br><span class="line">　　The authenticity of host &apos;host (12.18.429.21)&apos; can&apos;t be established.</span><br><span class="line">　　RSA key fingerprint is 98:2e:d7:e0:de:9f:ac:67:28:c2:42:2d:37:16:58:4d.</span><br><span class="line">　　Are you sure you want to continue connecting (yes/no)?</span><br></pre></td></tr></table></figure>
+<p>系统会将对方发过来的公钥通过md5计算，生成一个128位的公钥指纹。一般是需要远程主机提供自己的公钥指纹，如在网站上公布，用户自行对比。若接受这个公钥，则下一步则提示输入密码。</p>
+<ol start="2">
+<li>远程主机的公钥被用户接受后，会在保存在本地的<code>$HOME/.ssh/known_hosts</code>中，下次再连接该主机的时候，系统会认出它的公钥已经保存在本地，跳过警告部分，直接提示输入密码。</li>
+</ol>
+</li>
+<li><p>公钥登陆</p>
+<ol>
+<li><p>用户将自己的公钥存储在远程主机上，登陆的时候，远程主机向用户发送一段随机字符串，用户用自己的私钥加密该字符串，发送给远程主机。远程主机用用户事先存储在本地的公钥进行解密，若成功即验证成功。不再需要密码。那么如何生成公钥并发送给远程主机呢？步骤如下：</p>
+<ol>
+<li>用户自己生成公钥：<code>$ ssh-keygen</code></li>
+<li>运行完该命令后，会在<code>$HOME/.ssh/</code>目录下，生成两个文件：<code>id_rsa.pub</code>和<code>id_rsa</code>，前者是公钥，后者是私钥。</li>
+<li>将公钥传送给远程主机：<code>$ ssh-copy-id username@remotehost</code></li>
+</ol>
+<p>自此，就可以通过公钥登陆方式来登陆，而不需要输入密码。</p>
+</li>
+<li><p>远程主机会将用户的公钥追加到<code>$HOME/.ssh/authorized_keys</code>文件中的末尾。</p>
+</li>
+</ol>
+</li>
+</ol>
+<h2 id="SSH本地端口转发"><a href="#SSH本地端口转发" class="headerlink" title="SSH本地端口转发"></a>SSH本地端口转发</h2><p>主机A与主机B之间无法互相连接，主机C可以与A、B互相通信。</p>
+<p>在主机A上：</p>
+<p><code>$ ssh -L 需要监听的本地端口:目的主机ip:目的主机端口 远程主机ip</code></p>
+<p>例子：</p>
+<p><code>$ ssh -L 2121:B:21 C</code></p>
+<p>原理：</p>
+<ol>
+<li>A向本地端口2121发送数据。</li>
+<li>A上的本地ssh客户端读2121端口，加密数据，将其通过ssh连接传到C上的ssh服务器。</li>
+<li>C上的ssh服务器将数据解密，将其传到主机B的21端口，即（B, 21）。</li>
+<li>主机B将数据返回给C的ssh服务器，然后C将其加密，传给A的ssh客户端，A端的ssh客户端将数据转到本地端口2121。</li>
+</ol>
+<p>从而达到 (A, 2121)<----> (B, 21)的互相通信的效果。</----></p>
+<h2 id="SSH远程端口转发"><a href="#SSH远程端口转发" class="headerlink" title="SSH远程端口转发"></a>SSH远程端口转发</h2><p><code>$ ssh -R 需要监听的远程端口:目的主机ip:目的主机端口 远程主机ip</code></p>
+<p>例子(在C上运行该命令)：</p>
+<p><code>$ ssh -R 2121:localhost:21 A</code></p>
+<p>原理：与上述相同。</p>
+<h2 id="本地端口转发和远程转发的区别（ssh权威指南P376）"><a href="#本地端口转发和远程转发的区别（ssh权威指南P376）" class="headerlink" title="本地端口转发和远程转发的区别（ssh权威指南P376）"></a>本地端口转发和远程转发的区别（ssh权威指南P376）</h2><ul>
+<li>当应用程序客户端位于ssh连接本地时使用本地端口转发。</li>
+<li>当应用程序客户端位于ssh远程服务器的时候使用远程转发。</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/linux/" rel="tag">#linux</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/06/25/极简git使用教程/" rel="next" title="极简 Git 使用教程">
+                <i class="fa fa-chevron-left"></i> 极简 Git 使用教程
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/06/26/JVM笔记第二章：Java内存区域与内存溢出异常/" rel="prev" title="JVM读书笔记之第二章">
+                JVM读书笔记之第二章 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2018/06/25/SSH 原理/" data-title="SSH 原理" data-url="http://johnho.cn/2018/06/25/SSH 原理/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/pic.jpg" alt="Johnny Ho">
+          <p class="site-author-name" itemprop="name">Johnny Ho</p>
+          <p class="site-description motion-element" itemprop="description">Nothing at all.</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">26</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/zilonghe" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/simple-68" target="_blank" title="Zhihu">
+                  
+                    <i class="fa fa-fw fa-zhihu"></i>
+                  
+                  Zhihu
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#引用自此"><span class="nav-number">1.</span> <span class="nav-text">引用自此</span></a></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#用法"><span class="nav-number"></span> <span class="nav-text">用法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#原理"><span class="nav-number"></span> <span class="nav-text">原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SSH本地端口转发"><span class="nav-number"></span> <span class="nav-text">SSH本地端口转发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SSH远程端口转发"><span class="nav-number"></span> <span class="nav-text">SSH远程端口转发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#本地端口转发和远程转发的区别（ssh权威指南P376）"><span class="nav-number"></span> <span class="nav-text">本地端口转发和远程转发的区别（ssh权威指南P376）</span></a></li></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Johnny Ho</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https:/busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"johnho-notes"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
